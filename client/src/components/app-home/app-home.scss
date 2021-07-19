@@ -1,0 +1,83 @@
+app-home {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  .no-follows {
+    align-self: center;
+  }
+
+  .announces {
+    .card {
+      margin: 20px 10px;
+      padding: 10px;
+      min-height: 100px;
+
+      display: flex;
+      align-items: center;
+
+      .main {
+        min-width: 0;
+        flex: 1 2;
+        .name {
+          display: block;
+          font-size: 1.1em;
+          font-weight: bold;
+        }
+
+        .latest {
+          margin-top: 5px;
+          .badge {
+            margin-right: 5px;
+          }
+          .pT {
+            color: var(--light-color);
+          }
+          .title {
+            display: block;
+            margin-top: 5px;
+            font-size: 0.9em;
+            color: var(--light-color);
+            font-weight: bold;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+        }
+
+        .desc {
+          display: block;
+          margin-top: 5px;
+          color: var(--ap-light-color);
+          font-size: 0.9em;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+
+        .deleted,
+        .data-error {
+          display: block;
+          white-space: pre-line;
+          padding: 10px;
+          text-align: center;
+        }
+
+        button {
+          width: fit-content;
+          display: block;
+          margin: 10px auto 0;
+        }
+      }
+
+      ap-image {
+        width: 65px;
+        height: 65px;
+      }
+
+      ap-spinner {
+        margin: auto;
+      }
+    }
+  }
+}

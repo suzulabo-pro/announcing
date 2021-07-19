@@ -1,0 +1,12 @@
+www/
+cap/
+assetlinks.json
+apple-app-site-association
+**/google-services.json
+**/GoogleService-Info.plist
+**/App.entitlements
+android.custom.properties
+
+src/components.d.ts
+src/shared
+src/shared-ui

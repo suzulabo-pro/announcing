@@ -1,0 +1,14 @@
+ap-checkbox {
+  display: inline-flex;
+  align-items: center;
+
+  cursor: pointer;
+
+  ap-icon {
+    font-size: 18px;
+  }
+  span {
+    margin-top: 2px;
+    margin-left: var(--label-margin, 5px);
+  }
+}

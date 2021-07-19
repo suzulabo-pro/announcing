@@ -1,0 +1,28 @@
+app-announce {
+  display: flex;
+  flex-direction: column;
+
+  a.back,
+  a.detail {
+    padding: 15px;
+    text-decoration: none;
+    position: fixed;
+    bottom: 0;
+    background-color: var(--light-bk-color);
+  }
+  a.back {
+    left: 0;
+    border-top-right-radius: 10px;
+  }
+  a.detail {
+    right: 0;
+    border-top-left-radius: 10px;
+  }
+
+  ap-spinner,
+  .deleted,
+  .data-error {
+    margin: auto;
+    white-space: pre-line;
+  }
+}

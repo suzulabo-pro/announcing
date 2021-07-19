@@ -1,0 +1,69 @@
+name: CI - client - android
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    environment: build
+
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - run: echo "$V" > shared/src/appenv.env.ts
+        env:
+          V: ${{ secrets._APPENV_TS }}
+      - run: echo "$V" > client/assetlinks.json
+        env:
+          V: ${{ secrets._ASSETLINKS_JSON }}
+      - run: echo "$V" > client/google-services.json
+        env:
+          V: ${{ secrets._GOOGLE_SERVICES_JSON }}
+      - run: echo "$V" > client/android.custom.properties
+        env:
+          V: ${{ secrets._ANDROID_CUSTOM_PROPS }}
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      # https://github.com/actions/cache/blob/main/examples.md#java---gradle
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - run: npm install
+        working-directory: ./client
+
+      - run: npm run build.android
+        working-directory: ./client
+
+      - run: ./gradlew assembleDebug
+        working-directory: ./client/android
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: announcing-debug.apk
+          path: ./client/android/app/build/outputs/apk/debug/app-debug.apk
+
+      - run: >-
+          npm_config_yes=true npx firebase-tools
+          appdistribution:distribute
+          ./client/android/app/build/outputs/apk/debug/app-debug.apk
+          --app ${APP_ID}
+          --groups testers
+        env:
+          FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
+          APP_ID: ${{ secrets._FIREBASE_APP_ID_ANDROID }}

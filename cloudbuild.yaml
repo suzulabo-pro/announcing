@@ -1,0 +1,55 @@
+steps:
+  - id: 'write appenv'
+    name: bash
+    args: ['-c', 'echo "${_APPENV_TS}" > shared/src/appenv.env.ts']
+
+  - id: 'write firebaserc'
+    name: bash
+    args: ['-c', "echo '${_FIREBASERC}' > firebase/.firebaserc"]
+
+  - id: 'write assetlinks'
+    name: bash
+    args: ['-c', "echo '${_ASSETLINKS_JSON}' > client/assetlinks.json"]
+
+  - id: 'check output'
+    name: bash
+    args: ['cat', 'shared/src/appenv.env.ts', 'firebase/.firebaserc', 'client/assetlinks.json']
+
+  - id: 'install firebase packages'
+    name: node:14
+    entrypoint: npm
+    dir: firebase
+    args: ['ci']
+
+  - id: 'install functions packages'
+    name: node:14
+    entrypoint: npm
+    dir: firebase/functions
+    args: ['ci']
+
+  - id: 'install console packages'
+    name: node:14
+    entrypoint: npm
+    dir: console
+    args: ['ci']
+
+  - id: 'install client packages'
+    name: node:14
+    entrypoint: npm
+    dir: client
+    args: ['ci']
+
+  - id: 'build'
+    name: node:14
+    entrypoint: npm
+    dir: firebase
+    args: ['run', 'build']
+    env:
+      - 'SHORT_SHA=$SHORT_SHA'
+      - 'BRANCH_NAME=$BRANCH_NAME'
+
+  - id: 'deploy'
+    name: node:14
+    entrypoint: npm
+    dir: firebase
+    args: ['run', 'deploy']

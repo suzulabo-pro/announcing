@@ -1,0 +1,20 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowUnreachableCode": false,
+
+    "module": "commonjs",
+    "outDir": "lib",
+    "sourceMap": true,
+    "target": "es2017",
+    "esModuleInterop": true,
+    "lib": ["ESNext"],
+    "baseUrl": "."
+  },
+  "compileOnSave": true,
+  "include": ["src", "__test__"]
+}
