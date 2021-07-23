@@ -4,8 +4,6 @@ on: workflow_dispatch
 
 jobs:
   build:
-    environment: build
-
     runs-on: macos-latest
 
     steps:
@@ -17,12 +15,12 @@ jobs:
           BUILD_CERTIFICATE_BASE64: ${{ secrets._APPLE_DISTRIBUTION_CERTIFICATE_BASE64 }}
           P12_PASSWORD: ${{ secrets._APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
           BUILD_PROVISION_PROFILE_BASE64: ${{ secrets._APPLE_AD_HOC_PROVISION_PROFILE_BASE64 }}
-          KEYCHAIN_PASSWORD: ${{ secrets._APPLE_KEYCHAN_PASSWORD }}
         run: |
           # create variables
           CERTIFICATE_PATH=$RUNNER_TEMP/build_certificate.p12
           PP_PATH=$RUNNER_TEMP/build_pp.mobileprovision
           KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
+          KEYCHAIN_PASSWORD=$(openssl rand -base64 12)
 
           # import certificate and provisioning profile from secrets
           echo -n "$BUILD_CERTIFICATE_BASE64" | base64 --decode --output $CERTIFICATE_PATH
@@ -41,9 +39,18 @@ jobs:
           mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
           cp $PP_PATH ~/Library/MobileDevice/Provisioning\ Profiles
 
+      # Set untracked files
       - run: echo "$V" > shared/src/appenv.env.ts
         env:
           V: ${{ secrets._APPENV_TS }}
+
+      - run: echo "$V" > client/App.entitlements
+        env:
+          V: ${{ secrets._APP_ENTITLEMENTS }}
+
+      - run: echo "$V" > client/GoogleService-Info.plist
+        env:
+          V: ${{ secrets._GOOGLESERVICE_INFO_PLIST }}
 
       - uses: actions/setup-node@v2
         with:
@@ -60,7 +67,7 @@ jobs:
           xcodebuild 
           CODE_SIGN_STYLE=Manual
           CODE_SIGN_IDENTITY="Apple Distribution"
-          PROVISIONING_PROFILE_SPECIFIER="announcing reader Ad Hoc"
+          PROVISIONING_PROFILE_SPECIFIER="announcing client1 Ad Hoc"
           -workspace App.xcworkspace
           -scheme App
           -archivePath $RUNNER_TEMP/announcing.xcarchive 
@@ -71,7 +78,7 @@ jobs:
           xcodebuild
           CODE_SIGN_STYLE=Manual
           CODE_SIGN_IDENTITY="Apple Distribution"
-          PROVISIONING_PROFILE_SPECIFIER="announcing reader Ad Hoc"
+          PROVISIONING_PROFILE_SPECIFIER="announcing client1 Ad Hoc"
           -exportArchive
           -archivePath $RUNNER_TEMP/announcing.xcarchive
           -exportPath $RUNNER_TEMP/announcing.ipa 
