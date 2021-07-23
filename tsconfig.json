@@ -1,0 +1,12 @@
+{
+  "compilerOptions": {
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "allowSyntheticDefaultImports": true,
+    "allowUnreachableCode": false
+  },
+  "include": [".eslintrc.js", "**/stencil.config.ts", "**/capacitor.config.ts", "secrets/*.ts"]
+}
