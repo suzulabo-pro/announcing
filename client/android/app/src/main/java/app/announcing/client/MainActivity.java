@@ -1,4 +1,4 @@
-package app.announcing.client;
+package app.announcing.client1;
 
 import android.os.Bundle;
 import com.getcapacitor.BridgeActivity;
