@@ -1,5 +1,7 @@
 www/
 cap/
+resources/android
+resources/ios
 assetlinks.json
 apple-app-site-association
 **/google-services.json
