@@ -47,6 +47,8 @@ const outputTargetWww: OutputTargetWww = isCapacitor
         globPatterns: process.argv.includes('--dev') ? ['index.html'] : ['**/*.{js,html}'],
       },
       copy: [
+        { src: '../../icon192.png', dest: 'icon192.png' },
+        { src: '../../icon180.png', dest: 'icon180.png' },
         { src: '../assetlinks.json', dest: '.well-known/assetlinks.json' },
         { src: '../apple-app-site-association', dest: '.well-known/apple-app-site-association' },
       ],
