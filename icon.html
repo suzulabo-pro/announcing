@@ -14,16 +14,15 @@
       img {
         object-fit: contain;
         border: 2px dotted #ffffff;
-        width: 512px;
-        height: 512px;
+        max-width: 512px;
+        max-height: 512px;
       }
     </style>
     <script>
       createImage = () => {
-        {
-          // icon image
-          const w = 1024;
-          const h = 1024;
+        const createIcon = (size, img) => {
+          const w = size;
+          const h = size;
           const canvas = document.createElement('canvas');
           canvas.width = w;
           canvas.height = h;
@@ -38,13 +37,22 @@
 
           ctx.textBaseline = 'middle';
           ctx.textAlign = 'center';
-          ctx.font = '1000px "M PLUS Rounded 1c"';
+          ctx.font = `${size}px "M PLUS Rounded 1c"`;
           ctx.fillStyle = '#333333';
           ctx.fillText('♪', w / 2, h / 2);
 
-          const img = document.getElementById('iconImg');
           img.src = canvas.toDataURL('image/png');
-        }
+        };
+
+        // app icon
+        createIcon(1024, document.getElementById('appIconImg'));
+
+        // favicon
+        createIcon(192, document.getElementById('faviconImg'));
+
+        // apple touch
+        createIcon(180, document.getElementById('appleImg'));
+
         {
           // splash image
           const w = 2732;
@@ -73,8 +81,12 @@
     <span>Announcing♪</span>
     <button onclick="createImage()">create</button>
     <div>
-      <img id="iconImg" />
+      <img id="appIconImg" />
       <img id="splashImg" />
+    </div>
+    <div>
+      <img id="faviconImg" />
+      <img id="appleImg" />
     </div>
   </body>
 </html>
