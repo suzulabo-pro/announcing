@@ -1,0 +1,80 @@
+<html>
+  <head>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #eeeeee;
+        font-family: 'M PLUS Rounded 1c';
+      }
+      img {
+        object-fit: contain;
+        border: 2px dotted #ffffff;
+        width: 512px;
+        height: 512px;
+      }
+    </style>
+    <script>
+      createImage = () => {
+        {
+          // icon image
+          const w = 1024;
+          const h = 1024;
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          ctx = canvas.getContext('2d');
+
+          ctx.beginPath();
+          ctx.arc(w / 2, h / 2, w / 2, 0, Math.PI * 2);
+          ctx.fillStyle = '#ffffff';
+          ctx.strokeStyle = '#ffffff';
+          ctx.fill();
+          ctx.stroke();
+
+          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'center';
+          ctx.font = '1000px "M PLUS Rounded 1c"';
+          ctx.fillStyle = '#333333';
+          ctx.fillText('♪', w / 2, h / 2);
+
+          const img = document.getElementById('iconImg');
+          img.src = canvas.toDataURL('image/png');
+        }
+        {
+          // splash image
+          const w = 2732;
+          const h = 2732;
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          ctx = canvas.getContext('2d');
+
+          ctx.fillStyle = '#000000';
+          ctx.fillRect(0, 0, w, h);
+          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'center';
+          ctx.font = '400px "M PLUS Rounded 1c"';
+          ctx.fillStyle = '#dddddd';
+          ctx.fillText('♪', w / 2, h / 2);
+
+          const img = document.getElementById('splashImg');
+          img.src = canvas.toDataURL('image/png');
+        }
+      };
+    </script>
+  </head>
+
+  <body>
+    <span>Announcing♪</span>
+    <button onclick="createImage()">create</button>
+    <div>
+      <img id="iconImg" />
+      <img id="splashImg" />
+    </div>
+  </body>
+</html>
