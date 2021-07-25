@@ -12,10 +12,25 @@ declare const process: {
 };
 
 const buildSrc = () => {
-  const commitId = process.env['COMMIT_ID'];
-  const branchName = process.env['BRANCH_NAME'];
-  if (commitId && branchName) {
-    return `${branchName}/${commitId}`;
+  {
+    // GitHub Actions
+    const sha = process.env['GITHUB_SHA'];
+    const ref = process.env['GITHUB_REF'];
+    if (sha && ref) {
+      return `${ref.split('/').pop()}/${sha.substr(0, 7)}`;
+    }
+  }
+  return 'local build';
+};
+
+const buildRepo = () => {
+  {
+    // GitHub Actions
+    const server = process.env['GITHUB_SERVER_URL'];
+    const repo = process.env['GITHUB_REPOSITORY'];
+    if (server && repo) {
+      return `${server}/${repo}`;
+    }
   }
   return 'local build';
 };
@@ -37,6 +52,7 @@ export const config: Config = {
     sass({}),
     replace({
       __BUILD_SRC__: buildSrc(),
+      __BUILD_REPO__: buildRepo(),
       __BUILT_TIME__: new Date().getTime().toString(),
       preventAssignment: true,
     }),

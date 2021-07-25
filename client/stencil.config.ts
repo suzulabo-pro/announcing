@@ -25,6 +25,18 @@ const buildSrc = () => {
   return 'local build';
 };
 
+const buildRepo = () => {
+  {
+    // GitHub Actions
+    const server = process.env['GITHUB_SERVER_URL'];
+    const repo = process.env['GITHUB_REPOSITORY'];
+    if (server && repo) {
+      return `${server}/${repo}`;
+    }
+  }
+  return 'local build';
+};
+
 const isCapacitor = process.env['CAP_BUILD'] != null;
 if (isCapacitor) {
   console.log('Capacitor Build');
@@ -54,6 +66,7 @@ export const config: Config = {
     sass({}),
     replace({
       __BUILD_SRC__: buildSrc(),
+      __BUILD_REPO__: buildRepo(),
       __BUILT_TIME__: new Date().getTime().toString(),
       preventAssignment: true,
     }),

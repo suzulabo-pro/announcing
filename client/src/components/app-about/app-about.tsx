@@ -56,7 +56,7 @@ const renderForm = (ctx: RenderContext) => {
         <span class="name">Announcing♪ Client</span>
         <span class="version">Version: {ctx.buildInfo.src}</span>
         <span class="build-time">Built at: {ctx.msgs.common.datetime(ctx.buildInfo.time)}</span>
-        <a href="https://github.com/suzulabo/announcing" target="_blank" rel="noopener">
+        <a href={ctx.buildInfo.repo} target="_blank" rel="noopener">
           <ap-icon icon="github" />
         </a>
       </div>
