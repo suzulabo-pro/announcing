@@ -16,6 +16,7 @@ import { bs62 } from './utils';
 
 const BUILD_INFO = {
   src: '__BUILD_SRC__',
+  repo: '__BUILD_REPO__',
   time: parseInt('__BUILT_TIME__'),
 } as const;
 
