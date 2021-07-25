@@ -4,12 +4,17 @@ import { PushNotifications } from '@capacitor/push-notifications';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
+  connectFirestoreEmulator,
   enableMultiTabIndexedDbPersistence,
   FirebaseFirestore,
   getFirestore,
-  useFirestoreEmulator,
 } from 'firebase/firestore';
-import { Functions, getFunctions, httpsCallable, useFunctionsEmulator } from 'firebase/functions';
+import {
+  connectFunctionsEmulator,
+  Functions,
+  getFunctions,
+  httpsCallable,
+} from 'firebase/functions';
 import { FirebaseMessaging, getMessaging, getToken, isSupported } from 'firebase/messaging';
 import { Announce, AppEnv, Lang, RegisterNotificationParams } from 'src/shared';
 import { FirestoreHelper } from 'src/shared-ui/utils/firestore';
@@ -23,8 +28,8 @@ const devonly_setEmulator = (functions: Functions, firestore: FirebaseFirestore)
   }
   console.log('useEmulator');
 
-  useFunctionsEmulator(functions, location.hostname, parseInt(location.port));
-  useFirestoreEmulator(firestore, location.hostname, parseInt(location.port));
+  connectFunctionsEmulator(functions, location.hostname, parseInt(location.port));
+  connectFirestoreEmulator(firestore, location.hostname, parseInt(location.port));
 };
 
 class CapNotification {

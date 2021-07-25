@@ -2,19 +2,24 @@ import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
+  connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
   signInWithRedirect,
   TwitterAuthProvider,
-  useAuthEmulator,
 } from 'firebase/auth';
 import {
+  connectFirestoreEmulator,
   enableMultiTabIndexedDbPersistence,
   FirebaseFirestore,
   getFirestore,
-  useFirestoreEmulator,
 } from 'firebase/firestore';
-import { Functions, getFunctions, httpsCallable, useFunctionsEmulator } from 'firebase/functions';
+import {
+  connectFunctionsEmulator,
+  Functions,
+  getFunctions,
+  httpsCallable,
+} from 'firebase/functions';
 import {
   Announce,
   AnnounceMeta,
@@ -61,9 +66,9 @@ export class AppFirebase {
       return;
     }
     console.log('useEmulator');
-    useFunctionsEmulator(this.functions, location.hostname, parseInt(location.port));
-    useFirestoreEmulator(this.firestore, location.hostname, parseInt(location.port));
-    useAuthEmulator(this.auth, location.origin, { disableWarnings: true });
+    connectFunctionsEmulator(this.functions, location.hostname, parseInt(location.port));
+    connectFirestoreEmulator(this.firestore, location.hostname, parseInt(location.port));
+    connectAuthEmulator(this.auth, location.origin, { disableWarnings: true });
   }
 
   async init() {
