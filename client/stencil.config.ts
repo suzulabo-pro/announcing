@@ -22,14 +22,6 @@ const buildSrc = () => {
       return `${ref.split('/').pop()}/${sha.substr(0, 7)}`;
     }
   }
-  {
-    // Google Cloud Build
-    const sha = process.env['SHORT_SHA'];
-    const branchName = process.env['BRANCH_NAME'];
-    if (sha && branchName) {
-      return `${branchName}/${sha}`;
-    }
-  }
   return 'local build';
 };
 
