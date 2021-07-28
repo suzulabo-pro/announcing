@@ -20,6 +20,7 @@ runs:
         V: ${{ inputs._ANDROID_CUSTOM_PROPS }}
 
     - run: echo "$V" > client/google-services.json
+      shell: bash
       env:
         V: ${{ secrets._GOOGLE_SERVICES_JSON }}
 
