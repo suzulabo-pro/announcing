@@ -10,6 +10,8 @@ jobs:
       - uses: actions/checkout@v2
 
       - uses: ./.github/workflows/build-client-android-setup
+        with:
+          _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
 
       - run: ./gradlew assembleDebug
         working-directory: ./client/android

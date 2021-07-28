@@ -1,3 +1,7 @@
+inputs:
+  _ANDROID_CUSTOM_PROPS:
+    required: true
+
 runs:
   using: 'composite'
   steps:
@@ -5,7 +9,7 @@ runs:
 
     - run: echo "$V" > client/android.custom.properties
       env:
-        V: ${{ secrets._ANDROID_CUSTOM_PROPS }}
+        V: ${{ inputs._ANDROID_CUSTOM_PROPS }}
 
     - uses: actions/setup-java@v2
       with:
