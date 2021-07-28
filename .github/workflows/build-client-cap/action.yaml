@@ -1,9 +1,14 @@
+inputs:
+  _APPENV_TS:
+    required: true
+
 runs:
   using: 'composite'
   steps:
     - run: echo "$V" > shared/src/appenv.env.ts
+      shell: bash
       env:
-        V: ${{ secrets._APPENV_TS }}
+        V: ${{ inputs._APPENV_TS }}
 
     - uses: actions/setup-node@v2
       with:
@@ -11,7 +16,9 @@ runs:
         cache: 'npm'
 
     - run: npm install
+      shell: bash
       working-directory: ./client
 
     - run: npm run build.cap
+      shell: bash
       working-directory: ./client
