@@ -35,7 +35,7 @@ jobs:
           _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
           _GOOGLE_SERVICES_JSON: ${{ secrets._GOOGLE_SERVICES_JSON }}
 
-      - run: echo -n "$_ANDROID_UPLOAD_KEYSTORE_JKS_BASE64" | base64 --decode $RUNNER_TEMP/upload_keystore.jks
+      - run: echo -n "$_ANDROID_UPLOAD_KEYSTORE_JKS_BASE64" | base64 -d > $RUNNER_TEMP/upload_keystore.jks
         env:
           _ANDROID_UPLOAD_KEYSTORE_JKS_BASE64: ${{ secrets._ANDROID_UPLOAD_KEYSTORE_JKS_BASE64 }}
 
