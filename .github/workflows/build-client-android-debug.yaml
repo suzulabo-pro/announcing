@@ -31,8 +31,9 @@ jobs:
 
       - uses: ./.github/workflows/build-client-android-setup
         with:
-          _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
           _APPENV_TS: ${{ secrets._APPENV_TS }}
+          _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
+          _GOOGLE_SERVICES_JSON: ${{ secrets._GOOGLE_SERVICES_JSON }}
 
       - run: ./gradlew assembleDebug
         working-directory: ./client/android
