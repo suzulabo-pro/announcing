@@ -8,6 +8,7 @@ runs:
     - uses: ./.github/workflows/build-client-cap
 
     - run: echo "$V" > client/android.custom.properties
+      shell: bash
       env:
         V: ${{ inputs._ANDROID_CUSTOM_PROPS }}
 
