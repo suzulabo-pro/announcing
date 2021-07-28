@@ -1,0 +1,23 @@
+runs:
+  using: 'composite'
+  steps:
+    - uses: ./.github/workflows/build-client-cap
+
+    - run: echo "$V" > client/android.custom.properties
+      env:
+        V: ${{ secrets._ANDROID_CUSTOM_PROPS }}
+
+    - uses: actions/setup-java@v2
+      with:
+        distribution: 'adopt'
+        java-version: '11'
+
+    # https://github.com/actions/cache/blob/main/examples.md#java---gradle
+    - uses: actions/cache@v2
+      with:
+        path: |
+          ~/.gradle/caches
+          ~/.gradle/wrapper
+        key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+        restore-keys: |
+          ${{ runner.os }}-gradle-

@@ -1,0 +1,19 @@
+runs:
+  using: 'composite'
+  steps:
+    - uses: actions/checkout@v2
+
+    - run: echo "$V" > shared/src/appenv.env.ts
+      env:
+        V: ${{ secrets._APPENV_TS }}
+
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '14'
+        cache: 'npm'
+
+    - run: npm install
+      working-directory: ./client
+
+    - run: npm run build.cap
+      working-directory: ./client
