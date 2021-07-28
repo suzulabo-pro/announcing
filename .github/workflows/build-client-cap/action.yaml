@@ -1,8 +1,6 @@
 runs:
   using: 'composite'
   steps:
-    - uses: actions/checkout@v2
-
     - run: echo "$V" > shared/src/appenv.env.ts
       env:
         V: ${{ secrets._APPENV_TS }}
