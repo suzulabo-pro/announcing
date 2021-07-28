@@ -1,0 +1,56 @@
+name: build-client-android-release
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - uses: actions/setup-java@v2
+        with:
+          distribution: 'adopt'
+          java-version: '11'
+
+      # https://github.com/actions/cache/blob/main/examples.md#java---gradle
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
+
+      - uses: ./.github/workflows/build-client-android-setup
+        with:
+          _APPENV_TS: ${{ secrets._APPENV_TS }}
+          _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
+          _GOOGLE_SERVICES_JSON: ${{ secrets._GOOGLE_SERVICES_JSON }}
+
+      - run: echo -n "$_ANDROID_UPLOAD_KEYSTORE_JKS_BASE64" | base64 --decode --output $RUNNER_TEMP/upload_keystore.jks
+        with:
+          _ANDROID_UPLOAD_KEYSTORE_JKS_BASE64: ${{ secrets._ANDROID_UPLOAD_KEYSTORE_JKS_BASE64 }}
+
+      - run: ./gradlew bundleRelease
+        working-directory: ./client/android
+
+      - run: >-
+          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 
+          -keystore $RUNNER_TEMP/upload_keystore.jks
+          -storepass $_ANDROID_UPLOAD_KEYSTORE_PASSWORD
+          ./client/android/app/build/outputs/bundle/release/app-release.aab upload
+        with:
+          _ANDROID_UPLOAD_KEYSTORE_PASSWORD: ${{ secrets._ANDROID_UPLOAD_KEYSTORE_PASSWORD }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: announcing-release.aab
+          path: ./client/android/app/build/outputs/bundle/release/app-release.aab
