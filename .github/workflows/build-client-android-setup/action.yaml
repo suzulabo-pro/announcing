@@ -1,7 +1,10 @@
 inputs:
   _APPENV_TS:
+    required: true
   _ANDROID_CUSTOM_PROPS:
+    required: true
   _GOOGLE_SERVICES_JSON:
+    required: true
 
 runs:
   using: 'composite'
