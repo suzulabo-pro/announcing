@@ -1,13 +1,18 @@
 apply plugin: 'com.android.application'
 
+def versionCodeStart = 1627273800 / 10
+def now = new Date()
+def _versionCode = (now.getTime() / 1000 / 10 - versionCodeStart) as Integer
+def _versionName = "0.0." + now.format("yyMMddHHmm")
+
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
         applicationId "app.announcing.client1"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode _versionCode
+        versionName _versionName
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
