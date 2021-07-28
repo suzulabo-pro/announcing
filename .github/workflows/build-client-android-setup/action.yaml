@@ -1,7 +1,9 @@
 inputs:
+  _APPENV_TS:
+    required: true
   _ANDROID_CUSTOM_PROPS:
     required: true
-  _APPENV_TS:
+  _GOOGLE_SERVICES_JSON:
     required: true
 
 runs:
@@ -16,6 +18,10 @@ runs:
       shell: bash
       env:
         V: ${{ inputs._ANDROID_CUSTOM_PROPS }}
+
+    - run: echo "$V" > client/google-services.json
+      env:
+        V: ${{ secrets._GOOGLE_SERVICES_JSON }}
 
     - run: npm install
       shell: bash
