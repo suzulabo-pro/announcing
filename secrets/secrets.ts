@@ -13,6 +13,7 @@ const SECRET_FILES = [
   ['_APPLE_APP_SITE_ASSOCIATION', 'client/apple-app-site-association'],
   ['_APP_ENTITLEMENTS', 'client/App.entitlements'],
   ['_GOOGLESERVICE_INFO_PLIST', 'client/GoogleService-Info.plist'],
+  ['_PLAY_CONSOLE_ACCOUNT_JSON', 'client/play-console-account.json'],
   ['_ANDROID_UPLOAD_KEYSTORE_JKS_BASE64', 'secrets/upload-keystore.jks'],
   ['_APPLE_DISTRIBUTION_CERTIFICATE_BASE64', 'secrets/AppleDistribution.p12'],
   ['_APPLE_AD_HOC_PROVISION_PROFILE_BASE64', 'secrets/Ad_Hoc.mobileprovision'],
@@ -47,7 +48,7 @@ const main = async () => {
   console.log('done.');
   console.log('');
   console.log(
-    'You may set _FIREBASE_TOKEN, _ANDROID_UPLOAD_KEYSTORE_PASSWORD and _APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD manualy',
+    'You may set _FIREBASE_TOKEN, _ANDROID_KEYSTORE_PASSWORD, _ANDROID_KEYSTORE_UPLOAD_KEY_PASSWORD and _APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD manualy',
   );
 };
 

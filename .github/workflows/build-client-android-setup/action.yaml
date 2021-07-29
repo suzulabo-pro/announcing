@@ -5,6 +5,8 @@ inputs:
     required: true
   _GOOGLE_SERVICES_JSON:
     required: true
+  _PLAY_CONSOLE_ACCOUNT_JSON:
+    required: true
 
 runs:
   using: 'composite'
@@ -23,6 +25,11 @@ runs:
       shell: bash
       env:
         V: ${{ inputs._GOOGLE_SERVICES_JSON }}
+
+    - run: echo "$V" > client/play-console-account.json
+      shell: bash
+      env:
+        V: ${{ inputs._PLAY_CONSOLE_ACCOUNT_JSON }}
 
     - run: npm install
       shell: bash
