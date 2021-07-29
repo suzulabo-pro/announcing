@@ -44,14 +44,16 @@
           img.src = canvas.toDataURL('image/png');
         };
 
-        // app icon
-        createIcon(1024, document.getElementById('appIconImg'));
+        const iconSizes = [
+          1024, // app icon
+          512, // play store icon
+          192, // favicon
+          180, // apple touch icon
+        ];
 
-        // favicon
-        createIcon(192, document.getElementById('faviconImg'));
-
-        // apple touch
-        createIcon(180, document.getElementById('appleImg'));
+        for (const s of iconSizes) {
+          createIcon(s, document.getElementById(`icon${s}`));
+        }
 
         {
           // splash image
@@ -73,6 +75,27 @@
           const img = document.getElementById('splashImg');
           img.src = canvas.toDataURL('image/png');
         }
+
+        {
+          // feature graphic
+          const w = 1024;
+          const h = 500;
+          const canvas = document.createElement('canvas');
+          canvas.width = w;
+          canvas.height = h;
+          ctx = canvas.getContext('2d');
+
+          ctx.fillStyle = '#ffffff';
+          ctx.fillRect(0, 0, w, h);
+          ctx.textBaseline = 'middle';
+          ctx.textAlign = 'center';
+          ctx.font = '100px "M PLUS Rounded 1c"';
+          ctx.fillStyle = '#333333';
+          ctx.fillText('Announcing♪', w / 2, h / 2);
+
+          const img = document.getElementById('featureGraphicImg');
+          img.src = canvas.toDataURL('image/png');
+        }
       };
     </script>
   </head>
@@ -81,12 +104,16 @@
     <span>Announcing♪</span>
     <button onclick="createImage()">create</button>
     <div>
-      <img id="appIconImg" />
+      <img id="icon1024" />
+      <img id="icon512" />
+      <img id="icon192" />
+      <img id="icon180" />
+    </div>
+    <div>
       <img id="splashImg" />
     </div>
     <div>
-      <img id="faviconImg" />
-      <img id="appleImg" />
+      <img id="featureGraphicImg" />
     </div>
   </body>
 </html>
