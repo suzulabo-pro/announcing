@@ -1,0 +1,33 @@
+inputs:
+  _APPENV_TS:
+    required: true
+  _ANDROID_CUSTOM_PROPS:
+    required: true
+  _GOOGLE_SERVICES_JSON:
+    required: true
+
+runs:
+  using: 'composite'
+  steps:
+    - run: echo "$V" > shared/src/appenv.env.ts
+      shell: bash
+      env:
+        V: ${{ inputs._APPENV_TS }}
+
+    - run: echo "$V" > client/android.custom.properties
+      shell: bash
+      env:
+        V: ${{ inputs._ANDROID_CUSTOM_PROPS }}
+
+    - run: echo "$V" > client/google-services.json
+      shell: bash
+      env:
+        V: ${{ inputs._GOOGLE_SERVICES_JSON }}
+
+    - run: npm install
+      shell: bash
+      working-directory: ./client
+
+    - run: npm run build.android
+      shell: bash
+      working-directory: ./client

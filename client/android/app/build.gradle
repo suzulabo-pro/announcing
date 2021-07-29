@@ -1,4 +1,19 @@
-apply plugin: 'com.android.application'
+plugins {
+    id 'com.android.application'
+    id 'com.github.triplet.play' version '3.5.0'
+}
+
+play {
+    serviceAccountCredentials.set(file("../../play-console-account.json"))
+}
+
+def versionInfo = {
+    def versionCodeStart = 1627273800 / 10
+    def now = new Date()
+    def code = (now.getTime() / 1000 / 10 - versionCodeStart) as Integer
+    def name = "0.0." + now.format("yyMMddHHmm", TimeZone.getTimeZone('UTC'))
+    return [code:code, name:name]
+}()
 
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
@@ -6,8 +21,8 @@ android {
         applicationId "app.announcing.client1"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode versionInfo.code
+        versionName versionInfo.name
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
              // Files and dirs to omit from the packaged assets dir, modified to accommodate modern web apps.
@@ -15,10 +30,22 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
     }
+
+    signingConfigs {
+        release {
+            storeFile file("../../upload-keystore.jks")
+            storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyAlias "upload"
+            keyPassword System.getenv("KEYSTORE_UPLOAD_KEY_PASSWORD")
+        }
+     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+
+            signingConfig signingConfigs.release
         }
     }
 }
