@@ -9,6 +9,7 @@ apple-app-site-association
 **/App.entitlements
 android.custom.properties
 play-console-account.json
+upload-keystore.jks
 
 src/components.d.ts
 src/shared

@@ -33,7 +33,7 @@ android {
 
     signingConfigs {
         release {
-            storeFile file("../../../secrets/upload-keystore.jks")
+            storeFile file("../../upload-keystore.jks")
             storePassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias "upload"
             keyPassword System.getenv("KEYSTORE_UPLOAD_KEY_PASSWORD")
