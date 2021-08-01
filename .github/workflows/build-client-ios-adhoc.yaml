@@ -14,10 +14,10 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - id: build_setup
-        uses: ./.github/workflows/build-setup
+      - uses: ./.github/workflows/build-setup
         with:
           BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+        id: build_setup
 
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
@@ -55,7 +55,7 @@ jobs:
           -exportArchive
           -archivePath $RUNNER_TEMP/announcing.xcarchive
           -exportPath $RUNNER_TEMP/announcing.ipa 
-          -exportOptionsPlist ./client/ios-export-adhoc.plist
+          -exportOptionsPlist ../../ios-export-adhoc.plist
         working-directory: ./client/ios/App
         env:
           PP_SPECIFIER: ${{ steps.build_setup.outputs.AD_HOC_PROVISION_NAME }}
