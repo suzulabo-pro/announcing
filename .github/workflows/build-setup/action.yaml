@@ -1,0 +1,29 @@
+inputs:
+  BUILD_VALUES:
+    required: true
+
+outputs:
+  BUILD_NUMBER:
+    value: ${{ steps.build_version.BUILD_NUMBER }}
+  APP_VERSION:
+    value: ${{ steps.build_version.APP_VERSION }}
+  FIREBASE_APP_ID_ANDROID:
+    value: ${{ steps.extract_secrets.FIREBASE_APP_ID_ANDROID }}
+  FIREBASE_APP_ID_IOS:
+    value: ${{ steps.extract_secrets.FIREBASE_APP_ID_IOS }}
+
+runs:
+  using: 'composite'
+
+  steps:
+    - run: node .github/workflows/build_version.js
+      shell: bash
+      id: build_version
+
+    - run: npm install
+      shell: bash
+
+    - run: npm run secrets.extract
+      shell: bash
+      env:
+        BUILD_VALUES: ${{ inputs.BUILD_VALUES }}

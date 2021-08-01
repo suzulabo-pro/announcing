@@ -4,7 +4,8 @@
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",
     "secrets": "ts-node secrets/secrets.ts",
-    "secrets.deploy": "ts-node secrets/secrets.ts --deploy"
+    "secrets.deploy": "ts-node secrets/secrets.ts --deploy",
+    "secrets.extract": "ts-node secrets/secrets.ts --extract"
   },
   "devDependencies": {
     "@stencil/eslint-plugin": "github:suzulabo/stencil-eslint#0.3.1+",
