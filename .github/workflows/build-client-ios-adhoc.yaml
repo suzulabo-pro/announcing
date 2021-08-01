@@ -14,10 +14,10 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - uses: ./.github/workflows/build-setup
+      - id: build_setup
+        uses: ./.github/workflows/build-setup
         with:
           BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
-        id: build_setup
 
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
