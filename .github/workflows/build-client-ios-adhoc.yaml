@@ -14,13 +14,10 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - id: build_setup
-        uses: ./.github/workflows/build-setup
+      - uses: ./.github/workflows/build-setup
         with:
           BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
-
-      - id: build_version
-        run: node .github/workflows/build_version.js
+        id: build_setup
 
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
@@ -63,8 +60,8 @@ jobs:
         env:
           PP_SPECIFIER: ${{ steps.build_setup.outputs.AD_HOC_PROVISION_NAME }}
           BUNDLE_IDENTIFIER: ${{ steps.build_setup.outputs.AD_HOC_APPID }}
-          BUNDLE_VERSION: ${{ steps.build_version.outputs.BUILD_NUMBER }}
-          BUNDLE_VERSION_STRING: ${{ steps.build_version.outputs.APP_VERSION }}
+          BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
+          BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
       - uses: actions/upload-artifact@v2
         with:

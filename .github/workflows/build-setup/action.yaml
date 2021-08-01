@@ -11,6 +11,10 @@ outputs:
     value: ${{ steps.extract_secrets.FIREBASE_APP_ID_ANDROID }}
   FIREBASE_APP_ID_IOS:
     value: ${{ steps.extract_secrets.FIREBASE_APP_ID_IOS }}
+  AD_HOC_PROVISION_NAME:
+    value: ${{ steps.extract_secrets.AD_HOC_PROVISION_NAME }}
+  AD_HOC_APPID:
+    value: ${{ steps.extract_secrets.AD_HOC_APPID }}
 
 runs:
   using: 'composite'
