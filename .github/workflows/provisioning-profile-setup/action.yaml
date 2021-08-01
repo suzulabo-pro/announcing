@@ -10,6 +10,7 @@ runs:
   steps:
     # https://docs.github.com/en/actions/guides/installing-an-apple-certificate-on-macos-runners-for-xcode-development
     - name: Install the Apple certificate and provisioning profile
+      shell: bash
       env:
         P12_PASSWORD: ${{ inputs.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
         PP_PATH: ${{  inputs.PP_PATH }}
