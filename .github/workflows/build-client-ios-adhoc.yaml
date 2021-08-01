@@ -14,13 +14,13 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - uses: ./.github/workflows/build-setup
+      - id: build_setup
+        uses: ./.github/workflows/build-setup
         with:
           BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
-        id: build_setup
 
-      - run: node .github/workflows/build_version.js
-        id: build_version
+      - id: build_version
+        run: node .github/workflows/build_version.js
 
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
@@ -61,10 +61,10 @@ jobs:
           -exportOptionsPlist ./client/ios-export-adhoc.plist
         working-directory: ./client/ios/App
         env:
-          PP_SPECIFIER: ${{ steps.build_setup.AD_HOC_PROVISION_NAME }}
-          BUNDLE_IDENTIFIER: ${{ steps.build_setup.AD_HOC_APPID }}
-          BUNDLE_VERSION: ${{ steps.build_version.BUILD_NUMBER }}
-          BUNDLE_VERSION_STRING: ${{ steps.build_version.APP_VERSION }}
+          PP_SPECIFIER: ${{ steps.build_setup.outputs.AD_HOC_PROVISION_NAME }}
+          BUNDLE_IDENTIFIER: ${{ steps.build_setup.outputs.AD_HOC_APPID }}
+          BUNDLE_VERSION: ${{ steps.build_version.outputs.BUILD_NUMBER }}
+          BUNDLE_VERSION_STRING: ${{ steps.build_version.outputs.APP_VERSION }}
 
       - uses: actions/upload-artifact@v2
         with:
