@@ -1,0 +1,78 @@
+name: build-client-ios-adhoc
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - uses: ./.github/workflows/build-setup
+        with:
+          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+        id: build_setup
+
+      - uses: ./.github/workflows/provisioning-profile-setup
+        with:
+          APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
+          PP_PATH: 'secrets/Ad_Hoc.mobileprovision'
+
+      - run: npm install
+        working-directory: ./client
+
+      - run: npm run build.ios
+        working-directory: ./client
+
+      - run: >-
+          xcodebuild 
+          CODE_SIGN_STYLE=Manual
+          CODE_SIGN_IDENTITY="Apple Distribution"
+          BUNDLE_DISPLAY_NAME="AH-Announcing♪"
+          PROVISIONING_PROFILE_SPECIFIER="${PP_SPECIFIER}"
+          BUNDLE_IDENTIFIER="${BUNDLE_IDENTIFIER}"
+          BUNDLE_VERSION="${BUNDLE_VERSION}"
+          BUNDLE_VERSION_STRING="${BUNDLE_VERSION_STRING}"
+          -workspace App.xcworkspace
+          -scheme App
+          -archivePath $RUNNER_TEMP/announcing.xcarchive 
+          archive
+          &&
+          xcodebuild
+          -exportArchive
+          -archivePath $RUNNER_TEMP/announcing.xcarchive
+          -exportPath $RUNNER_TEMP/announcing.ipa 
+          -exportOptionsPlist ../../ios-export-adhoc.plist
+        working-directory: ./client/ios/App
+        env:
+          PP_SPECIFIER: ${{ steps.build_setup.outputs.AD_HOC_PROVISION_NAME }}
+          BUNDLE_IDENTIFIER: ${{ steps.build_setup.outputs.AD_HOC_APPID }}
+          BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
+          BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: announcing-adhoc.ipa
+          path: ${{ runner.temp }}/announcing.ipa
+
+      - run: >-
+          npm_config_yes=true npx firebase-tools
+          appdistribution:distribute
+          $RUNNER_TEMP/announcing.ipa/App.ipa
+          --app ${APP_ID}
+          --groups testers
+        env:
+          FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
+          APP_ID: ${{ steps.build_setup.outputs.FIREBASE_APP_ID_IOS }}
+
+      - name: Clean up keychain and provisioning profile
+        if: ${{ always() }}
+        run: |
+          security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/Ad_Hoc.mobileprovision

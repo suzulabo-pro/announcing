@@ -1,7 +1,7 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'app.announcing.client1',
+  appId: 'app.announcing.client',
   appName: 'Announcing♪',
   webDir: 'cap',
   bundledWebRuntime: false,
