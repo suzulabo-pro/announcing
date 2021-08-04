@@ -9,11 +9,13 @@ _window.twttr = (() => {
   const t = _window.twttr || {};
   if (d.getElementById(id)) return t;
 
-  const head = d.getElementsByTagName('head')[0]!;
-  const js = d.createElement(s);
-  js.id = id;
-  js.src = 'https://platform.twitter.com/widgets.js';
-  head.appendChild(js);
+  const head = d.getElementsByTagName('head')[0];
+  if (head) {
+    const js = d.createElement(s);
+    js.id = id;
+    js.src = 'https://platform.twitter.com/widgets.js';
+    head.appendChild(js);
+  }
 
   t._e = [];
   t.ready = function (f: unknown) {
