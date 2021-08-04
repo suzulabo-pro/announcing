@@ -1,5 +1,5 @@
 {
-  "name": "@announcing/shared",
+  "name": "@announcing/shared-web",
   "private": true,
   "version": "0.0.0",
   "main": "dist/index.js",
@@ -9,6 +9,11 @@
     "build.watch": "tsc -p tconfig.build.json -w",
     "test": "jest",
     "test.watch": "jest --watch"
+  },
+  "dependencies": {
+    "@announcing/shared": "*",
+    "@stencil/core": "^2.6.0",
+    "firebase": "^9.0.0-beta.8"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

@@ -1,6 +1,11 @@
 {
   "name": "announcing",
   "private": true,
+  "workspaces": [
+    "shared",
+    "shared-ui",
+    "packages/*"
+  ],
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",
     "secrets": "ts-node secrets/secrets.ts",

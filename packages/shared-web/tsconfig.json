@@ -7,7 +7,7 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
 
-    "lib": ["ESNext"],
+    "lib": ["ESNext", "DOM"],
     "moduleResolution": "Node"
   },
   "include": ["src", "__test__"]
