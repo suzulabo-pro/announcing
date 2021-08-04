@@ -9,7 +9,7 @@ _window.twttr = (() => {
   const t = _window.twttr || {};
   if (d.getElementById(id)) return t;
 
-  const head = d.getElementsByTagName('head')[0];
+  const head = d.getElementsByTagName('head')[0]!;
   const js = d.createElement(s);
   js.id = id;
   js.src = 'https://platform.twitter.com/widgets.js';

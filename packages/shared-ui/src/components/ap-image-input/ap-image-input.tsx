@@ -38,11 +38,11 @@ export class ApImageInput {
         if (!this.handlers.fileInput?.files) {
           return;
         }
-        const newData = await resizeImage(
-          this.handlers.fileInput.files[0],
-          this.resizeRect.width,
-          this.resizeRect.height,
-        );
+        const file = this.handlers.fileInput.files[0];
+        if (!file) {
+          return;
+        }
+        const newData = await resizeImage(file, this.resizeRect.width, this.resizeRect.height);
         this.imageChange.emit(newData);
       } finally {
         this.imageResizing.emit(false);

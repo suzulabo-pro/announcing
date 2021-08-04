@@ -86,11 +86,11 @@ export class ApPosts {
 
     const state = this.postsPromises[postID];
 
-    if (state.error()) {
+    if (state?.error()) {
       return { el: <Fragment>{this.msgs.dataError}</Fragment> };
     }
 
-    const post = state.result();
+    const post = state?.result();
     if (!post) {
       return {
         el: <ap-spinner />,

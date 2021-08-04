@@ -14,7 +14,7 @@ import twitter from 'bootstrap-icons/icons/twitter.svg';
 import xCircle from 'bootstrap-icons/icons/x-circle.svg';
 
 const toHTML = (s: string) => {
-  return atob(s.split(',')[1]);
+  return atob(s.split(',')[1] || '');
 };
 
 const svgMap = {
