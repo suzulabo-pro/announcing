@@ -1,8 +1,12 @@
 {
   "name": "announcing-shared",
   "private": true,
-  "version": "0.0.1",
+  "version": "0.0.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
+    "build": "tsc -p tsconfig.build.json",
+    "build.watch": "tsc -p tconfig.build.json -w",
     "test": "jest",
     "test.watch": "jest --watch"
   },

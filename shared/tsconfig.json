@@ -7,10 +7,7 @@
     "noFallthroughCasesInSwitch": true,
     "allowUnreachableCode": false,
 
-    "module": "commonjs",
-    "target": "es2017",
-    "lib": ["ESNext"],
-    "baseUrl": "."
+    "lib": ["ESNext"]
   },
   "include": ["src", "__test__"]
 }
