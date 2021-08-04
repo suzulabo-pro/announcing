@@ -1,7 +1,6 @@
+import { Match, pathMatcher } from '@announcing/shared';
+import { PageVisible, redirectRoute, restoreScroll } from '@announcing/shared-web';
 import { Component, Element, h, Host, Listen, Prop, State } from '@stencil/core';
-import { Match, pathMatcher } from 'src/shared/path-matcher';
-import { PageVisible } from '../utils/pagevisible';
-import { redirectRoute, restoreScroll } from '../utils/route';
 
 export type RouteMatch = Match & { tag?: string };
 

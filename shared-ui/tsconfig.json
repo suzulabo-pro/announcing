@@ -7,17 +7,21 @@
     "noFallthroughCasesInSwitch": true,
     "allowSyntheticDefaultImports": true,
     "allowUnreachableCode": false,
-    "declaration": false,
     "experimentalDecorators": true,
-    "lib": ["dom", "es2017"],
-    "moduleResolution": "node",
-    "module": "esnext",
-    "target": "es2017",
+
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
-    "baseUrl": "."
+
+    "lib": ["ESNext", "DOM"],
+    "moduleResolution": "Node",
+    "module": "ESNext",
+    "target": "ESNext",
+
+    "outDir": "dist",
+    "inlineSourceMap": true,
+    "declaration": true,
+    "declarationMap": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src"]
 }

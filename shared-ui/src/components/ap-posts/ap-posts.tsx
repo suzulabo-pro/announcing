@@ -1,7 +1,6 @@
+import { Announce, PostJSON } from '@announcing/shared';
+import { href, PromiseState } from '@announcing/shared-web';
 import { Component, Element, forceUpdate, Fragment, h, Host, Prop, Watch } from '@stencil/core';
-import { Announce, PostJSON } from 'src/shared';
-import { PromiseState } from '../utils/promise';
-import { href } from '../utils/route';
 
 @Component({
   tag: 'ap-posts',

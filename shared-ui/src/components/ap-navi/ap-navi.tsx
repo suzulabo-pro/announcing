@@ -1,5 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
-import { href } from '../utils/route';
+import { href } from '@announcing/shared-web';
 
 export type ApNaviLinks = {
   label: string;
