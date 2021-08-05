@@ -1,5 +1,5 @@
 import { AnnounceMetaRule, assertIsDefined } from '@announcing/shared';
-import { ApNaviLink, PromiseState, pushRoute, redirectRoute } from '@announcing/shared-web';
+import { ApNaviLink, PromiseState, pushRoute, redirectRoute } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';

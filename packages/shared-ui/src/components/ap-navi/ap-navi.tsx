@@ -1,5 +1,12 @@
-import { ApNaviLink, href } from '@announcing/shared-web';
 import { Component, h, Host, Prop } from '@stencil/core';
+import { href } from '../../utils';
+
+export interface ApNaviLink {
+  label: string;
+  href?: string;
+  handler?: () => void;
+  back?: boolean;
+}
 
 @Component({
   tag: 'ap-navi',

@@ -6,7 +6,7 @@ import {
   PromiseState,
   pushRoute,
   redirectRoute,
-} from '@announcing/shared-web';
+} from '@announcing/shared-ui';
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';

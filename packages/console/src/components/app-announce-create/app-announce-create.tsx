@@ -1,5 +1,5 @@
 import { AnnounceMetaRule } from '@announcing/shared';
-import { pushRoute } from '@announcing/shared-web';
+import { pushRoute } from '@announcing/shared-ui';
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { App } from '../../app/app';
 

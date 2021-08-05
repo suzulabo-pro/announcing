@@ -6,7 +6,7 @@ import {
   PageVisible,
   PromiseState,
   pushRoute,
-} from '@announcing/shared-web';
+} from '@announcing/shared-ui';
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
@@ -83,14 +83,17 @@ export class AppHome {
 
   componentWillRender() {
     if (!this.userState) {
-      this.userState = new PromiseState(this.app.getUser());
-      this.userState.then(v => {
-        if (v?.announces) {
-          for (const id of v.announces) {
-            this.announceStateMap.set(id, new PromiseState(this.loadAnnounce(id)));
+      const p = this.app.getUser();
+      if (p) {
+        this.userState = new PromiseState(p);
+        this.userState.then(v => {
+          if (v?.announces) {
+            for (const id of v.announces) {
+              this.announceStateMap.set(id, new PromiseState(this.loadAnnounce(id)));
+            }
           }
-        }
-      });
+        });
+      }
     }
   }
 

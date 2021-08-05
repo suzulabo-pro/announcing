@@ -1,5 +1,5 @@
 import { AppEnv } from '@announcing/shared';
-import { RouteMatch } from '@announcing/shared-web';
+import { RouteMatch } from '@announcing/shared-ui';
 import { Component, h, Host } from '@stencil/core';
 import { App } from '../../app/app';
 import { AppFirebase } from '../../app/firebase';
@@ -59,7 +59,6 @@ export class AppRoot {
   private app: App;
 
   constructor() {
-    console.log('##1');
     const appMsg = new AppMsg();
     const apError = document.querySelector('ap-error');
     if (apError) {

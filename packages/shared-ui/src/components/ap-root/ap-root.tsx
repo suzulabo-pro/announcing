@@ -1,6 +1,8 @@
-import { pathMatcher } from '@announcing/shared';
-import { PageVisible, redirectRoute, restoreScroll, RouteMatch } from '@announcing/shared-web';
+import { Match, pathMatcher } from '@announcing/shared';
 import { Component, Element, h, Host, Listen, Prop, State } from '@stencil/core';
+import { PageVisible, redirectRoute, restoreScroll } from '../../utils';
+
+export type RouteMatch = Match & { tag?: string };
 
 @Component({
   tag: 'ap-root',

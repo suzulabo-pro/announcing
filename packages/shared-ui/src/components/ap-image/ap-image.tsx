@@ -1,6 +1,5 @@
 import { Component, h, Prop } from '@stencil/core';
-import { PromiseState } from '@announcing/shared-web';
-import { href } from '@announcing/shared-web';
+import { href, PromiseState } from '../../utils';
 
 @Component({
   tag: 'ap-image',

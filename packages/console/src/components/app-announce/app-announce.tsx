@@ -6,7 +6,7 @@ import {
   PageVisible,
   PromiseState,
   redirectRoute,
-} from '@announcing/shared-web';
+} from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import QRCodeStyling from 'qr-code-styling';
 import { AsyncReturnType } from 'type-fest';

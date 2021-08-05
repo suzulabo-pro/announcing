@@ -11,7 +11,7 @@ import {
   PutPostParams,
   User,
 } from '@announcing/shared';
-import { FirestoreHelper } from '@announcing/shared-web';
+import { FirestoreHelper } from '@announcing/shared-ui';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
@@ -150,7 +150,7 @@ export class AppFirebase {
     return this.callFunc<DeletePostParams, void>('deletePost', params);
   }
 
-  async getUser() {
+  getUser() {
     if (!this.user) {
       return;
     }
@@ -160,21 +160,21 @@ export class AppFirebase {
     });
   }
 
-  async getAnnounce(id: string) {
+  getAnnounce(id: string) {
     return this.firestoreHelper.listenAndGet<Announce>(`announces/${id}`, (oldData, newData) => {
       return oldData.uT.toMillis() != newData.uT.toMillis();
     });
   }
 
-  async getAnnounceMeta(id: string, metaID: string) {
+  getAnnounceMeta(id: string, metaID: string) {
     return this.firestoreHelper.getCacheFirst<AnnounceMeta>(`announces/${id}/meta/${metaID}`);
   }
 
-  async getPost(id: string, postID: string) {
+  getPost(id: string, postID: string) {
     return this.firestoreHelper.getCacheFirst<Post>(`announces/${id}/posts/${postID}`);
   }
 
-  async getImage(id: string) {
+  getImage(id: string) {
     return this.firestoreHelper.getCacheFirst<Image>(`images/${id}`);
   }
 }

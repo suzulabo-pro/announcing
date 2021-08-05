@@ -1,4 +1,4 @@
-import { ApNaviLink } from '@announcing/shared-web';
+import { ApNaviLink } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
 import { App } from '../../app/app';
 
