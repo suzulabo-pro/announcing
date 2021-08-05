@@ -1,12 +1,9 @@
+import { AnnounceMetaRule, assertIsDefined } from '@announcing/shared';
+import { ApNaviLink, PromiseState, pushRoute, redirectRoute } from '@announcing/shared-web';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
-import assert from 'assert';
-import { App } from 'src/app/app';
-import { AnnounceMetaRule } from 'src/shared';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { pushRoute, redirectRoute } from 'src/shared-ui/utils/route';
-import { isURL } from 'src/utils/isurl';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
+import { isURL } from '../../utils/isurl';
 
 @Component({
   tag: 'app-announce-edit',
@@ -61,7 +58,7 @@ export class AppAnnounceEdit {
     return;
   }
 
-  private naviLinks!: ApNaviLinks;
+  private naviLinks!: ApNaviLink[];
 
   private handlers = {
     input: {
@@ -149,7 +146,7 @@ export class AppAnnounceEdit {
 
   private renderContext() {
     const announceStatus = this.announceState?.status();
-    assert(announceStatus);
+    assertIsDefined(announceStatus);
 
     const { announce, iconData } = this.announceState?.result() || {};
 

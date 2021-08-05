@@ -10,4 +10,4 @@ const syncDir = (src, dst, config) => {
   });
 };
 
-syncDir('../../shared/src', 'src/shared');
+syncDir('../../packages/shared/src', 'src/shared');

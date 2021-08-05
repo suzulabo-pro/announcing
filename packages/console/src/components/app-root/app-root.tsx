@@ -1,10 +1,10 @@
+import { AppEnv } from '@announcing/shared';
+import { RouteMatch } from '@announcing/shared-web';
 import { Component, h, Host } from '@stencil/core';
-import { App } from 'src/app/app';
-import { AppFirebase } from 'src/app/firebase';
-import { AppMsg } from 'src/app/msg';
-import { AppState } from 'src/app/state';
-import { AppEnv } from 'src/shared';
-import { RouteMatch } from 'src/shared-ui/ap-root/ap-root';
+import { App } from '../../app/app';
+import { AppFirebase } from '../../app/firebase';
+import { AppMsg } from '../../app/msg';
+import { AppState } from '../../app/state';
 
 const matches: RouteMatch[] = [
   {
@@ -59,6 +59,7 @@ export class AppRoot {
   private app: App;
 
   constructor() {
+    console.log('##1');
     const appMsg = new AppMsg();
     const apError = document.querySelector('ap-error');
     if (apError) {

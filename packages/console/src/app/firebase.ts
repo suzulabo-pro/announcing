@@ -1,3 +1,17 @@
+import {
+  Announce,
+  AnnounceMeta,
+  AppEnv,
+  CreateAnnounceParams,
+  DeleteAnnounceParams,
+  DeletePostParams,
+  EditAnnounceParams,
+  Image,
+  Post,
+  PutPostParams,
+  User,
+} from '@announcing/shared';
+import { FirestoreHelper } from '@announcing/shared-web';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
@@ -11,7 +25,7 @@ import {
 import {
   connectFirestoreEmulator,
   enableMultiTabIndexedDbPersistence,
-  FirebaseFirestore,
+  Firestore,
   getFirestore,
 } from 'firebase/firestore';
 import {
@@ -20,26 +34,12 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import {
-  Announce,
-  AnnounceMeta,
-  AppEnv,
-  CreateAnnounceParams,
-  DeleteAnnounceParams,
-  DeletePostParams,
-  EditAnnounceParams,
-  Image,
-  Post,
-  PutPostParams,
-  User,
-} from 'src/shared';
-import { FirestoreHelper } from 'src/shared-ui/utils/firestore';
 import { AppMsg } from './msg';
 import { AppState } from './state';
 
 export class AppFirebase {
   private functions: Functions;
-  private firestore: FirebaseFirestore;
+  private firestore: Firestore;
   private auth: Auth;
   private firestoreHelper: FirestoreHelper;
 

@@ -1,6 +1,6 @@
+import { Announce, AnnounceMetaBase, AppEnv, assertIsDefined, PostJSON } from '@announcing/shared';
+import { LazyPromiseState, PromiseState } from '@announcing/shared-web';
 import { Build, readTask } from '@stencil/core';
-import { Announce, AnnounceMetaBase, AppEnv, PostJSON } from 'src/shared';
-import { LazyPromiseState, PromiseState } from 'src/shared-ui/utils/promise';
 import { AppFirebase } from './firebase';
 import { AppMsg } from './msg';
 import { AppState } from './state';
@@ -68,6 +68,7 @@ export class App {
   }
 
   get msgs() {
+    assertIsDefined(this.appMsg.msgs);
     return this.appMsg.msgs;
   }
 

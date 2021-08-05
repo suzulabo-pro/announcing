@@ -1,13 +1,16 @@
+import { assertIsDefined } from '@announcing/shared';
+import {
+  ApNaviLink,
+  FirestoreUpdatedEvent,
+  href,
+  PageVisible,
+  PromiseState,
+  redirectRoute,
+} from '@announcing/shared-web';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
-import assert from 'assert';
 import QRCodeStyling from 'qr-code-styling';
-import { App } from 'src/app/app';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { FirestoreUpdatedEvent } from 'src/shared-ui/utils/firestore';
-import { PageVisible } from 'src/shared-ui/utils/pagevisible';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { href, redirectRoute } from 'src/shared-ui/utils/route';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-announce',
@@ -82,8 +85,8 @@ export class AppAnnounce {
   showQRCode = false;
 
   private qrCode!: QRCodeStyling;
-  private naviLinks!: ApNaviLinks;
-  private naviLinksLoading!: ApNaviLinks;
+  private naviLinks!: ApNaviLink[];
+  private naviLinksLoading!: ApNaviLink[];
 
   private async loadAnnounce() {
     const id = this.announceID;
@@ -169,7 +172,7 @@ export class AppAnnounce {
 
   private renderContext() {
     const announceStatus = this.announceState?.status();
-    assert(announceStatus);
+    assertIsDefined(announceStatus);
     const { announce } = this.announceState?.result() || {};
     const naviLinks = announce ? this.naviLinks : this.naviLinksLoading;
     const pageTitle = announce

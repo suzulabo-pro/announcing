@@ -1,13 +1,15 @@
+import { assertIsDefined, User } from '@announcing/shared';
+import {
+  ApNaviLink,
+  FirestoreUpdatedEvent,
+  href,
+  PageVisible,
+  PromiseState,
+  pushRoute,
+} from '@announcing/shared-web';
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
-import assert from 'assert';
-import { App } from 'src/app/app';
-import { User } from 'src/shared';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { FirestoreUpdatedEvent } from 'src/shared-ui/utils/firestore';
-import { PageVisible } from 'src/shared-ui/utils/pagevisible';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { href, pushRoute } from 'src/shared-ui/utils/route';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-home',
@@ -69,7 +71,7 @@ export class AppHome {
     return;
   }
 
-  private naviLinks: ApNaviLinks = [
+  private naviLinks: ApNaviLink[] = [
     {
       label: '',
     },
@@ -99,13 +101,13 @@ export class AppHome {
 
   private renderContext() {
     const userStatus = this.userState?.status();
-    assert(userStatus);
+    assertIsDefined(userStatus);
 
     const user = this.userState?.result();
     const announces =
       user?.announces?.map(id => {
         const state = this.announceStateMap.get(id);
-        assert(state);
+        assertIsDefined(state);
         const status = state.status();
         return {
           id,

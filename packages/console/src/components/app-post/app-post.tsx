@@ -1,13 +1,15 @@
+import { assertIsDefined } from '@announcing/shared';
+import {
+  ApNaviLink,
+  FirestoreUpdatedEvent,
+  PageVisible,
+  PromiseState,
+  pushRoute,
+  redirectRoute,
+} from '@announcing/shared-web';
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
-import assert from 'assert';
-
-import { App } from 'src/app/app';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { FirestoreUpdatedEvent } from 'src/shared-ui/utils/firestore';
-import { PageVisible } from 'src/shared-ui/utils/pagevisible';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { pushRoute, redirectRoute } from 'src/shared-ui/utils/route';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-post',
@@ -80,8 +82,8 @@ export class AppPost {
   @State()
   postState?: PromiseState<AsyncReturnType<AppPost['loadPost']>>;
 
-  private naviLinks!: ApNaviLinks;
-  private naviLinksLoading!: ApNaviLinks;
+  private naviLinks!: ApNaviLink[];
+  private naviLinksLoading!: ApNaviLink[];
 
   private async loadAnnounce() {
     const id = this.announceID;
@@ -150,9 +152,9 @@ export class AppPost {
 
   private renderContext() {
     const announceStatus = this.announceState?.status();
-    assert(announceStatus);
+    assertIsDefined(announceStatus);
     const postStatus = this.postState?.status();
-    assert(postStatus);
+    assertIsDefined(postStatus);
 
     const { announce } = this.announceState?.result() || {};
     const { post } = this.postState?.result() || {};

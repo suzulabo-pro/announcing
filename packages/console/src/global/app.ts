@@ -1,4 +1,4 @@
-import 'intersection-observer';
+import '@announcing/shared-ui';
 
 export default () => {
   return;

@@ -1,12 +1,9 @@
+import { assertIsDefined, PostRule } from '@announcing/shared';
+import { ApNaviLink, PromiseState, pushRoute, redirectRoute } from '@announcing/shared-web';
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
-import assert from 'assert';
-import { App } from 'src/app/app';
-import { PostRule } from 'src/shared';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { pushRoute, redirectRoute } from 'src/shared-ui/utils/route';
-import { isURL } from 'src/utils/isurl';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
+import { isURL } from '../../utils/isurl';
 
 @Component({
   tag: 'app-post-form',
@@ -50,7 +47,7 @@ export class AppPostForm {
   @State()
   postState?: PromiseState<AsyncReturnType<AppPostForm['loadPost']>>;
 
-  private naviLinks!: ApNaviLinks;
+  private naviLinks!: ApNaviLink[];
 
   private async laodAnnounce() {
     const id = this.announceID;
@@ -146,7 +143,7 @@ export class AppPostForm {
 
   private renderContext() {
     const announceStatus = this.announceState?.status();
-    assert(announceStatus);
+    assertIsDefined(announceStatus);
     const postStatus = this.postState?.status();
     const { announce } = this.announceState?.result() || {};
 

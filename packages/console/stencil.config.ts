@@ -1,7 +1,6 @@
 import replace from '@rollup/plugin-replace';
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
-import nodePolyfills from 'rollup-plugin-node-polyfills';
 
 // https://stenciljs.com/docs/config
 
@@ -9,6 +8,7 @@ declare const process: {
   env: {
     [key: string]: string;
   };
+  argv: string[];
 };
 
 const buildSrc = () => {
@@ -35,6 +35,8 @@ const buildRepo = () => {
   return 'local build';
 };
 
+const isDev = process.argv.includes('--dev');
+
 export const config: Config = {
   globalScript: 'src/global/app.ts',
   taskQueue: 'async',
@@ -43,9 +45,10 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null,
       copy: [
-        { src: '../../icon192.png', dest: 'icon192.png' },
-        { src: '../../icon180.png', dest: 'icon180.png' },
+        { src: '../../../icon192.png', dest: 'icon192.png' },
+        { src: '../../../icon180.png', dest: 'icon180.png' },
       ],
+      dir: isDev ? 'www' : 'www-dist',
     },
   ],
   plugins: [
@@ -57,9 +60,6 @@ export const config: Config = {
       preventAssignment: true,
     }),
   ],
-  rollupPlugins: {
-    after: [nodePolyfills()],
-  },
   devServer: {
     openBrowser: false,
     port: 3370,

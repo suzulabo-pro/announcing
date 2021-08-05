@@ -1,5 +1,5 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
-import { App } from 'src/app/app';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-signin',

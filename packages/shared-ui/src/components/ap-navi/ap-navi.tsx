@@ -1,12 +1,5 @@
+import { ApNaviLink, href } from '@announcing/shared-web';
 import { Component, h, Host, Prop } from '@stencil/core';
-import { href } from '@announcing/shared-web';
-
-export type ApNaviLinks = {
-  label: string;
-  href?: string;
-  handler?: () => void;
-  back?: boolean;
-}[];
 
 @Component({
   tag: 'ap-navi',
@@ -14,7 +7,7 @@ export type ApNaviLinks = {
 })
 export class ApNavi {
   @Prop()
-  links!: ApNaviLinks;
+  links!: ApNaviLink[];
 
   @Prop()
   position: 'fixed' | 'sticky' = 'fixed';

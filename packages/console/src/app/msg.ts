@@ -5,7 +5,7 @@ const lang = 'ja';
 
 const msgsMap: { [k: string]: Msgs } = {
   ja: jaMsgs,
-};
+} as const;
 
 export const msgs = () => {
   return msgsMap[lang];
@@ -20,6 +20,6 @@ export class AppMsg {
     return lang;
   }
   get msgs() {
-    return msgsMap[lang];
+    return msgsMap[lang] || jaMsgs;
   }
 }

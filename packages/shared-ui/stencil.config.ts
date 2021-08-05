@@ -8,6 +8,7 @@ export const config: Config = {
   taskQueue: 'async',
   outputTargets: [
     { type: 'dist' },
+    { type: 'dist-custom-elements-bundle' },
     {
       type: 'www',
       serviceWorker: null,

@@ -13,10 +13,8 @@
     "module": "ESNext",
     "target": "ESNext",
 
-    "outDir": "dist",
     "inlineSourceMap": true,
-    "declaration": true,
-    "declarationMap": true
+    "declaration": true
   },
   "include": ["src"]
 }
