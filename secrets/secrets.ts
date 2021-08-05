@@ -19,7 +19,7 @@ const SECRET_FILES = [
   ['UPLOAD_KEYSTORE_JKS_BASE64', 'client/upload-keystore.jks'],
   ['APPLE_DISTRIBUTION_P12_BASE64', 'secrets/AppleDistribution.p12'],
   ['AD_HOC_PROVISION_BASE64', 'secrets/Ad_Hoc.mobileprovision'],
-];
+] as const;
 
 const parseProvisioningProfile = async (
   secrets: { [k: string]: string },
@@ -93,7 +93,7 @@ const deploy = async (dryrun: boolean) => {
   );
 };
 
-const extract = async () => {
+const extract = () => {
   const secretsJson = process.env['BUILD_VALUES'];
   if (!secretsJson) {
     throw new Error('missing BUILD_VALUES');
@@ -128,7 +128,7 @@ const extract = async () => {
 const main = async () => {
   const cmd = process.argv[2];
   if (cmd == '--extract') {
-    await extract();
+    extract();
     return;
   }
 
