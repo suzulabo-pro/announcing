@@ -5,10 +5,15 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
+    "clean": "rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
     "build.watch": "tsc -p tconfig.build.json -w",
     "test": "jest",
     "test.watch": "jest --watch"
+  },
+  "dependencies": {
+    "@stencil/core": "^2.6.0",
+    "firebase": "^9.0.0-beta.8"
   },
   "devDependencies": {
     "@types/jest": "^26.0.24",

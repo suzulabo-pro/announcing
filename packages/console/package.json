@@ -3,6 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
+    "clean": "rm -rf www www-dist",
     "build": "stencil build",
     "build.watch": "stencil build --watch",
     "serve": "stencil build --dev --watch --serve",

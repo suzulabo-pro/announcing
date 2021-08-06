@@ -6,12 +6,12 @@ import {
   DeleteAnnounceParams,
   DeletePostParams,
   EditAnnounceParams,
+  FirestoreHelper,
   Image,
   Post,
   PutPostParams,
   User,
 } from '@announcing/shared';
-import { FirestoreHelper } from '@announcing/shared-ui';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {

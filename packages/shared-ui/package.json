@@ -3,9 +3,9 @@
   "private": true,
   "version": "0.0.0",
   "main": "./dist/index.cjs.js",
-  "module": "./dist/custom-elements/index.js",
+  "module": "./dist/index.js",
   "collection": "./dist/collection/collection-manifest.json",
-  "types": "dist/custom-elements/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist www",
     "build": "stencil build",
@@ -21,7 +21,6 @@
     "pica": "^7.1.0",
     "autolinker": "^3.14.3",
     "bootstrap-icons": "^1.5.0",
-    "destyle.css": "^2.0.2",
-    "firebase": "^9.0.0-beta.8"
+    "destyle.css": "^2.0.2"
   }
 }

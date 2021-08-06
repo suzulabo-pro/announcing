@@ -1,12 +1,5 @@
-import { assertIsDefined } from '@announcing/shared';
-import {
-  ApNaviLink,
-  FirestoreUpdatedEvent,
-  href,
-  PageVisible,
-  PromiseState,
-  redirectRoute,
-} from '@announcing/shared-ui';
+import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '@announcing/shared';
+import { ApNaviLink, href, PageVisible, redirectRoute } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import QRCodeStyling from 'qr-code-styling';
 import { AsyncReturnType } from 'type-fest';

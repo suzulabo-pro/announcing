@@ -1,5 +1,12 @@
-import { Announce, AnnounceMetaBase, AppEnv, assertIsDefined, PostJSON } from '@announcing/shared';
-import { LazyPromiseState, PromiseState } from '@announcing/shared-ui';
+import {
+  Announce,
+  AnnounceMetaBase,
+  AppEnv,
+  assertIsDefined,
+  LazyPromiseState,
+  PostJSON,
+  PromiseState,
+} from '@announcing/shared';
 import { Build, readTask } from '@stencil/core';
 import { AppFirebase } from './firebase';
 import { AppMsg } from './msg';

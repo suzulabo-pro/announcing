@@ -1,6 +1,6 @@
-import { AnnounceAndMeta } from '@announcing/shared';
+import { AnnounceAndMeta, PromiseState } from '@announcing/shared';
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
-import { href, PromiseState } from '../../utils';
+import { href } from '../../utils';
 
 @Component({
   tag: 'ap-announce',

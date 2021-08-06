@@ -1,12 +1,5 @@
-import { assertIsDefined, User } from '@announcing/shared';
-import {
-  ApNaviLink,
-  FirestoreUpdatedEvent,
-  href,
-  PageVisible,
-  PromiseState,
-  pushRoute,
-} from '@announcing/shared-ui';
+import { assertIsDefined, FirestoreUpdatedEvent, PromiseState, User } from '@announcing/shared';
+import { ApNaviLink, href, PageVisible, pushRoute } from '@announcing/shared-ui';
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
