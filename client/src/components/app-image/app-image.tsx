@@ -1,9 +1,7 @@
+import { assertIsDefined, PromiseState } from '@announcing/shared';
+import { ApNaviLink, redirectRoute } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
-import assert from 'assert';
-import { App } from 'src/app/app';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { redirectRoute } from 'src/shared-ui/utils/route';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-image',
@@ -41,7 +39,7 @@ export class AppImage {
   @State()
   imageState?: PromiseState<string>;
 
-  private naviLinks!: ApNaviLinks;
+  private naviLinks!: ApNaviLink[];
 
   componentWillLoad() {
     this.watchPostID();
@@ -55,7 +53,7 @@ export class AppImage {
 
   private renderContext() {
     const imgStatus = this.imageState?.status();
-    assert(imgStatus);
+    assertIsDefined(imgStatus);
 
     return {
       announceID: this.announceID,

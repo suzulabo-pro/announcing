@@ -6,7 +6,7 @@ const STORE_NAME = 'cache';
 export class AppIdbCache {
   private db?: IDBPDatabase;
 
-  async init() {
+  init() {
     // It's can hang in Safari
     // https://bugs.webkit.org/show_bug.cgi?id=226547
     openDB(DB_NAME, 1, {

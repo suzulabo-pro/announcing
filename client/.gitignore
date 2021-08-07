@@ -1,4 +1,5 @@
 www/
+www-dist/
 cap/
 resources/android
 resources/ios
@@ -12,5 +13,3 @@ play-console-account.json
 upload-keystore.jks
 
 src/components.d.ts
-src/shared
-src/shared-ui

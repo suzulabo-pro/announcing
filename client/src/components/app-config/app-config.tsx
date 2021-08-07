@@ -1,7 +1,7 @@
+import { ApNaviLink } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
-import { App } from 'src/app/app';
-import { ClientConfig } from 'src/app/datatypes';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
+import { App } from '../../app/app';
+import { ClientConfig } from '../../app/datatypes';
 
 @Component({
   tag: 'app-config',
@@ -11,7 +11,7 @@ export class AppConfig {
   @Prop()
   app!: App;
 
-  private naviLinks: ApNaviLinks = [
+  private naviLinks: ApNaviLink[] = [
     {
       label: this.app.msgs.common.back,
       href: '/',

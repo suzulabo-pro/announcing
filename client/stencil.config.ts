@@ -42,14 +42,17 @@ if (isCapacitor) {
   console.log('Capacitor Build');
 }
 
+const isDev = process.argv.includes('--dev');
+
 const outputTargetWww: OutputTargetWww = isCapacitor
   ? { type: 'www', dir: 'cap', serviceWorker: null }
   : {
       type: 'www',
       serviceWorker: {
         swSrc: 'src/sw.js',
-        globPatterns: process.argv.includes('--dev') ? ['index.html'] : ['**/*.{js,html}'],
+        globPatterns: isDev ? ['index.html'] : ['**/*.{js,html}'],
       },
+      dir: isDev ? 'www' : 'www-dist',
       copy: [
         { src: '../../icon192.png', dest: 'icon192.png' },
         { src: '../../icon180.png', dest: 'icon180.png' },
@@ -72,7 +75,11 @@ export const config: Config = {
     }),
   ],
   rollupPlugins: {
-    after: [nodePolyfills()],
+    after: [
+      nodePolyfills({
+        include: '../**/node_modules/**/*.js',
+      }),
+    ],
   },
   devServer: {
     openBrowser: false,

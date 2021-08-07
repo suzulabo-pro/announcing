@@ -1,3 +1,10 @@
+import {
+  Announce,
+  AppEnv,
+  FirestoreHelper,
+  Lang,
+  RegisterNotificationParams,
+} from '@announcing/shared';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { PushNotifications } from '@capacitor/push-notifications';
@@ -6,7 +13,7 @@ import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   connectFirestoreEmulator,
   enableMultiTabIndexedDbPersistence,
-  FirebaseFirestore,
+  Firestore,
   getFirestore,
 } from 'firebase/firestore';
 import {
@@ -15,14 +22,12 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { FirebaseMessaging, getMessaging, getToken, isSupported } from 'firebase/messaging';
-import { Announce, AppEnv, Lang, RegisterNotificationParams } from 'src/shared';
-import { FirestoreHelper } from 'src/shared-ui/utils/firestore';
+import { getMessaging, getToken, isSupported, Messaging } from 'firebase/messaging';
 import nacl from 'tweetnacl';
 import { PostNotificationRecievedEvent } from './datatypes';
 import { bs62 } from './utils';
 
-const devonly_setEmulator = (functions: Functions, firestore: FirebaseFirestore) => {
+const devonly_setEmulator = (functions: Functions, firestore: Firestore) => {
   if (!Build.isDev) {
     return;
   }
@@ -143,10 +148,10 @@ class CapNotification {
 
 export class AppFirebase {
   private functions: Functions;
-  private firestore: FirebaseFirestore;
+  private firestore: Firestore;
   private firestoreHelper: FirestoreHelper;
 
-  private messaging?: FirebaseMessaging;
+  private messaging?: Messaging;
   private capNotification?: CapNotification;
 
   constructor(private appEnv: AppEnv, private firebaseApp?: FirebaseApp) {

@@ -1,12 +1,8 @@
+import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '@announcing/shared';
+import { ApNaviLink, href, PageVisible } from '@announcing/shared-ui';
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
-import assert from 'assert';
-import { App } from 'src/app/app';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { FirestoreUpdatedEvent } from 'src/shared-ui/utils/firestore';
-import { PageVisible } from 'src/shared-ui/utils/pagevisible';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { href } from 'src/shared-ui/utils/route';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-home',
@@ -69,7 +65,7 @@ export class AppHome {
     return;
   }
 
-  private naviLinks: ApNaviLinks = [
+  private naviLinks: ApNaviLink[] = [
     {
       label: '',
     },
@@ -105,7 +101,7 @@ export class AppHome {
     const follows = this.app.getFollows();
     const announces = follows.map(([id, follow]) => {
       const state = this.announceStateMap.get(id);
-      assert(state);
+      assertIsDefined(state);
       const status = state.status();
       return {
         id,

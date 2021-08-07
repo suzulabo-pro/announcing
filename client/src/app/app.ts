@@ -1,11 +1,17 @@
+import {
+  Announce,
+  AnnounceMetaBase,
+  AnnounceMetaJSON,
+  AppEnv,
+  LazyPromiseState,
+  PostJSON,
+} from '@announcing/shared';
+import { pushRoute } from '@announcing/shared-ui';
 import { Http } from '@capacitor-community/http';
 import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { Share } from '@capacitor/share';
 import { Build } from '@stencil/core';
-import { Announce, AnnounceMetaBase, AnnounceMetaJSON, AppEnv, PostJSON } from 'src/shared';
-import { LazyPromiseState } from 'src/shared-ui/utils/promise';
-import { pushRoute } from 'src/shared-ui/utils/route';
 import nacl from 'tweetnacl';
 import { ClientConfig, Follow } from './datatypes';
 import { AppFirebase } from './firebase';

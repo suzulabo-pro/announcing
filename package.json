@@ -4,7 +4,8 @@
   "workspaces": [
     "packages/shared",
     "packages/shared-ui",
-    "packages/console"
+    "packages/console",
+    "client"
   ],
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",

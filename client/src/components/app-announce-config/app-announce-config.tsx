@@ -1,12 +1,8 @@
+import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '@announcing/shared';
+import { ApNaviLink, PageVisible, redirectRoute } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
-import assert from 'assert';
-import { App } from 'src/app/app';
-import { ApNaviLinks } from 'src/shared-ui/ap-navi/ap-navi';
-import { FirestoreUpdatedEvent } from 'src/shared-ui/utils/firestore';
-import { PageVisible } from 'src/shared-ui/utils/pagevisible';
-import { PromiseState } from 'src/shared-ui/utils/promise';
-import { redirectRoute } from 'src/shared-ui/utils/route';
 import { AsyncReturnType } from 'type-fest';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-announce-config',
@@ -56,7 +52,7 @@ export class AppAnnounceConfig {
   announceState?: PromiseState<AsyncReturnType<AppAnnounceConfig['loadAnnounce']>>;
 
   @State()
-   permission?: AsyncReturnType<App["checkNotifyPermission"]>;
+  permission?: AsyncReturnType<App['checkNotifyPermission']>;
 
   private async loadAnnounce(id: string) {
     const announce = await this.app.getAnnounceAndMeta(id);
@@ -71,7 +67,7 @@ export class AppAnnounceConfig {
     return;
   }
 
-  private naviLinks!: ApNaviLinks;
+  private naviLinks!: ApNaviLink[];
 
   componentWillLoad() {
     this.watchAnnounceID();
@@ -109,18 +105,16 @@ export class AppAnnounceConfig {
     });
   };
 
-
   async componentWillRender() {
     if (!this.announceState) {
       this.announceState = new PromiseState(this.loadAnnounce(this.announceID));
     }
-    this.permission =  await this.app.checkNotifyPermission(false);
-
+    this.permission = await this.app.checkNotifyPermission(false);
   }
 
   private renderContext() {
     const announceStatus = this.announceState?.status();
-    assert(announceStatus);
+    assertIsDefined(announceStatus);
     const icons = {
       follow: this.app.getFollow(this.announceID) != null,
       notification: this.app.getNotification(this.announceID) != null,
@@ -198,9 +192,7 @@ const renderContent = (ctx: RenderContext) => {
   }
 };
 
-const renderNotification = (
-  ctx: RenderContext,
-) => {
+const renderNotification = (ctx: RenderContext) => {
   switch (ctx.permission) {
     case 'unsupported':
       return (
