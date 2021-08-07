@@ -16,7 +16,7 @@ export const millisToBase62 = (v: number) => {
 };
 
 export const postIDtoMillis = (s: string) => {
-  const b = bs62.decode(s.split('-')[0]);
+  const b = bs62.decode(s.split('-')[0] || '');
   return b.readDoubleBE(0);
 };
 

@@ -1,8 +1,8 @@
+import { Announce, AnnounceMeta, Lang, Post } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { EventContext } from 'firebase-functions/lib/cloud-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { pubMulticastMessages } from '../pubsub/send-notification';
-import { Announce, AnnounceMeta, Lang, Post } from '../shared';
 import { ImmediateNotification, ImmediateNotificationArchive } from '../utils/datatypes';
 import { logger } from '../utils/logger';
 
@@ -55,7 +55,7 @@ export const firestoreCreatePost = async (
     return;
   }
 
-  const announceID = context.params.announceID;
+  const announceID = context.params['announceID'];
   const postID = qds.id;
 
   const firestore = adminApp.firestore();

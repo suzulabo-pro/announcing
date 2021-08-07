@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { Announce, AnnounceMetaRule, EditAnnounceParams, ImageRule } from '../shared';
+import { Announce, AnnounceMetaRule, EditAnnounceParams, ImageRule } from '@announcing/shared';
 import { announceMetaHash, checkOwner, storeImage } from '../utils/firestore';
 import { logger } from '../utils/logger';
 

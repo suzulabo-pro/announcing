@@ -1,7 +1,7 @@
 import admin from 'firebase-admin';
 import { Change, EventContext } from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import { Lang } from '../shared';
+import { Lang } from '@announcing/shared';
 import { ImmediateNotification, ImmediateNotificationArchive } from '../utils/datatypes';
 import { incString } from '../utils/incstring';
 import { logger } from '../utils/logger';

@@ -1,3 +1,4 @@
+import { AppEnv } from '@announcing/shared';
 import { initializeApp } from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import { Request, Response } from 'firebase-functions';
@@ -18,7 +19,6 @@ import {
   httpsGetImageData,
 } from './https/get-data';
 import { pubsubSendNotification } from './pubsub/send-notification';
-import { AppEnv } from './shared';
 
 const adminApp = initializeApp();
 const appEnv = new AppEnv().env;

@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { Announce, DeletePostParams } from '../shared';
+import { Announce, DeletePostParams } from '@announcing/shared';
 import { checkOwner } from '../utils/firestore';
 import { logger } from '../utils/logger';
 

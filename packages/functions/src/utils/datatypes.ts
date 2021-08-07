@@ -1,5 +1,5 @@
 import admin from 'firebase-admin';
-import { Lang } from '../shared';
+import { Lang } from '@announcing/shared';
 
 export interface NotificationDevice {
   signKey: string;

@@ -1,7 +1,7 @@
 import * as admin from 'firebase-admin';
 import { EventContext } from 'firebase-functions/lib/cloud-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import { Announce } from '../shared';
+import { Announce } from '@announcing/shared';
 
 export const firestoreDeleteAnnounce = async (
   qds: QueryDocumentSnapshot,

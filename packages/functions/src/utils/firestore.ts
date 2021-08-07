@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { AnnounceMetaBase, Post, User } from '../shared';
+import { AnnounceMetaBase, Post, User } from '@announcing/shared';
 import { logger } from '../utils/logger';
 import { toMD5Base62 } from './util';
 

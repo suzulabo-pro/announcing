@@ -1,19 +1,13 @@
 {
+  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
-    "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noImplicitReturns": true,
-    "noFallthroughCasesInSwitch": true,
-    "allowUnreachableCode": false,
-
-    "module": "commonjs",
-    "outDir": "lib",
-    "sourceMap": true,
-    "target": "es2017",
+    "module": "ESNext",
+    "target": "ESNext",
     "esModuleInterop": true,
-    "lib": ["ESNext"],
-    "baseUrl": "."
+    "moduleResolution": "Node",
+
+    "outDir": "lib",
+    "inlineSourceMap": true
   },
   "compileOnSave": true,
   "include": ["src", "__test__"]

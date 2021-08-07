@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { isLang, RegisterNotificationParams } from '../shared';
+import { isLang, RegisterNotificationParams } from '@announcing/shared';
 import { NotificationDevice } from '../utils/datatypes';
 import { logger } from '../utils/logger';
 import { checkSign } from '../utils/sign';
@@ -45,6 +45,9 @@ export const callRegisterNotification = async (
     const [date, _token, ...ids] = body;
     if (_token != token) {
       throw new Error('invalid sign (token)');
+    }
+    if (!date) {
+      throw new Error('invalid sign (date)');
     }
     const d = new Date(date).getTime();
     const now = Date.now();

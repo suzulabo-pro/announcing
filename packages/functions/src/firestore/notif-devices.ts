@@ -1,7 +1,7 @@
 import admin from 'firebase-admin';
 import { Change, EventContext } from 'firebase-functions';
 import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import { Lang } from '../shared';
+import { Lang } from '@announcing/shared';
 import { NotificationDevice } from '../utils/datatypes';
 
 import Firestore = admin.firestore.Firestore;
@@ -107,7 +107,7 @@ export const firestoreNotificationDeviceWrite = (
   adminApp: admin.app.App,
 ): Promise<void> => {
   return updateSchedule(
-    context.params.token,
+    context.params['token'],
     change.before.data() as NotificationDevice,
     change.after.data() as NotificationDevice,
     adminApp,

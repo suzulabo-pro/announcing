@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { Announce, ImageRule, Post, PostRule, PutPostParams } from '../shared';
+import { Announce, ImageRule, Post, PostRule, PutPostParams } from '@announcing/shared';
 import { checkOwner, postHash, storeImage } from '../utils/firestore';
 import { logger } from '../utils/logger';
 

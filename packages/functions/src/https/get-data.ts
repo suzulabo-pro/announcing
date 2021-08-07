@@ -1,6 +1,6 @@
 import * as admin from 'firebase-admin';
 import { Request, Response } from 'firebase-functions';
-import { AnnounceMeta, Post } from '../shared';
+import { AnnounceMeta, Post } from '@announcing/shared';
 import { Cache } from '../utils/cache';
 
 const cacheControl = 'public, max-age=31556952, s-maxage=86400, immutable';

@@ -1,5 +1,6 @@
 const STRINGS = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz';
-const FIRST_CHAR = STRINGS[0];
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const FIRST_CHAR = STRINGS[0]!;
 
 export const incString = {
   next: (v?: string) => {
@@ -9,10 +10,11 @@ export const incString = {
 
     const values = [...v];
     for (let i = values.length - 1; i >= 0; i--) {
-      const c = values[i];
+      const c = values[i] || FIRST_CHAR;
       const p = STRINGS.indexOf(c);
       const n = p < STRINGS.length - 1 ? STRINGS[p + 1] : FIRST_CHAR;
-      values[i] = n;
+      // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+      values[i] = n!;
       if (n != FIRST_CHAR) {
         break;
       }

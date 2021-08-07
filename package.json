@@ -5,7 +5,8 @@
     "packages/shared",
     "packages/shared-ui",
     "packages/console",
-    "packages/client"
+    "packages/client",
+    "packages/functions"
   ],
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",

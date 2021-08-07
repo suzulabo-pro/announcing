@@ -1,6 +1,6 @@
+import { AnnounceMetaRule, CreateAnnounceParams } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { AnnounceMetaRule, CreateAnnounceParams } from '../shared';
 import { announceMetaHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 import { autoID } from '../utils/util';

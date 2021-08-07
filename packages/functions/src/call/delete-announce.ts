@@ -1,6 +1,6 @@
+import { DeleteAnnounceParams } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { DeleteAnnounceParams } from '../shared';
 import { logger } from '../utils/logger';
 
 export const callDeleteAnnounce = async (
