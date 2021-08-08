@@ -6,19 +6,21 @@ const SECRET_KEY = 'BUILD_VALUES';
 
 const SECRETS_KEYS = ['FIREBASE_APP_ID_ANDROID', 'FIREBASE_APP_ID_IOS'] as const;
 
+const ROOT_DIR = join(__dirname, '../..');
+
 const SECRET_FILES = [
-  ['FIREBASERC', 'firebase/.firebaserc'],
-  ['APPENV_TS', 'shared/src/appenv.env.ts'],
-  ['ASSETLINKS_JSON', 'client/assetlinks.json'],
-  ['GOOGLE_SERVICES_JSON', 'client/google-services.json'],
-  ['ANDROID_CUSTOM_PROPS', 'client/android.custom.properties'],
-  ['APPLE_APP_SITE_ASSOCIATION', 'client/apple-app-site-association'],
-  ['APP_ENTITLEMENTS', 'client/App.entitlements'],
-  ['GOOGLESERVICE_INFO_PLIST', 'client/GoogleService-Info.plist'],
-  ['PLAY_CONSOLE_ACCOUNT_JSON', 'client/play-console-account.json'],
-  ['UPLOAD_KEYSTORE_JKS_BASE64', 'client/upload-keystore.jks'],
-  ['APPLE_DISTRIBUTION_P12_BASE64', 'secrets/AppleDistribution.p12'],
-  ['AD_HOC_PROVISION_BASE64', 'secrets/Ad_Hoc.mobileprovision'],
+  ['FIREBASERC', 'packages/firebase/.firebaserc'],
+  ['APPENV_TS', 'packages/shared/src/appenv.env.ts'],
+  ['ASSETLINKS_JSON', 'packages/client/assetlinks.json'],
+  ['GOOGLE_SERVICES_JSON', 'packages/client/google-services.json'],
+  ['ANDROID_CUSTOM_PROPS', 'packages/client/android.custom.properties'],
+  ['APPLE_APP_SITE_ASSOCIATION', 'packages/client/apple-app-site-association'],
+  ['APP_ENTITLEMENTS', 'packages/client/App.entitlements'],
+  ['GOOGLESERVICE_INFO_PLIST', 'packages/client/GoogleService-Info.plist'],
+  ['PLAY_CONSOLE_ACCOUNT_JSON', 'packages/client/play-console-account.json'],
+  ['UPLOAD_KEYSTORE_JKS_BASE64', 'packages/client/upload-keystore.jks'],
+  ['APPLE_DISTRIBUTION_P12_BASE64', 'tools/secrets/AppleDistribution.p12'],
+  ['AD_HOC_PROVISION_BASE64', 'tools/secrets/Ad_Hoc.mobileprovision'],
 ] as const;
 
 const parseProvisioningProfile = async (
@@ -59,7 +61,8 @@ const buildSecrets = async () => {
     console.log(`${k} ...ok`);
   }
 
-  for (const [k, f] of SECRET_FILES) {
+  for (const [k, _f] of SECRET_FILES) {
+    const f = join(ROOT_DIR, _f);
     const v = readFileSync(f, k.endsWith('_BASE64') ? 'base64' : 'utf-8');
     result[k] = v;
     console.log(`${k} ...ok`);
@@ -101,7 +104,8 @@ const extract = () => {
 
   const secrets = JSON.parse(secretsJson) as { [k: string]: string };
 
-  for (const [k, f] of SECRET_FILES) {
+  for (const [k, _f] of SECRET_FILES) {
+    const f = join(ROOT_DIR, _f);
     const v = secrets[k];
     if (!v) {
       throw new Error(`missing ${k}`);
