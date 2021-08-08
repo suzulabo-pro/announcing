@@ -2,6 +2,7 @@ import { AppEnv } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import 'firebase-functions/lib/logger/compat';
+import 'source-map-support/register';
 import { callCreateAnnounce } from './call/create-announce';
 import { callDeleteAnnounce } from './call/delete-announce';
 import { callDeletePost } from './call/delete-post';
