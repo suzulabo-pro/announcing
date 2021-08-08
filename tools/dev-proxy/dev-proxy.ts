@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import * as http from 'http';
-import * as https from 'https';
 import { createProxyServer } from 'http-proxy';
+import * as https from 'https';
 
 type ProxyServer = ReturnType<typeof createProxyServer>;
 
@@ -10,7 +10,10 @@ const httpsOptions = {
   cert: fs.readFileSync('./localhttps_cert.pem'),
 };
 
-const logging = (s: string, all?: boolean) => {
+const logging = (s?: string, all?: boolean) => {
+  if (!s) {
+    return;
+  }
   const now = new Date();
   const d = now.toLocaleTimeString(undefined, { hour12: false });
   if (!all && s.length > 100) {
@@ -70,12 +73,15 @@ const createDevProxy = (port: number, httpsPort: number, patterns: ProxyConfig[]
 
   const reqListener = (req: http.IncomingMessage, res: http.ServerResponse) => {
     const url = req.url;
+    if (!url) {
+      return;
+    }
     logging(url);
     for (const sv of proxyServers) {
       if (match(url, sv.pattern)) {
         if (sv.server) {
           sv.server.web(req, res);
-        } else {
+        } else if (sv.handler) {
           sv.handler(req, res);
         }
         return;

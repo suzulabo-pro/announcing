@@ -9,7 +9,8 @@
     "packages/client",
     "packages/firebase",
     "packages/firebase/functions",
-    "tools/secrets"
+    "tools/secrets",
+    "tools/dev-proxy"
   ],
   "scripts": {
     "lint": "eslint --ext .ts,.tsx ."
