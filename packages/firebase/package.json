@@ -3,19 +3,20 @@
   "private": true,
   "version": "0.0.0",
   "scripts": {
-    "clean": "rm -rf console client docs",
+    "clean": "rm -rf console client",
     "build:func": "npm --prefix ./functions run build",
     "build:func:watch": "npm --prefix ./functions run build.watch",
     "build:console": "rm -rf console && npm --prefix ../console run build && cp -a ../console/www-dist console",
     "build:client": "rm -rf client && npm --prefix ../client run build && cp -a ../client/www-dist client",
-    "build:docs": "rm -rf docs && cp -a ../../docs/docs docs",
     "build": "run-p build:*",
     "serve": "firebase emulators:start --import=./emu-data --export-on-exit",
     "start": "run-p build:func:watch serve",
     "deploy": "firebase deploy --force",
-    "firestore-indexes": "node firestore-indexes-gen.js > firestore.indexes.json"
+    "firestore-indexes": "node firestore-indexes-gen.js > firestore.indexes.json",
+    "serve.docs": "docsify serve docs"
   },
   "devDependencies": {
+    "docsify-cli": "^4.4.3",
     "firebase-tools": "^9.16.0",
     "npm-run-all": "^4.1.5"
   }
