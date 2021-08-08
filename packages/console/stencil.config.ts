@@ -45,8 +45,8 @@ export const config: Config = {
       type: 'www',
       serviceWorker: null,
       copy: [
-        { src: '../../../icon192.png', dest: 'icon192.png' },
-        { src: '../../../icon180.png', dest: 'icon180.png' },
+        { src: '../../../resources/icon192.png', dest: 'icon192.png' },
+        { src: '../../../resources/icon180.png', dest: 'icon180.png' },
       ],
       dir: isDev ? 'www' : 'www-dist',
     },

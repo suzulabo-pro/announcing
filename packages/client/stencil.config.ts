@@ -54,8 +54,8 @@ const outputTargetWww: OutputTargetWww = isCapacitor
       },
       dir: isDev ? 'www' : 'www-dist',
       copy: [
-        { src: '../../../icon192.png', dest: 'icon192.png' },
-        { src: '../../../icon180.png', dest: 'icon180.png' },
+        { src: '../../../resources/icon192.png', dest: 'icon192.png' },
+        { src: '../../../resources/icon180.png', dest: 'icon180.png' },
         { src: '../assetlinks.json', dest: '.well-known/assetlinks.json' },
         { src: '../apple-app-site-association', dest: '.well-known/apple-app-site-association' },
       ],
