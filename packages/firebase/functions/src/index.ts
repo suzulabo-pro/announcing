@@ -1,7 +1,6 @@
 import { AppEnv } from '@announcing/shared';
-import { initializeApp } from 'firebase-admin';
+import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
-import { Request, Response } from 'firebase-functions';
 import 'firebase-functions/lib/logger/compat';
 import { callCreateAnnounce } from './call/create-announce';
 import { callDeleteAnnounce } from './call/delete-announce';
@@ -20,7 +19,7 @@ import {
 } from './https/get-data';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
-const adminApp = initializeApp();
+const adminApp = admin.initializeApp();
 const appEnv = new AppEnv().env;
 
 const region = functions.region(appEnv.functionsRegion);
@@ -45,9 +44,9 @@ export const registerNotification = region.https.onCall(async (data, context) =>
 });
 
 type httpsHandler = (
-  req: Request,
-  res: Response,
-  adminApp: ReturnType<typeof initializeApp>,
+  req: functions.Request,
+  res: functions.Response,
+  adminApp: ReturnType<typeof admin.initializeApp>,
 ) => Promise<void>;
 const onHttpsRequest = (handler: httpsHandler) => {
   return region.https.onRequest(async (req, res) => {
