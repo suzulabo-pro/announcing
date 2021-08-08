@@ -1,3 +1,4 @@
+import { Build, readTask } from '@stencil/core';
 import {
   Announce,
   AnnounceMetaBase,
@@ -6,8 +7,7 @@ import {
   LazyPromiseState,
   PostJSON,
   PromiseState,
-} from '@announcing/shared';
-import { Build, readTask } from '@stencil/core';
+} from '../shared';
 import { AppFirebase } from './firebase';
 import { AppMsg } from './msg';
 import { AppState } from './state';

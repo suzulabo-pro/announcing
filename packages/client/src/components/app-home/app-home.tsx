@@ -1,8 +1,14 @@
-import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '@announcing/shared';
-import { ApNaviLink, href, PageVisible } from '@announcing/shared-ui';
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
+import {
+  ApNaviLink,
+  assertIsDefined,
+  FirestoreUpdatedEvent,
+  href,
+  PageVisible,
+  PromiseState,
+} from '../../shared';
 
 @Component({
   tag: 'app-home',

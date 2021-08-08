@@ -1,9 +1,16 @@
-import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '@announcing/shared';
-import { ApNaviLink, href, PageVisible, redirectRoute } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import QRCodeStyling from 'qr-code-styling';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
+import {
+  ApNaviLink,
+  assertIsDefined,
+  FirestoreUpdatedEvent,
+  href,
+  PageVisible,
+  PromiseState,
+  redirectRoute,
+} from '../../shared';
 
 @Component({
   tag: 'app-announce',

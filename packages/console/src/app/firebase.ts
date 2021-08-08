@@ -1,17 +1,3 @@
-import {
-  Announce,
-  AnnounceMeta,
-  AppEnv,
-  CreateAnnounceParams,
-  DeleteAnnounceParams,
-  DeletePostParams,
-  EditAnnounceParams,
-  FirestoreHelper,
-  Image,
-  Post,
-  PutPostParams,
-  User,
-} from '@announcing/shared';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
@@ -34,6 +20,20 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
+import {
+  Announce,
+  AnnounceMeta,
+  AppEnv,
+  CreateAnnounceParams,
+  DeleteAnnounceParams,
+  DeletePostParams,
+  EditAnnounceParams,
+  FirestoreHelper,
+  Image,
+  Post,
+  PutPostParams,
+  User,
+} from '../shared';
 import { AppMsg } from './msg';
 import { AppState } from './state';
 

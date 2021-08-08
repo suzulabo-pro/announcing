@@ -1,10 +1,3 @@
-import {
-  Announce,
-  AppEnv,
-  FirestoreHelper,
-  Lang,
-  RegisterNotificationParams,
-} from '@announcing/shared';
 import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { PushNotifications } from '@capacitor/push-notifications';
@@ -24,6 +17,7 @@ import {
 } from 'firebase/functions';
 import { getMessaging, getToken, isSupported, Messaging } from 'firebase/messaging';
 import nacl from 'tweetnacl';
+import { Announce, AppEnv, FirestoreHelper, Lang, RegisterNotificationParams } from '../shared';
 import { PostNotificationRecievedEvent } from './datatypes';
 import { bs62 } from './utils';
 

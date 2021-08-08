@@ -9,7 +9,7 @@ export class AppIdbCache {
   init() {
     // It's can hang in Safari
     // https://bugs.webkit.org/show_bug.cgi?id=226547
-    openDB(DB_NAME, 1, {
+    void openDB(DB_NAME, 1, {
       upgrade: db => {
         db.createObjectStore(STORE_NAME);
       },

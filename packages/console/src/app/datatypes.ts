@@ -1,4 +1,4 @@
-import { Announce, AnnounceMeta } from '@announcing/shared';
+import { Announce, AnnounceMeta } from '../shared';
 
 export interface AnnounceState extends Announce, AnnounceMeta {
   id: string;

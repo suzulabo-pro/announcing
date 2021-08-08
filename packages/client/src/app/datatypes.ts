@@ -1,4 +1,4 @@
-import { Announce, AnnounceMetaBase, PostJSON } from '@announcing/shared';
+import { Announce, AnnounceMetaBase, PostJSON } from '../shared';
 
 export interface Follow {
   name: string; // Needed after deleted
