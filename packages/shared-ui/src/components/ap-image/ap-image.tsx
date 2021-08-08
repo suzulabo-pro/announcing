@@ -1,4 +1,4 @@
-import { PromiseState } from '@announcing/shared';
+import { PromiseState } from '@announcing/shared-web';
 import { Component, h, Prop } from '@stencil/core';
 import { href } from '../../utils';
 

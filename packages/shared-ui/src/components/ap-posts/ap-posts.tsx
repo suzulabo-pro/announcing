@@ -1,4 +1,5 @@
-import { Announce, PostJSON, PromiseState } from '@announcing/shared';
+import { Announce, PostJSON } from '@announcing/shared';
+import { PromiseState } from '@announcing/shared-web';
 import { Component, Element, forceUpdate, Fragment, h, Host, Prop, Watch } from '@stencil/core';
 import { href } from '../../utils';
 

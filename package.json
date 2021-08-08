@@ -3,6 +3,7 @@
   "private": true,
   "workspaces": [
     "packages/shared",
+    "packages/shared-web",
     "packages/shared-ui",
     "packages/console",
     "packages/client",

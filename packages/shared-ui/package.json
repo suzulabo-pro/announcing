@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@announcing/shared": "*",
+    "@announcing/shared-web": "*",
     "@stencil/core": "^2.6.0",
     "@stencil/sass": "^1.4.1",
     "@types/pica": "^5.1.3",

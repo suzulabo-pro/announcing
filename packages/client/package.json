@@ -16,6 +16,7 @@
   },
   "devDependencies": {
     "@announcing/shared": "*",
+    "@announcing/shared-web": "*",
     "@announcing/shared-ui": "*",
     "@capacitor-community/http": "^1.1.2",
     "@capacitor/android": "^3.1.2",

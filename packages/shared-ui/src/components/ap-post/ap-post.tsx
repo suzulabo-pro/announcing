@@ -1,4 +1,5 @@
-import { PostJSON, PromiseState } from '@announcing/shared';
+import { PostJSON } from '@announcing/shared';
+import { PromiseState } from '@announcing/shared-web';
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
 
 const tweetIDPattern = new RegExp('^https://twitter\\.com/.+/status/([0-9]+)$');
