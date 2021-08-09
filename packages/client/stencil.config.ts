@@ -76,6 +76,7 @@ export const config: Config = {
   ],
   rollupPlugins: {
     after: [
+      // https://github.com/ionic-team/rollup-plugin-node-polyfills/issues/17
       nodePolyfills({
         include: '../../node_modules/**/*.js',
       }),
