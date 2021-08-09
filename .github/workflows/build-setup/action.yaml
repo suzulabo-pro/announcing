@@ -28,7 +28,10 @@ runs:
       shell: bash
 
     - id: extract_secrets
-      run: npm run secrets.extract
+      run: npm run extract -w tools/secrets
       shell: bash
       env:
         BUILD_VALUES: ${{ inputs.BUILD_VALUES }}
+
+    - run: npm run build:shared
+      shell: bash

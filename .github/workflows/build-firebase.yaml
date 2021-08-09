@@ -1,0 +1,30 @@
+name: build-firebase
+
+on: workflow_dispatch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+          cache: 'npm'
+
+      - run: npm i -g npm@7
+
+      - uses: ./.github/workflows/build-setup
+        with:
+          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+        id: build_setup
+
+      - run: npm run deploy.prepare
+        working-directory: ./firebase
+
+      - run: npm run deploy
+        working-directory: ./firebase
+        env:
+          FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
