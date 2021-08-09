@@ -7,11 +7,11 @@ export const config: Config = {
   namespace: 'announcing-shared-ui',
   taskQueue: 'async',
   outputTargets: [
-    { type: 'dist' },
     {
       type: 'www',
       serviceWorker: null,
     },
+    { type: 'dist' },
   ],
   plugins: [sass({})],
   devServer: {

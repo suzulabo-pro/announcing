@@ -8,7 +8,7 @@
   "types": "dist/types/index.d.ts",
   "scripts": {
     "clean": "rm -rf dist www",
-    "build": "stencil build",
+    "build": "touch src/components.d.ts && stencil build",
     "build.watch": "stencil build --watch",
     "serve": "stencil build --dev --watch --serve",
     "start": "npm run serve"
