@@ -1,5 +1,5 @@
-import { firestoreDeleteAnnounce } from 'src/firestore/announce';
-import { FakeFirestore } from '__test__/fake-firestore';
+import { firestoreDeleteAnnounce } from '../../src/firestore/announce';
+import { FakeFirestore } from '../fake-firestore';
 
 describe('firestoreDeleteAnnounce', () => {
   it('clear all posts', async () => {

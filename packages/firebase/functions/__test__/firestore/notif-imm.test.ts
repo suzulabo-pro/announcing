@@ -1,5 +1,5 @@
-import { firestoreImmediateNotificationWrite } from 'src/firestore/notif-imm';
-import { FakeFirestore } from '__test__/fake-firestore';
+import { firestoreImmediateNotificationWrite } from '../../src/firestore/notif-imm';
+import { FakeFirestore } from '../fake-firestore';
 
 describe('firestoreImmediateNotificationWrite', () => {
   it('no archives', async () => {
@@ -59,7 +59,7 @@ describe('firestoreImmediateNotificationWrite', () => {
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const archives1 = firestore.doc('notif-imm/111111111111/archives/1').get().data()!;
-    expect(archives1.devices).toEqual(devices);
+    expect(archives1['devices']).toEqual(devices);
   });
 
   it('cancels', async () => {

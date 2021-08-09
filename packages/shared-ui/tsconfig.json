@@ -9,7 +9,6 @@
     "jsxFragmentFactory": "Fragment",
 
     "lib": ["ESNext", "DOM"],
-    "moduleResolution": "Node",
     "module": "ESNext",
     "target": "ESNext",
 

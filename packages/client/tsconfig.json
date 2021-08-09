@@ -9,7 +9,6 @@
     "jsxFragmentFactory": "Fragment",
 
     "lib": ["DOM", "ES2017"],
-    "moduleResolution": "Node",
     "module": "ESNext",
     "target": "ES2017"
   },

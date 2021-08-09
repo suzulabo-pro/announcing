@@ -1,4 +1,4 @@
-import { Match, pathMatcher } from 'src/path-matcher';
+import { Match, pathMatcher } from '../src/path-matcher';
 
 describe('path-matcher', () => {
   describe('tags', () => {

@@ -1,5 +1,5 @@
-import { firestoreNotificationDeviceWrite } from 'src/firestore/notif-devices';
-import { FakeFirestore } from '__test__/fake-firestore';
+import { firestoreNotificationDeviceWrite } from '../../src/firestore/notif-devices';
+import { FakeFirestore } from '../fake-firestore';
 
 describe('firestoreNotificationDeviceWrite', () => {
   it('no announces', async () => {
@@ -102,7 +102,8 @@ describe('firestoreNotificationDeviceWrite', () => {
       firestore.adminApp(),
     );
 
-    data['notif-devices'][token1]['announces'] = [] as any;
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    data['notif-devices']![token1]!['announces'] = [] as any;
 
     const doc2 = firestore.doc(`notif-devices/${token1}`).get();
     await firestoreNotificationDeviceWrite(

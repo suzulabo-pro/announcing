@@ -7,9 +7,7 @@
   "scripts": {
     "clean": "rm -rf dist",
     "build": "tsc -p tsconfig.build.json",
-    "build.watch": "tsc -p tconfig.build.json -w",
-    "test": "jest",
-    "test.watch": "jest --watch"
+    "build.watch": "tsc -p tconfig.build.json -w"
   },
   "dependencies": {
     "@stencil/core": "^2.6.0",

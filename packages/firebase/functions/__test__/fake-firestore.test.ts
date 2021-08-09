@@ -54,7 +54,7 @@ describe('fake-firestore', () => {
   it('doc.create', () => {
     const f = new FakeFirestore();
     f.doc('users/aaa').create({ name: 'test' });
-    expect(f.data.users.aaa).toEqual({ name: 'test' });
+    expect(f.data['users'].aaa).toEqual({ name: 'test' });
   });
 
   it('doc.delete', () => {
@@ -65,24 +65,24 @@ describe('fake-firestore', () => {
     });
 
     f.doc('users/aaa').delete();
-    expect(f.data.users).toEqual({});
+    expect(f.data['users']).toEqual({});
   });
 
   it('FieldValue serverTimestamp', () => {
     const f = new FakeFirestore();
 
     f.doc('users/aaa').set({ name: 'test', uT: FieldValue.serverTimestamp() });
-    expect(f.data.users.aaa).toEqual({ name: 'test', uT: expect.any(Date) });
+    expect(f.data['users'].aaa).toEqual({ name: 'test', uT: expect.any(Date) });
   });
 
   it('FieldValue arrayUnion', () => {
     const f = new FakeFirestore();
     f.doc('users/aaa').set({ cities: FieldValue.arrayUnion('hiroshima') });
-    expect(f.data.users.aaa).toEqual({ cities: ['hiroshima'] });
+    expect(f.data['users'].aaa).toEqual({ cities: ['hiroshima'] });
     f.doc('users/aaa').update({ cities: FieldValue.arrayUnion('tokyo') });
-    expect(f.data.users.aaa).toEqual({ cities: ['hiroshima', 'tokyo'] });
+    expect(f.data['users'].aaa).toEqual({ cities: ['hiroshima', 'tokyo'] });
     f.doc('users/aaa').update({ cities: FieldValue.arrayRemove('tokyo') });
-    expect(f.data.users.aaa).toEqual({ cities: ['hiroshima'] });
+    expect(f.data['users'].aaa).toEqual({ cities: ['hiroshima'] });
   });
 
   it('FieldValue delete', () => {
@@ -94,8 +94,8 @@ describe('fake-firestore', () => {
       },
     });
     f.doc('users/aaa').update({ follows: { B: FieldValue.delete() } });
-    expect(Object.keys(f.data.users.aaa.follows).sort()).toEqual(['A', 'C']);
+    expect(Object.keys(f.data['users'].aaa.follows).sort()).toEqual(['A', 'C']);
     f.doc('users/aaa').update({ follows: { X: FieldValue.delete() } });
-    expect(Object.keys(f.data.users.aaa.follows).sort()).toEqual(['A', 'C']);
+    expect(Object.keys(f.data['users'].aaa.follows).sort()).toEqual(['A', 'C']);
   });
 });
