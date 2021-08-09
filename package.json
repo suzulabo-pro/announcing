@@ -13,7 +13,9 @@
     "tools/dev-proxy"
   ],
   "scripts": {
-    "lint": "eslint --ext .ts,.tsx ."
+    "lint": "eslint --ext .ts,.tsx .",
+    "clean:shared": "npm run clean -w packages/shared -w packages/shared-web -w packages/shared-ui",
+    "build:shared": "npm run build -w packages/shared -w packages/shared-web -w packages/shared-ui"
   },
   "devDependencies": {
     "@stencil/eslint-plugin": "github:suzulabo/stencil-eslint#0.3.1+",
