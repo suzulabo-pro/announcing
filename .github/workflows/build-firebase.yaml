@@ -22,9 +22,9 @@ jobs:
         id: build_setup
 
       - run: npm run deploy.prepare
-        working-directory: ./firebase
+        working-directory: ./packages/firebase
 
       - run: npm run deploy
-        working-directory: ./firebase
+        working-directory: ./packages/firebase
         env:
           FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
