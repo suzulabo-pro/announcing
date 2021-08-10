@@ -97,6 +97,7 @@ const deploy = async (dryrun: boolean) => {
 };
 
 const extract = () => {
+  console.log('extract');
   const secretsJson = process.env['BUILD_VALUES'];
   if (!secretsJson) {
     throw new Error('missing BUILD_VALUES');
@@ -116,6 +117,7 @@ const extract = () => {
     } else {
       writeFileSync(f, v, { flag: 'wx' });
     }
+    console.log(`${f} ...ok`);
   }
 
   const outputKeys = [...SECRETS_KEYS, 'AD_HOC_PROVISION_NAME', 'AD_HOC_APPID'];

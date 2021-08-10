@@ -22,7 +22,7 @@ jobs:
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
           APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
-          PP_PATH: 'packages/secrets/Ad_Hoc.mobileprovision'
+          PP_PATH: 'tools/secrets/Ad_Hoc.mobileprovision'
 
       - run: npm run build.ios
         working-directory: ./packages/client
