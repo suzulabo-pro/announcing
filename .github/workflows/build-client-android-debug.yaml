@@ -29,11 +29,12 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - uses: ./.github/workflows/build-client-android-setup
+      - uses: ./.github/workflows/build-setup
         with:
-          _APPENV_TS: ${{ secrets._APPENV_TS }}
-          _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
-          _GOOGLE_SERVICES_JSON: ${{ secrets._GOOGLE_SERVICES_JSON }}
+          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+        id: build_setup
+
+      - run: npm run build.android -w packages/client
 
       - run: ./gradlew assembleDebug
         working-directory: ./client/android
@@ -50,5 +51,5 @@ jobs:
           --app ${APP_ID}
           --groups testers
         env:
-          FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
-          APP_ID: ${{ secrets._FIREBASE_APP_ID_ANDROID }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          APP_ID: ${{ steps.build_setup.outputs.FIREBASE_APP_ID_ANDROID }}

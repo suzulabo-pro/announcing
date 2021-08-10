@@ -65,7 +65,7 @@ jobs:
           --app ${APP_ID}
           --groups testers
         env:
-          FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           APP_ID: ${{ steps.build_setup.outputs.FIREBASE_APP_ID_IOS }}
 
       - name: Clean up keychain and provisioning profile
