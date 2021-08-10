@@ -37,17 +37,17 @@ jobs:
       - run: npm run build.android -w packages/client
 
       - run: ./gradlew assembleDebug
-        working-directory: ./client/android
+        working-directory: ./packages/client/android
 
       - uses: actions/upload-artifact@v2
         with:
           name: announcing-debug.apk
-          path: ./client/android/app/build/outputs/apk/debug/app-debug.apk
+          path: ./packages/client/android/app/build/outputs/apk/debug/app-debug.apk
 
       - run: >-
           npm_config_yes=true npx firebase-tools
           appdistribution:distribute
-          ./client/android/app/build/outputs/apk/debug/app-debug.apk
+          ./packages/client/android/app/build/outputs/apk/debug/app-debug.apk
           --app ${APP_ID}
           --groups testers
         env:
