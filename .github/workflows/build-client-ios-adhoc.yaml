@@ -22,13 +22,10 @@ jobs:
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
           APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
-          PP_PATH: 'secrets/Ad_Hoc.mobileprovision'
-
-      - run: npm install
-        working-directory: ./client
+          PP_PATH: 'packages/secrets/Ad_Hoc.mobileprovision'
 
       - run: npm run build.ios
-        working-directory: ./client
+        working-directory: ./packages/client
 
       - run: >-
           xcodebuild 
@@ -49,7 +46,7 @@ jobs:
           -archivePath $RUNNER_TEMP/announcing.xcarchive
           -exportPath $RUNNER_TEMP/announcing.ipa 
           -exportOptionsPlist ../../ios-export-adhoc.plist
-        working-directory: ./client/ios/App
+        working-directory: ./packages/client/ios/App
         env:
           PP_SPECIFIER: ${{ steps.build_setup.outputs.AD_HOC_PROVISION_NAME }}
           BUNDLE_IDENTIFIER: ${{ steps.build_setup.outputs.AD_HOC_APPID }}

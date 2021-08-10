@@ -14,8 +14,6 @@ jobs:
           node-version: '14'
           cache: 'npm'
 
-      - run: npm i -g npm@7
-
       - uses: ./.github/workflows/build-setup
         with:
           BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
