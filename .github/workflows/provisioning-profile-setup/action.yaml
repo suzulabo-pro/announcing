@@ -16,7 +16,7 @@ runs:
         PP_PATH: ${{ inputs.PP_PATH }}
       run: |
         # create variables
-        CERTIFICATE_PATH=secrets/AppleDistribution.p12
+        CERTIFICATE_PATH=packages/secrets/AppleDistribution.p12
         KEYCHAIN_PATH=$RUNNER_TEMP/app-signing.keychain-db
         KEYCHAIN_PASSWORD=$(openssl rand -base64 12)
 
