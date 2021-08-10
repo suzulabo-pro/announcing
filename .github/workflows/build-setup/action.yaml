@@ -20,15 +20,21 @@ runs:
   using: 'composite'
 
   steps:
-    - id: build_version
-      run: node .github/workflows/build_version.js
+    - run: npm i -g npm@7
       shell: bash
 
-    - run: npm install
+    - run: npm ci
       shell: bash
 
     - id: extract_secrets
-      run: npm run secrets.extract
+      run: npm run extract -w tools/secrets
       shell: bash
       env:
         BUILD_VALUES: ${{ inputs.BUILD_VALUES }}
+
+    - run: npm run build:shared
+      shell: bash
+
+    - id: build_version
+      run: node .github/workflows/build_version.js
+      shell: bash

@@ -1,0 +1,28 @@
+{
+  "name": "announcing-console",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "clean": "rm -rf www www-dist",
+    "build": "stencil build",
+    "build.watch": "stencil build --watch",
+    "serve": "stencil build --dev --watch --serve",
+    "test": "stencil test --spec --e2e",
+    "test.watch": "stencil test --spec --e2e --watch",
+    "start": "npm run serve"
+  },
+  "devDependencies": {
+    "@announcing/shared": "*",
+    "@announcing/shared-ui": "*",
+    "@announcing/shared-web": "*",
+    "@rollup/plugin-replace": "^3.0.0",
+    "@stencil/core": "^2.6.0",
+    "@stencil/sass": "^1.4.1",
+    "@stencil/store": "^1.4.1",
+    "date-fns": "^2.23.0",
+    "firebase": "^9.0.0-beta.8",
+    "qr-code-styling": "^1.6.0-rc.1",
+    "rollup-plugin-node-polyfills": "^0.2.1",
+    "type-fest": "^2.0.0"
+  }
+}

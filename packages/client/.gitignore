@@ -1,0 +1,15 @@
+www/
+www-dist/
+cap/
+resources/android
+resources/ios
+assetlinks.json
+apple-app-site-association
+**/google-services.json
+**/GoogleService-Info.plist
+**/App.entitlements
+android.custom.properties
+play-console-account.json
+upload-keystore.jks
+
+src/components.d.ts

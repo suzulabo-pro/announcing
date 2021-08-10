@@ -29,27 +29,20 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - uses: ./.github/workflows/build-client-android-setup
+      - uses: ./.github/workflows/build-setup
         with:
-          _APPENV_TS: ${{ secrets._APPENV_TS }}
-          _ANDROID_CUSTOM_PROPS: ${{ secrets._ANDROID_CUSTOM_PROPS }}
-          _GOOGLE_SERVICES_JSON: ${{ secrets._GOOGLE_SERVICES_JSON }}
+          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+        id: build_setup
 
-      - run: echo "$V" > client/play-console-account.json
-        env:
-          V: ${{ secrets._PLAY_CONSOLE_ACCOUNT_JSON }}
-
-      - run: echo -n "$_ANDROID_UPLOAD_KEYSTORE_JKS_BASE64" | base64 -d > client/upload-keystore.jks
-        env:
-          _ANDROID_UPLOAD_KEYSTORE_JKS_BASE64: ${{ secrets._ANDROID_UPLOAD_KEYSTORE_JKS_BASE64 }}
+      - run: npm run build.android -w packages/client
 
       - run: ./gradlew publishReleaseBundle
-        working-directory: ./client/android
+        working-directory: ./packages/client/android
         env:
-          KEYSTORE_PASSWORD: ${{ secrets._ANDROID_KEYSTORE_PASSWORD }}
-          KEYSTORE_UPLOAD_KEY_PASSWORD: ${{ secrets._ANDROID_KEYSTORE_UPLOAD_KEY_PASSWORD }}
+          KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+          KEYSTORE_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_UPLOAD_KEY_PASSWORD }}
 
       - uses: actions/upload-artifact@v2
         with:
           name: announcing-release.aab
-          path: ./client/android/app/build/outputs/bundle/release/app-release.aab
+          path: ./packages/client/android/app/build/outputs/bundle/release/app-release.aab

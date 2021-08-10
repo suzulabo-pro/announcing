@@ -1,0 +1,27 @@
+{
+  "name": "@announcing/shared-ui",
+  "private": true,
+  "version": "0.0.0",
+  "main": "./dist/index.cjs.js",
+  "module": "./dist/index.js",
+  "collection": "./dist/collection/collection-manifest.json",
+  "types": "dist/types/index.d.ts",
+  "scripts": {
+    "clean": "rm -rf dist www",
+    "build": "touch src/components.d.ts && stencil build",
+    "build.watch": "stencil build --watch",
+    "serve": "stencil build --dev --watch --serve",
+    "start": "npm run serve"
+  },
+  "dependencies": {
+    "@announcing/shared": "*",
+    "@announcing/shared-web": "*",
+    "@stencil/core": "^2.6.0",
+    "@stencil/sass": "^1.4.1",
+    "@types/pica": "^5.1.3",
+    "pica": "^7.1.0",
+    "autolinker": "^3.14.3",
+    "bootstrap-icons": "^1.5.0",
+    "destyle.css": "^2.0.2"
+  }
+}

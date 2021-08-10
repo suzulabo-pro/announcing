@@ -1,0 +1,15 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "lib": ["ESNext"],
+
+    "module": "ESNext",
+    "target": "ESNext",
+
+    "outDir": "dist",
+    "inlineSourceMap": true,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src", "__test__"]
+}

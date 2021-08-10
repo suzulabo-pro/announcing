@@ -1,22 +1,31 @@
 {
   "name": "announcing",
   "private": true,
+  "workspaces": [
+    "packages/shared",
+    "packages/shared-web",
+    "packages/shared-ui",
+    "packages/console",
+    "packages/client",
+    "packages/firebase",
+    "packages/firebase/functions",
+    "tools/secrets",
+    "tools/dev-proxy"
+  ],
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",
-    "secrets": "ts-node secrets/secrets.ts",
-    "secrets.deploy": "ts-node secrets/secrets.ts --deploy",
-    "secrets.extract": "ts-node secrets/secrets.ts --extract"
+    "clean:shared": "npm run clean -w packages/shared -w packages/shared-web -w packages/shared-ui",
+    "build:shared": "npm run build -w packages/shared -w packages/shared-web -w packages/shared-ui"
   },
   "devDependencies": {
     "@stencil/eslint-plugin": "github:suzulabo/stencil-eslint#0.3.1+",
-    "@types/node": "^15.14.2",
+    "@types/node": "^16.4.13",
     "@typescript-eslint/eslint-plugin": "^4.28.3",
     "@typescript-eslint/parser": "^4.28.3",
     "eslint": "^7.30.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
     "prettier": "^2.3.2",
-    "ts-node": "^10.1.0",
     "typescript": "^4.3.5"
   },
   "eslintIgnore": [
