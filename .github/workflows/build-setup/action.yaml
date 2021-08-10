@@ -23,7 +23,7 @@ runs:
     - run: npm i -g npm@7
       shell: bash
 
-    - run: npm install
+    - run: npm ci
       shell: bash
 
     - id: extract_secrets
