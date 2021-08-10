@@ -43,6 +43,8 @@ jobs:
           VERSION_NAME: ${{ steps.build_setup.outputs.APP_VERSION }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEYSTORE_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_UPLOAD_KEY_PASSWORD }}
+          APP_NAME: 'Announcing♪'
+          APPLICATION_ID: 'app.announcing.client.prod'
 
       - uses: actions/upload-artifact@v2
         with:

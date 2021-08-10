@@ -10,7 +10,7 @@ play {
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
-        applicationId "app.announcing.client1"
+        applicationId System.getenv("APPLICATION_ID") ?: "app.announcing.client.dev"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode System.getenv("VERSION_CODE") as Integer ?: 1
@@ -22,8 +22,8 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
 
-        resValue "string", "app_name", System.getenv("APP_NAME") ?: "AS-Announcing♪"
-        resValue "string", "title_activity_main", System.getenv("APP_NAME") ?: "AS-Announcing♪"
+        resValue "string", "app_name", System.getenv("APP_NAME") ?: "L-Announcing♪"
+        resValue "string", "title_activity_main", System.getenv("APP_NAME") ?: "L-Announcing♪"
     }
 
     signingConfigs {

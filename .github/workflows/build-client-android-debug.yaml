@@ -41,6 +41,7 @@ jobs:
         env:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           VERSION_NAME: ${{ steps.build_setup.outputs.APP_VERSION }}
+          APP_NAME: 'CI-Announcing♪'
 
       - uses: actions/upload-artifact@v2
         with:
