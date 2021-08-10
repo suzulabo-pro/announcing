@@ -39,6 +39,8 @@ jobs:
       - run: ./gradlew publishReleaseBundle
         working-directory: ./packages/client/android
         env:
+          VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
+          VERSION_NAME: ${{ steps.build_setup.outputs.APP_VERSION }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           KEYSTORE_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_UPLOAD_KEY_PASSWORD }}
 
