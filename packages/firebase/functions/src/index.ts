@@ -7,6 +7,7 @@ import { callCreateAnnounce } from './call/create-announce';
 import { callDeleteAnnounce } from './call/delete-announce';
 import { callDeletePost } from './call/delete-post';
 import { callEditAnnounce } from './call/edit-announce';
+import { callEditAnnounceOption } from './call/edit-announce-option';
 import { callPutPost } from './call/put-post';
 import { callRegisterNotification } from './call/register-notification';
 import { firestoreDeleteAnnounce } from './firestore/announce';
@@ -30,6 +31,9 @@ export const createAnnounce = region.https.onCall(async (data, context) => {
 });
 export const editAnnounce = region.https.onCall(async (data, context) => {
   return callEditAnnounce(data, context, adminApp);
+});
+export const editAnnounceOption = region.https.onCall(async (data, context) => {
+  return callEditAnnounceOption(data, context, adminApp);
 });
 export const deleteAnnounce = region.https.onCall(async (data, context) => {
   return callDeleteAnnounce(data, context, adminApp);

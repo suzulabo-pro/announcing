@@ -58,6 +58,17 @@ export const AnnounceMetaRule = {
   link: { length: 500 },
 };
 
+export interface AnnounceOption {
+  importURL: string;
+  importToken: string;
+  uT: Timestamp; // updated time
+}
+
+export const AnnounceOptionRule = {
+  importURL: { length: 1000 },
+  importToken: { length: 100 },
+};
+
 export interface User {
   announces?: string[];
   uT: Timestamp;
@@ -85,6 +96,12 @@ export interface EditAnnounceParams {
   link?: string;
   icon?: string;
   newIcon?: string;
+}
+
+export interface EditAnnounceOptionParams {
+  id: string;
+  importURL?: string;
+  importToken?: string;
 }
 
 export interface DeleteAnnounceParams {
