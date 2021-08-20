@@ -110,6 +110,10 @@ export class App {
     return this.appFirebase.callEditAnnounce({ id, name, desc, link, icon, newIcon });
   }
 
+  editAnnounceOption(id: string, importURL?: string, importToken?: string) {
+    return this.appFirebase.callEditAnnounceOption({ id, importURL, importToken });
+  }
+
   putPost(
     id: string,
     title?: string,
@@ -152,6 +156,10 @@ export class App {
     }
 
     return { ...a, ...meta };
+  }
+
+  getAnnounceOption(id: string) {
+    return this.appFirebase.getAnnounceOption(id);
   }
 
   getPosts(id: string, a: Announce) {

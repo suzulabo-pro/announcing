@@ -97,6 +97,12 @@ export class FirestoreHelper {
     const d = await getDocFromServer(docRef);
     return d.data() as T | undefined;
   }
+
+  async get<T>(p: string): Promise<T | undefined> {
+    const docRef = doc(this.firestore, p);
+    const d = await getDocFromServer(docRef);
+    return d.data() as T | undefined;
+  }
 }
 
 const getCache = async <T>(docRef: DocumentReference): Promise<T | undefined> => {

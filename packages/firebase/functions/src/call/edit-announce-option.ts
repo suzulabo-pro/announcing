@@ -51,6 +51,6 @@ export const callEditAnnounceOption = async (
     uT: admin.firestore.FieldValue.serverTimestamp(),
   };
 
-  const optionRef = firestore.doc(`announce_options/${id}`);
+  const optionRef = firestore.doc(`announce-options/${id}`);
   await optionRef.set(data);
 };

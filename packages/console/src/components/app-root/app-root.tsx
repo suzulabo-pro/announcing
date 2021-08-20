@@ -32,6 +32,10 @@ const matches: RouteMatch[] = [
         tag: 'app-announce-edit',
       },
       {
+        pattern: 'option',
+        tag: 'app-announce-option',
+      },
+      {
         pattern: 'post',
         tag: 'app-post-form',
       },

@@ -1,3 +1,4 @@
+import { href } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
@@ -247,6 +248,9 @@ const renderForm = (ctx: RenderContext) => {
         <button class="clear deletion-toggle" onClick={ctx.handlers.deletion.toggle}>
           {ctx.msgs.announceEdit.deletion.guide}
         </button>
+      </div>
+      <div>
+        <a {...href('option')}>option</a>
       </div>
       {ctx.showDeletion && (
         <Fragment>
