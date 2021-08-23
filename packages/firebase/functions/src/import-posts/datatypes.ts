@@ -25,6 +25,8 @@ export interface PostsImportJSON {
 
 const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
   type: 'object',
+  required: ['posts'],
+  additionalProperties: false,
   properties: {
     posts: {
       type: 'array',
@@ -88,8 +90,6 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
       },
     },
   },
-  required: ['posts'],
-  additionalProperties: false,
 };
 
 export const validatePostsImportJSON = ajv.compile(PostsImportJSONSchema);
