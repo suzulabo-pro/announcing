@@ -14,6 +14,7 @@ describe('validatePostsImportJSON', () => {
     ],
     ['no title body', { posts: [{ uT: '2021-09-09T12:24:56' }] }, false],
     ['null title body', { posts: [{ title: null, body: null, uT: '2021-09-09T12:24:56' }] }, false],
+    ['blank title body', { posts: [{ title: '', body: '', uT: '2021-09-09T12:24:56' }] }, false],
     ['title only', { posts: [{ title: 'title only', uT: '2021-09-09T12:24:56' }] }, true],
     [
       'title and body',
