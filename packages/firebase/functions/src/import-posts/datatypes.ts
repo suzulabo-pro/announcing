@@ -53,6 +53,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
           uT: {
             type: 'string',
             format: 'date-time',
+            maxLength: 30,
           },
           img: {
             type: 'string',
@@ -93,3 +94,6 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
 };
 
 export const validatePostsImportJSON = ajv.compile(PostsImportJSONSchema);
+
+// testing
+export const _PostsImportJSONSchema = PostsImportJSONSchema;

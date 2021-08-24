@@ -1,4 +1,5 @@
-import { validatePostsImportJSON } from '../../src/import-posts/datatypes';
+import Ajv from 'ajv';
+import { validatePostsImportJSON, _PostsImportJSONSchema } from '../../src/import-posts/datatypes';
 
 describe('validatePostsImportJSON', () => {
   const tests: [string, any, boolean][] = [
@@ -38,6 +39,21 @@ describe('validatePostsImportJSON', () => {
       expect(validatePostsImportJSON(data)).toEqual(expected);
     } catch (err) {
       console.log({ errors: validatePostsImportJSON.errors });
+      throw err;
+    }
+  });
+
+  // https://ajv.js.org/security.html#security-risks-of-trusted-schemas
+  it('secure', () => {
+    const ajv = new Ajv({ strictTypes: false });
+    const isSchemaSecure = ajv.compile(
+      // eslint-disable-next-line @typescript-eslint/no-var-requires
+      require('ajv/lib/refs/json-schema-secure.json'),
+    );
+    try {
+      expect(isSchemaSecure(_PostsImportJSONSchema)).toBe(true);
+    } catch (err) {
+      console.dir(isSchemaSecure.errors, { depth: null });
       throw err;
     }
   });
