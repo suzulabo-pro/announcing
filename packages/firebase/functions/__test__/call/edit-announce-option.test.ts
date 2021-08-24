@@ -21,7 +21,7 @@ describe('callEditAnnounceOption', () => {
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
     );
-    expect(data['announce_options']['1111111111']).toEqual({
+    expect(data['announce-options']['1111111111']).toEqual({
       importURL: 'https://announcing.test/import.json',
       importToken: '1234567890',
       uT: expect.any(Date),
