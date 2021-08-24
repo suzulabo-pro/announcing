@@ -1,5 +1,5 @@
 import Ajv from 'ajv';
-import { validatePostsImportJSON, _PostsImportJSONSchema } from '../../src/import-posts/datatypes';
+import { validatePostsImportJSON, _PostsImportJSONSchema } from '../../src/import-posts/schema';
 
 describe('validatePostsImportJSON', () => {
   const tests: [string, any, boolean][] = [
