@@ -10,7 +10,7 @@ type PostItem = RequireAtLeastOne<
   {
     title?: string;
     body?: string;
-    uT: string;
+    pT: string;
     img?: string;
     imgs?: string[];
     cID?: string; // Custom ID
@@ -32,7 +32,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
       type: 'array',
       items: {
         type: 'object',
-        required: ['uT'],
+        required: ['pT'],
         anyOf: [{ required: ['title'] }, { required: ['body'] }],
         additionalProperties: false,
         properties: {
@@ -50,7 +50,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
             minLength: 1,
             maxLength: PostRule.body.length,
           },
-          uT: {
+          pT: {
             type: 'string',
             format: 'date-time',
             maxLength: 30,
