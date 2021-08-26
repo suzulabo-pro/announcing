@@ -1,4 +1,5 @@
 import { Announce, Post } from '@announcing/shared';
+import { toDate } from 'date-fns-tz';
 import admin from 'firebase-admin';
 import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
@@ -19,7 +20,10 @@ const importPostsJSON = async (
 
   const newPostsMap = new Map(
     data.posts.map(v => {
-      const post: Post = { ...v, pT: admin.firestore.Timestamp.fromDate(new Date(v.pT)) };
+      const post: Post = {
+        ...v,
+        pT: admin.firestore.Timestamp.fromDate(toDate(v.pT, { timeZone: 'UTC' })),
+      };
       const id = postHash(post);
       return [id, post];
     }),
