@@ -58,17 +58,6 @@ export const AnnounceMetaRule = {
   link: { length: 500 },
 };
 
-export interface AnnounceOption {
-  importURL: string;
-  importToken: string;
-  uT: Timestamp; // updated time
-}
-
-export const AnnounceOptionRule = {
-  importURL: { length: 1000 },
-  importToken: { length: 100 },
-};
-
 export interface User {
   announces?: string[];
   uT: Timestamp;
@@ -80,6 +69,16 @@ export interface Image {
 
 export const ImageRule = {
   data: { length: 1000 * 1000 },
+};
+
+export interface ImportPosts {
+  url: string;
+  pubKey: string;
+  uT: Timestamp; // updated time
+}
+
+export const ImportPostsRule = {
+  importURL: { length: 1000 },
 };
 
 export type AnnounceAndMeta = Announce & AnnounceMetaBase;
@@ -98,10 +97,10 @@ export interface EditAnnounceParams {
   newIcon?: string;
 }
 
-export interface EditAnnounceOptionParams {
+export interface EditImportPostsParams {
   id: string;
-  importURL?: string;
-  importToken?: string;
+  url?: string;
+  pubKey?: string;
 }
 
 export interface DeleteAnnounceParams {

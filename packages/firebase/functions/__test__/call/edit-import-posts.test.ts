@@ -1,4 +1,4 @@
-import { callEditAnnounceOption } from '../../src/call/edit-announce-option';
+import { callEditImportPosts } from '../../src/call/edit-import-posts';
 import { FakeFirestore } from '../fake-firestore';
 
 describe('callEditAnnounceOption', () => {
@@ -12,18 +12,18 @@ describe('callEditAnnounceOption', () => {
     } as any;
     const firestore = new FakeFirestore(data);
 
-    await callEditAnnounceOption(
+    await callEditImportPosts(
       {
         id: '1111111111',
-        importURL: 'https://announcing.test/import.json',
-        importToken: '1234567890',
-      } as any,
+        url: 'https://announcing.test/import.json',
+        pubKey: '1234567890',
+      },
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
     );
-    expect(data['announce-options']['1111111111']).toEqual({
-      importURL: 'https://announcing.test/import.json',
-      importToken: '1234567890',
+    expect(data['import-posts']['1111111111']).toEqual({
+      url: 'https://announcing.test/import.json',
+      pubKey: '1234567890',
       uT: expect.any(Date),
     });
   });
@@ -39,12 +39,12 @@ describe('callEditAnnounceOption', () => {
     const firestore = new FakeFirestore(data);
 
     await expect(
-      callEditAnnounceOption(
+      callEditImportPosts(
         {
           id: '1111111111',
-          importURL: 'https://announcing.test/import.json',
-          importToken: '1234567890',
-        } as any,
+          url: 'https://announcing.test/import.json',
+          pubKey: '1234567890',
+        },
         { auth: { uid: 'AAAAA' } } as any,
         firestore.adminApp(),
       ),
@@ -62,11 +62,11 @@ describe('callEditAnnounceOption', () => {
     const firestore = new FakeFirestore(data);
 
     await expect(
-      callEditAnnounceOption(
+      callEditImportPosts(
         {
           id: '1111111111',
-          importURL: 'http://announcing.test/import.json',
-          importToken: '1234567890',
+          url: 'http://announcing.test/import.json',
+          pubKey: '1234567890',
         } as any,
         { auth: { uid: 'AAAAA' } } as any,
         firestore.adminApp(),

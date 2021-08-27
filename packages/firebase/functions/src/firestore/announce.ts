@@ -3,8 +3,6 @@ import * as admin from 'firebase-admin';
 import { EventContext } from 'firebase-functions/lib/cloud-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 
-export { callEditAnnounceOption } from '../call/edit-announce-option';
-
 export const firestoreDeleteAnnounce = async (
   qds: QueryDocumentSnapshot,
   _context: EventContext,
