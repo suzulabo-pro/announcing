@@ -71,9 +71,34 @@ export const ImageRule = {
   data: { length: 1000 * 1000 },
 };
 
+export type ImportPostsLog =
+  | {
+      event: 'set';
+      url: string;
+      eT: Timestamp;
+    }
+  | {
+      event: 'req';
+      from: string;
+      eT: Timestamp;
+    }
+  | {
+      event: 'ok';
+      imported: number;
+      deleted: number;
+      eT: Timestamp;
+    }
+  | {
+      event: 'err';
+      err: string;
+      eT: Timestamp;
+    };
+
 export interface ImportPosts {
-  url: string;
-  pubKey: string;
+  url?: string;
+  pubKey?: string;
+  importing?: boolean;
+  logs: ImportPostsLog[];
   uT: Timestamp; // updated time
 }
 

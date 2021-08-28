@@ -19,6 +19,7 @@ import {
   httpsGetAnnouncePostData,
   httpsGetImageData,
 } from './https/get-data';
+import { httpsPingImportPosts } from './https/import-posts';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
 const adminApp = admin.initializeApp();
@@ -62,6 +63,7 @@ const onHttpsRequest = (handler: httpsHandler) => {
 export const getAnnounceMetaData = onHttpsRequest(httpsGetAnnounceMetaData);
 export const getAnnouncePostData = onHttpsRequest(httpsGetAnnouncePostData);
 export const getImageData = onHttpsRequest(httpsGetImageData);
+export const pingImportPosts = onHttpsRequest(httpsPingImportPosts);
 
 export const onFirestoreDeleteAnnounce = region.firestore
   .document('announces/{announceID}')
