@@ -110,8 +110,8 @@ export class App {
     return this.appFirebase.callEditAnnounce({ id, name, desc, link, icon, newIcon });
   }
 
-  editAnnounceOption(id: string, importURL?: string, importToken?: string) {
-    return this.appFirebase.callEditAnnounceOption({ id, importURL, importToken });
+  editImportPosts(id: string, url?: string, pubKey?: string) {
+    return this.appFirebase.callEditImportPosts({ id, url, pubKey });
   }
 
   putPost(
@@ -158,8 +158,8 @@ export class App {
     return { ...a, ...meta };
   }
 
-  getAnnounceOption(id: string) {
-    return this.appFirebase.getAnnounceOption(id);
+  getImportPosts(id: string) {
+    return this.appFirebase.getImportPosts(id);
   }
 
   getPosts(id: string, a: Announce) {

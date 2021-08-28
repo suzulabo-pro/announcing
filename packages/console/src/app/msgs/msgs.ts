@@ -80,7 +80,7 @@ export interface Msgs {
       confirm: string;
     };
   };
-  announceOption: {
+  importPosts: {
     pageTitle: (s: string) => string;
     form: {
       imageURL: string;

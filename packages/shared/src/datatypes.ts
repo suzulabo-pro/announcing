@@ -103,7 +103,7 @@ export interface ImportPosts {
 }
 
 export const ImportPostsRule = {
-  importURL: { length: 1000 },
+  url: { length: 1000 },
 };
 
 export type AnnounceAndMeta = Announce & AnnounceMetaBase;

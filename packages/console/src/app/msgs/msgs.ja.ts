@@ -101,7 +101,7 @@ export const msgs: Msgs = {
       confirm: 'アナウンスを削除します。本当によろしいですか？',
     },
   },
-  announceOption: {
+  importPosts: {
     pageTitle: (s: string) => {
       return `${s} - その他の設定 - ${titleSuffix}`;
     },

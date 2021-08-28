@@ -18,7 +18,7 @@ export const callEditImportPosts = async (
     throw new Error('missing id');
   }
   if (url) {
-    if (url.length > ImportPostsRule.importURL.length) {
+    if (url.length > ImportPostsRule.url.length) {
       throw new Error('url is too long');
     }
     if (!pubKey) {

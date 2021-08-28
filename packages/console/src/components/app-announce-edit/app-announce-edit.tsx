@@ -250,7 +250,7 @@ const renderForm = (ctx: RenderContext) => {
         </button>
       </div>
       <div>
-        <a {...href('option')}>option</a>
+        <a {...href('import-posts')}>import-posts</a>
       </div>
       {ctx.showDeletion && (
         <Fragment>

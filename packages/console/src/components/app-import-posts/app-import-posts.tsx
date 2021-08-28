@@ -1,16 +1,19 @@
-import { AnnounceOptionRule } from '@announcing/shared';
+import { bs62, ImportPostsRule, nacl } from '@announcing/shared';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
-import { ApNaviLink, assertIsDefined, PromiseState, pushRoute, redirectRoute } from '../../shared';
-import { isURL } from '../../utils/isurl';
-import { generateImportToken } from '../../utils/token';
+import { ApNaviLink, assertIsDefined, PromiseState, redirectRoute } from '../../shared';
+
+const generateKeys = () => {
+  const keys = nacl.box.keyPair();
+  return { pubKey: bs62.encode(keys.publicKey), secKey: bs62.encode(keys.secretKey) };
+};
 
 @Component({
-  tag: 'app-announce-option',
-  styleUrl: 'app-announce-option.scss',
+  tag: 'app-import-posts',
+  styleUrl: 'app-import-posts.scss',
 })
-export class AppAnnounceOption {
+export class AppImportPosts {
   @Listen('PageActivated')
   listenPageActivated() {
     this.announceState = undefined;
@@ -36,24 +39,24 @@ export class AppAnnounceOption {
   }
 
   @State()
-  values?: { importURL?: string; importToken?: string };
+  values?: { url?: string; secKey?: string };
 
   @State()
-  announceState?: PromiseState<AsyncReturnType<AppAnnounceOption['loadAnnounce']>>;
+  announceState?: PromiseState<AsyncReturnType<AppImportPosts['loadAnnounce']>>;
 
   private async loadAnnounce() {
     const id = this.announceID;
 
-    const [announce, announceOption] = await Promise.all([
+    const [announce, importPosts] = await Promise.all([
       this.app.getAnnounceAndMeta(id),
-      this.app.getAnnounceOption(id),
+      this.app.getImportPosts(id),
     ]);
 
     if (announce) {
       return {
         announce,
         iconData: announce.icon ? await this.app.getImage(announce.icon) : undefined,
-        announceOption,
+        importPosts,
       };
     }
     return;
@@ -64,22 +67,21 @@ export class AppAnnounceOption {
   private handlers = {
     input: {
       importURL: (ev: Event) => {
-        const importURL = (ev.target as HTMLInputElement).value;
-        this.values = { ...this.values, importURL };
-        if (isURL(importURL) && !this.values.importToken) {
-          this.values.importToken = generateImportToken();
-        }
+        const url = (ev.target as HTMLInputElement).value;
+        this.values = { ...this.values, url };
       },
     },
     submit: async () => {
+      const values = this.values;
+      if (!values) {
+        return;
+      }
+      const keys = values.url ? generateKeys() : undefined;
+
       this.app.loading = true;
       try {
-        await this.app.editAnnounceOption(
-          this.announceID,
-          this.values?.importURL,
-          this.values?.importToken,
-        );
-        pushRoute(`/${this.announceID}`);
+        await this.app.editImportPosts(this.announceID, values.url, keys?.pubKey);
+        this.values = { ...values, secKey: keys?.secKey };
       } finally {
         this.app.loading = false;
       }
@@ -95,10 +97,9 @@ export class AppAnnounceOption {
       this.values = undefined;
       this.announceState = new PromiseState(this.loadAnnounce());
       this.announceState.then(value => {
-        console.log(value);
         if (value) {
-          if (value.announceOption) {
-            this.values = { ...value.announceOption };
+          if (value.importPosts) {
+            this.values = { ...value.importPosts };
           }
         }
       });
@@ -134,7 +135,7 @@ export class AppAnnounceOption {
   }
 }
 
-type RenderContext = ReturnType<AppAnnounceOption['renderContext']>;
+type RenderContext = ReturnType<AppImportPosts['renderContext']>;
 
 const render = (ctx: RenderContext) => {
   return (
@@ -160,21 +161,21 @@ const renderForm = (ctx: RenderContext) => {
     <Fragment>
       <div class="form">
         <ap-input
-          label={ctx.msgs.announceOption.form.imageURL}
-          value={ctx.values.importURL}
+          label={ctx.msgs.importPosts.form.imageURL}
+          value={ctx.values.url}
           onInput={ctx.handlers.input.importURL}
-          maxLength={AnnounceOptionRule.importURL.length}
+          maxLength={ImportPostsRule.url.length}
         />
-        {ctx.values.importToken && (
+        {ctx.values.secKey && (
           <div>
-            <span class="ping-url">{ctx.values.importToken}</span>
+            <span class="ping-url">{`${location.origin}/import-posts/${ctx.announceID}/${ctx.values.secKey}`}</span>
             <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>
-              {ctx.msgs.announceOption.form.tokenBtn}
+              {ctx.msgs.importPosts.form.tokenBtn}
             </button>
           </div>
         )}
         <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>
-          {ctx.msgs.announceOption.form.btn}
+          {ctx.msgs.importPosts.form.btn}
         </button>
       </div>
     </Fragment>

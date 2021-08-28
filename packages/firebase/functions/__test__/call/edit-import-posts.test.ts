@@ -1,7 +1,7 @@
 import { callEditImportPosts } from '../../src/call/edit-import-posts';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('callEditAnnounceOption', () => {
+describe('callEditImportPosts', () => {
   it('set data', async () => {
     const data = {
       users: {
