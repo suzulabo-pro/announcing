@@ -5,7 +5,7 @@ import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 import { validatePostsImportJSON } from './schema';
 
-const importPostsJSON = async (
+export const importPostsJSON = async (
   firestore: admin.firestore.Firestore,
   announceID: string,
   json: string,
@@ -77,5 +77,3 @@ const importPostsJSON = async (
     t.set(announceRef, newAnnounce);
   });
 };
-
-export const _importPostsJSON = importPostsJSON;

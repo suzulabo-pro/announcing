@@ -12,9 +12,9 @@ export const httpsPingImportPosts = async (
   res: Response,
   adminApp: admin.app.App,
 ) => {
-  const sendErr = (msg: string, info?: Record<string, any>) => {
+  const sendErr = (msg: string, info?: Record<string, any>, status = 400) => {
     logger.error(msg, { path: req.path, ...info });
-    res.status(400).send(msg);
+    res.status(status).send(msg);
   };
 
   const m = pathPattern.exec(req.path);
@@ -43,25 +43,28 @@ export const httpsPingImportPosts = async (
 
   const firestore = adminApp.firestore();
   const docRef = firestore.doc(`import-posts/${id}`);
-  const data = (await docRef.get()).data() as ImportPosts;
-  if (!data) {
-    sendErr('data not found');
-    return;
-  }
-  if (!data.url) {
-    sendErr('url does not set');
-    return;
-  }
-  if (data.pubKey != pubKey) {
-    sendErr('bad path (secKey does not match)');
-    return;
-  }
-  if (data.importing) {
-    logger.info('already importing');
-    res.status(200).send('already importing');
-    return;
-  }
 
-  await docRef.update({ importing: true, uT: admin.firestore.FieldValue.serverTimestamp() });
-  res.status(200).send('ok');
+  await firestore.runTransaction(async t => {
+    const data = (await t.get(docRef)).data() as ImportPosts;
+    if (!data) {
+      sendErr('data not found');
+      return;
+    }
+    if (!data.url) {
+      sendErr('url does not set');
+      return;
+    }
+    if (data.pubKey != pubKey) {
+      sendErr('bad path (secKey does not match)');
+      return;
+    }
+    if (data.requested) {
+      res.status(200).send('already requested');
+      return;
+    }
+
+    t.update(docRef, { requested: true, uT: admin.firestore.FieldValue.serverTimestamp() });
+
+    res.status(200).send('ok');
+  });
 };

@@ -11,6 +11,7 @@ import { callEditImportPosts } from './call/edit-import-posts';
 import { callPutPost } from './call/put-post';
 import { callRegisterNotification } from './call/register-notification';
 import { firestoreDeleteAnnounce } from './firestore/announce';
+import { firestoreUpdateImportPostsTask } from './firestore/import-posts';
 import { firestoreNotificationDeviceWrite } from './firestore/notif-devices';
 import { firestoreImmediateNotificationWrite } from './firestore/notif-imm';
 import { firestoreCreatePost } from './firestore/post';
@@ -75,6 +76,12 @@ export const onFirestoreCreatePost = region.firestore
   .document('announces/{announceID}/posts/{postID}')
   .onCreate((qds, context) => {
     return firestoreCreatePost(qds, context, adminApp);
+  });
+
+export const onFirestoreUpdateImportPosts = region.firestore
+  .document('import-posts/{announceID}')
+  .onUpdate((change, context) => {
+    return firestoreUpdateImportPostsTask(change, context, adminApp);
   });
 
 export const onFirestoreNotificationDeviceWrite = region.firestore

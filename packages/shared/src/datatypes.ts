@@ -97,7 +97,7 @@ export type ImportPostsLog =
 export interface ImportPosts {
   url?: string;
   pubKey?: string;
-  importing?: boolean;
+  requested?: boolean;
   logs: ImportPostsLog[];
   uT: Timestamp; // updated time
 }
