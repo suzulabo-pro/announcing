@@ -19,7 +19,7 @@ describe('httpsPingImportPosts', () => {
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);
     expect(res.send.mock.calls[0][0]).toEqual('ok');
-    expect(data['import-posts']['123456789012']['importing']).toEqual(true);
+    expect(data['import-posts']['123456789012']['requested']).toEqual(true);
   });
 
   it('key error', async () => {
@@ -37,7 +37,7 @@ describe('httpsPingImportPosts', () => {
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(400);
     expect(res.send.mock.calls[0][0]).toEqual('bad path');
-    expect(data['import-posts']['123456789012']['importing']).toBeUndefined();
+    expect(data['import-posts']['123456789012']['requested']).toBeUndefined();
   });
 
   it.skip('gen key', () => {
