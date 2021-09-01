@@ -23,5 +23,9 @@ service cloud.firestore {
         allow get: if request.auth.uid != null;
       }
     }
+
+    match /import-posts/{id} {
+      allow get: if id in get(/databases/$(database)/documents/users/$(request.auth.uid)).data.announces;
+    }
   }
 }

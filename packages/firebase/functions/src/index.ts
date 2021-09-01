@@ -7,9 +7,11 @@ import { callCreateAnnounce } from './call/create-announce';
 import { callDeleteAnnounce } from './call/delete-announce';
 import { callDeletePost } from './call/delete-post';
 import { callEditAnnounce } from './call/edit-announce';
+import { callEditImportPosts } from './call/edit-import-posts';
 import { callPutPost } from './call/put-post';
 import { callRegisterNotification } from './call/register-notification';
 import { firestoreDeleteAnnounce } from './firestore/announce';
+import { firestoreUpdateImportPosts } from './firestore/import-posts';
 import { firestoreNotificationDeviceWrite } from './firestore/notif-devices';
 import { firestoreImmediateNotificationWrite } from './firestore/notif-imm';
 import { firestoreCreatePost } from './firestore/post';
@@ -18,6 +20,7 @@ import {
   httpsGetAnnouncePostData,
   httpsGetImageData,
 } from './https/get-data';
+import { httpsPingImportPosts } from './https/import-posts';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
 const adminApp = admin.initializeApp();
@@ -30,6 +33,9 @@ export const createAnnounce = region.https.onCall(async (data, context) => {
 });
 export const editAnnounce = region.https.onCall(async (data, context) => {
   return callEditAnnounce(data, context, adminApp);
+});
+export const editImportPosts = region.https.onCall(async (data, context) => {
+  return callEditImportPosts(data, context, adminApp);
 });
 export const deleteAnnounce = region.https.onCall(async (data, context) => {
   return callDeleteAnnounce(data, context, adminApp);
@@ -58,6 +64,7 @@ const onHttpsRequest = (handler: httpsHandler) => {
 export const getAnnounceMetaData = onHttpsRequest(httpsGetAnnounceMetaData);
 export const getAnnouncePostData = onHttpsRequest(httpsGetAnnouncePostData);
 export const getImageData = onHttpsRequest(httpsGetImageData);
+export const pingImportPosts = onHttpsRequest(httpsPingImportPosts);
 
 export const onFirestoreDeleteAnnounce = region.firestore
   .document('announces/{announceID}')
@@ -69,6 +76,12 @@ export const onFirestoreCreatePost = region.firestore
   .document('announces/{announceID}/posts/{postID}')
   .onCreate((qds, context) => {
     return firestoreCreatePost(qds, context, adminApp);
+  });
+
+export const onFirestoreUpdateImportPosts = region.firestore
+  .document('import-posts/{announceID}')
+  .onUpdate((change, context) => {
+    return firestoreUpdateImportPosts(change, context, adminApp);
   });
 
 export const onFirestoreNotificationDeviceWrite = region.firestore

@@ -20,6 +20,7 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
+import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
 import {
   Announce,
   AnnounceMeta,
@@ -138,6 +139,10 @@ export class AppFirebase {
     return this.callFunc<EditAnnounceParams, void>('editAnnounce', params);
   }
 
+  async callEditImportPosts(params: EditImportPostsParams) {
+    return this.callFunc<EditImportPostsParams, void>('editImportPosts', params);
+  }
+
   async callDeleteAnnounce(params: DeleteAnnounceParams) {
     return this.callFunc<DeleteAnnounceParams, void>('deleteAnnounce', params);
   }
@@ -168,6 +173,10 @@ export class AppFirebase {
 
   getAnnounceMeta(id: string, metaID: string) {
     return this.firestoreHelper.getCacheFirst<AnnounceMeta>(`announces/${id}/meta/${metaID}`);
+  }
+
+  getImportPosts(id: string) {
+    return this.firestoreHelper.get<ImportPosts>(`import-posts/${id}`);
   }
 
   getPost(id: string, postID: string) {

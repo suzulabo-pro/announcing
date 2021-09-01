@@ -101,6 +101,18 @@ export const msgs: Msgs = {
       confirm: 'アナウンスを削除します。本当によろしいですか？',
     },
   },
+  importPosts: {
+    pageTitle: (s: string) => {
+      return `${s} - その他の設定 - ${titleSuffix}`;
+    },
+    form: {
+      imageURL: 'インポートURL',
+      pingURL: '更新通知URL',
+      tokenBtn: '更新',
+      btn: '更新',
+      done: '更新しました',
+    },
+  },
   postForm: {
     pageTitle: (s: string) => {
       return `${s} - お知らせの投稿 - ${titleSuffix}`;

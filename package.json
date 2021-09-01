@@ -26,7 +26,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-react": "^7.24.0",
     "prettier": "^2.3.2",
-    "typescript": "^4.3.5"
+    "typescript": "4.2"
   },
   "eslintIgnore": [
     "/.eslintrc.js"

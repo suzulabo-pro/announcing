@@ -71,6 +71,41 @@ export const ImageRule = {
   data: { length: 1000 * 1000 },
 };
 
+export type ImportPostsLog =
+  | {
+      event: 'set';
+      url: string;
+      eT: Timestamp;
+    }
+  | {
+      event: 'req';
+      from: string;
+      eT: Timestamp;
+    }
+  | {
+      event: 'ok';
+      imported: number;
+      deleted: number;
+      eT: Timestamp;
+    }
+  | {
+      event: 'err';
+      err: string;
+      eT: Timestamp;
+    };
+
+export interface ImportPosts {
+  url?: string;
+  pubKey?: string;
+  requested?: boolean;
+  logs: ImportPostsLog[];
+  uT: Timestamp; // updated time
+}
+
+export const ImportPostsRule = {
+  url: { length: 1000 },
+};
+
 export type AnnounceAndMeta = Announce & AnnounceMetaBase;
 
 export interface CreateAnnounceParams {
@@ -85,6 +120,12 @@ export interface EditAnnounceParams {
   link?: string;
   icon?: string;
   newIcon?: string;
+}
+
+export interface EditImportPostsParams {
+  id: string;
+  url?: string;
+  pubKey?: string;
 }
 
 export interface DeleteAnnounceParams {
