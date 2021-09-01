@@ -1,9 +1,11 @@
-import { ImportPosts } from '@announcing/shared';
+import { Announce, ImportPosts, Post } from '@announcing/shared';
+import axios from 'axios';
+import { toDate } from 'date-fns-tz';
 import * as admin from 'firebase-admin';
 import { Change, EventContext } from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import https from 'https';
-import { importPostsJSON } from '../import-posts/import-posts';
+import { validatePostsImportJSON } from '../import-posts/schema';
+import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
 const FETCH_UA = 'announcing-bot';
@@ -55,36 +57,104 @@ export const firestoreUpdateImportPosts = async (
 };
 
 const fetch = async (url: string) => {
-  const res = await new Promise<Buffer>((resolve, reject) => {
-    const req = https.get(
-      url,
-      { headers: { 'User-Agent': FETCH_UA }, timeout: FETCH_TIMEOUT },
-      res => {
-        const statusCode = res.statusCode || -1;
-        if (!(statusCode >= 200 && statusCode < 299)) {
-          reject({ msg: `status: ${statusCode}` });
-          return;
-        }
+  const timeout = process.env['FETCH_TIMEOUT']
+    ? parseInt(process.env['FETCH_TIMEOUT'])
+    : FETCH_TIMEOUT;
 
-        let size = 0;
-        const chunks = [] as Buffer[];
-        res.on('data', (v: Buffer) => {
-          if (size > FETCH_MAX_SIZE) {
-            res.destroy();
-            return;
-          }
-          chunks.push(v);
-          size += v.byteLength;
-        });
-        res.on('end', () => {
-          resolve(Buffer.concat(chunks));
-        });
+  const source = axios.CancelToken.source();
+
+  const timer = setTimeout(() => {
+    source.cancel();
+  }, timeout);
+
+  try {
+    const res = await axios.get(url, {
+      timeout,
+      maxContentLength: FETCH_MAX_SIZE,
+      headers: {
+        'user-agent': FETCH_UA,
       },
-    );
-    req.on('error', err => {
-      reject(err);
+      cancelToken: source.token,
     });
-  });
+    return res.data;
+  } catch (err) {
+    if (axios.isCancel(err)) {
+      throw new Error('timeout(timer)');
+    } else {
+      throw err;
+    }
+  } finally {
+    clearTimeout(timer);
+  }
+};
 
-  return res.toString('utf-8');
+const importPostsJSON = async (
+  firestore: admin.firestore.Firestore,
+  announceID: string,
+  data: any,
+) => {
+  if (!validatePostsImportJSON(data)) {
+    logger.error('Invalid JSON', validatePostsImportJSON.errors);
+    // TODO: logging for user
+    throw new Error('Validate JSON Error');
+  }
+
+  const newPostsMap = new Map(
+    data.posts.map(v => {
+      const post: Post = {
+        ...v,
+        pT: admin.firestore.Timestamp.fromDate(toDate(v.pT, { timeZone: 'UTC' })),
+      };
+      const id = postHash(post);
+      return [id, post];
+    }),
+  );
+
+  await firestore.runTransaction(async t => {
+    const announceRef = firestore.doc(`announces/${announceID}`);
+
+    const announce = await t.get(announceRef);
+    const curAnnounce = announce.data() as Announce;
+    if (!curAnnounce) {
+      throw new Error(`missing announce: ${announceID}`);
+    }
+
+    let same = false;
+
+    const ids = Object.keys(curAnnounce);
+    const deleteList = [] as string[];
+
+    for (const id of ids) {
+      if (!newPostsMap.has(id)) {
+        deleteList.push(id);
+      }
+    }
+
+    if (deleteList.length == 0 && newPostsMap.size == ids.length) {
+      same = true;
+    } else {
+      for (const id of deleteList) {
+        t.delete(announceRef.collection('posts').doc(id));
+      }
+    }
+
+    if (same) {
+      logger.warn('Same posts');
+      // TODO: logging for user
+      return;
+    }
+
+    const posts: Announce['posts'] = {};
+    for (const [id, post] of newPostsMap.entries()) {
+      t.set(announceRef.collection('posts').doc(id), post);
+      posts[id] = { pT: post.pT };
+    }
+
+    const newAnnounce: Announce = {
+      ...curAnnounce,
+      posts,
+      uT: admin.firestore.FieldValue.serverTimestamp() as any,
+    };
+    t.set(announceRef, newAnnounce);
+  });
 };
