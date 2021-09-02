@@ -13,6 +13,7 @@ type PostItem = RequireAtLeastOne<
     pT: string;
     img?: string;
     imgs?: string[];
+    link?: string;
     cID?: string; // Custom ID
     refID?: string;
   },
@@ -61,7 +62,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
             minLength: 1,
             maxLength: 1000,
             format: 'url',
-            pattern: '^(https)://',
+            pattern: '^https://',
           },
           imgs: {
             type: 'array',
@@ -72,8 +73,16 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
               minLength: 1,
               maxLength: 1000,
               format: 'url',
-              pattern: '^(https)://',
+              pattern: '^https://',
             },
+          },
+          link: {
+            type: 'string',
+            nullable: true,
+            minLength: 1,
+            maxLength: 1000,
+            format: 'url',
+            pattern: '^https://',
           },
           cID: {
             type: 'string',
