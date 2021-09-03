@@ -103,8 +103,11 @@ export class ApPosts {
       el: (
         <Fragment>
           <span class="date">{this.msgs.datetime(post.pT)}</span>
-          {post.title && <span class="title">{post.title}</span>}
-          {post.body && <div class="body">{post.body}</div>}
+          <div class="content">
+            {post.title && <span class="title">{post.title}</span>}
+            {post.title && post.body && <br />}
+            {post.body && <span class="body">{post.body}</span>}
+          </div>
         </Fragment>
       ),
     };
