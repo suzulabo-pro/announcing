@@ -15,9 +15,6 @@
     "start": "npm run serve"
   },
   "devDependencies": {
-    "@announcing/shared": "*",
-    "@announcing/shared-ui": "*",
-    "@announcing/shared-web": "*",
     "@capacitor-community/http": "^1.1.2",
     "@capacitor/android": "^3.1.2",
     "@capacitor/app": "^1.0.2",

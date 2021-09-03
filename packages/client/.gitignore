@@ -13,3 +13,4 @@ play-console-account.json
 upload-keystore.jks
 
 src/components.d.ts
+src/reload.ts
