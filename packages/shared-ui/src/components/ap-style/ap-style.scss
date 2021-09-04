@@ -24,8 +24,7 @@ html {
   --selected-color: #ffffff;
   --selected-bk-color: #999999;
 
-  --card-border-color: rgb(0 0 0 / 40%);
-  --card-shadow: 1px 1px 1px rgb(0 0 0 / 10%);
+  --card-border-color: #888888;
 
   --page-margin-bottom: 70px; // for ap-navi
   --page-max-width: 600px;
@@ -146,7 +145,6 @@ span.disabled {
 .card {
   border-radius: 5px;
   border: 1px solid var(--card-border-color);
-  box-shadow: var(--card-shadow);
 }
 a.card {
   display: block;

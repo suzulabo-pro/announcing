@@ -119,7 +119,7 @@ export class ApPosts {
         {this.postIds.map(id => {
           const r = this.renderPost(id);
           return (
-            <a key={id} data-postid={id} ref={this.handleRef} class="card post" {...href(r.href)}>
+            <a key={id} data-postid={id} ref={this.handleRef} class="post" {...href(r.href)}>
               {r.el}
             </a>
           );
