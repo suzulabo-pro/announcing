@@ -17,17 +17,13 @@ export class ApInput {
   @Prop()
   textarea?: boolean;
 
-  componentDidLoad() {
-    this.autoGrow.run();
-  }
-
   private autoGrow = (() => {
     let el: HTMLTextAreaElement;
     const handleRef = (_el: HTMLTextAreaElement | undefined) => {
-      if (_el) el = _el;
-    };
-    const handleInput = () => {
-      this.autoGrow.run();
+      if (_el) {
+        el = _el;
+        this.autoGrow.run();
+      }
     };
     const run = () => {
       if (!el) {
@@ -39,7 +35,7 @@ export class ApInput {
       });
     };
 
-    return { handleRef, handleInput, run };
+    return { handleRef, run };
   })();
 
   render() {
@@ -58,11 +54,14 @@ export class ApInput {
               value={this.value}
               maxLength={this.maxLength}
               ref={this.autoGrow.handleRef}
-              onInput={this.autoGrow.handleInput}
             ></textarea>
           )}
         </label>
       </Host>
     );
+  }
+
+  componentDidRender() {
+    this.autoGrow.run();
   }
 }
