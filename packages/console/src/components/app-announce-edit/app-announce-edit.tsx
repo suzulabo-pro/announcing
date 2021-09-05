@@ -247,13 +247,13 @@ const renderForm = (ctx: RenderContext) => {
         <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>
           {ctx.msgs.announceEdit.form.btn}
         </button>
-        <button class="clear deletion-toggle" onClick={ctx.handlers.deletion.toggle}>
-          {ctx.msgs.announceEdit.deletion.guide}
-        </button>
       </div>
-      <div>
-        <a {...href('import-posts')}>import-posts</a>
-      </div>
+      <a class="button clear import-posts" {...href('import-posts')}>
+        {ctx.msgs.announceEdit.importPosts}
+      </a>
+      <button class="clear deletion-toggle" onClick={ctx.handlers.deletion.toggle}>
+        {ctx.msgs.announceEdit.deletion.guide}
+      </button>
       {ctx.showDeletion && (
         <Fragment>
           <div class="deletion">

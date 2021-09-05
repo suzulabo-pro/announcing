@@ -83,6 +83,7 @@ button,
   border-radius: 10px;
   padding: 10px 20px;
   text-align: center;
+  width: max-content;
 
   &:disabled {
     opacity: 0.3;
