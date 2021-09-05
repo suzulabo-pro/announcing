@@ -27,7 +27,8 @@ export const callEditImportPosts = async (
 
     {
       const urlObj = new URL(url);
-      if (urlObj.protocol != 'https:') {
+      const protocol = urlObj.protocol.toLowerCase();
+      if (protocol != 'https:' && protocol != 'http:') {
         throw new Error('invalid protocol');
       }
     }
