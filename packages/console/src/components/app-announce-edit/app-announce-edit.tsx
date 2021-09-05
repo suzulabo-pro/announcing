@@ -20,6 +20,8 @@ export class AppAnnounceEdit {
   @Listen('PageActivated')
   listenPageActivated() {
     this.announceState = undefined;
+    this.showDeletion = false;
+    this.showDeleteConfirm = false;
   }
 
   @Prop()
