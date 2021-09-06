@@ -39,11 +39,11 @@ ap-navi {
   }
 
   @media (min-width: 601px) {
-    &.sticky {
-      position: sticky;
-    }
+    position: sticky;
+    background-color: var(--bk-color);
 
-    margin-top: 100px;
+    margin-top: 50px;
+    padding-top: 20px;
     bottom: 0;
     left: 0;
     right: 0;
@@ -54,6 +54,7 @@ ap-navi {
 
     .page.full & {
       position: fixed;
+      background-color: unset;
     }
 
     .navi {
