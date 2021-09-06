@@ -22,6 +22,19 @@ export class AppPost {
     return this.pageVisible.shouldUpdate();
   }
 
+  @Listen('PageActivated')
+  PageDeactivated() {
+    this.rerender = {};
+  }
+
+  @Listen('PageDeactivated')
+  listenPageActivated() {
+    this.rerender = {};
+  }
+
+  @State()
+  rerender = {};
+
   @Prop()
   app!: App;
 
@@ -153,6 +166,7 @@ export class AppPost {
       config: this.app.getConfig() || {},
       naviLinks,
       pageTitle,
+      pageVisible: this.pageVisible,
     };
   }
 
@@ -210,8 +224,8 @@ const renderPost = (ctx: RenderContext) => {
           imgPromise={imgPromise}
           imgHref={imgHref}
           msgs={{ datetime: ctx.msgs.common.datetime }}
-          showTweet={ctx.config.embedTwitter}
-          showYoutube={ctx.config.embedYoutube}
+          showTweet={ctx.pageVisible.isVisible() && ctx.config.embedTwitter}
+          showYoutube={ctx.pageVisible.isVisible() && ctx.config.embedYoutube}
         />
       );
     }
