@@ -24,6 +24,7 @@ describe('callEditImportPosts', () => {
     expect(data['import-posts']['1111111111']).toEqual({
       url: 'https://announcing.test/import.json',
       pubKey: '1234567890',
+      requested: false,
       uT: expect.any(Date),
     });
   });

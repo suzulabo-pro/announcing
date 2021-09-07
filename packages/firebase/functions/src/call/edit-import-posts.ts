@@ -1,4 +1,4 @@
-import { ImportPostsRule, EditImportPostsParams } from '@announcing/shared';
+import { EditImportPostsParams, ImportPosts, ImportPostsRule } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { CallableContext } from 'firebase-functions/lib/providers/https';
 import { checkOwner } from '../utils/firestore';
@@ -43,10 +43,11 @@ export const callEditImportPosts = async (
     }
   }
 
-  const data = {
+  const data: Partial<ImportPosts> = {
     url,
     pubKey,
-    uT: admin.firestore.FieldValue.serverTimestamp(),
+    requested: false,
+    uT: admin.firestore.FieldValue.serverTimestamp() as any,
   };
 
   const optionRef = firestore.doc(`import-posts/${id}`);
