@@ -1,4 +1,4 @@
-import { Announce, ImportPosts, Post } from '@announcing/shared';
+import { Announce, ImportPosts, Post, stripObj } from '@announcing/shared';
 import axios from 'axios';
 import { toDate } from 'date-fns-tz';
 import * as admin from 'firebase-admin';
@@ -101,7 +101,7 @@ const importPostsJSON = async (
 
   const newPostsMap = new Map(
     data.posts.map(v => {
-      const post: Post = {
+      const post = {
         ...v,
         pT: admin.firestore.Timestamp.fromDate(toDate(v.pT, { timeZone: 'UTC' })),
       };
@@ -109,6 +109,26 @@ const importPostsJSON = async (
       return [id, post];
     }),
   );
+
+  const cIDMap = new Map<string, string>();
+  for (const [id, post] of newPostsMap.entries()) {
+    if (post.cID) {
+      cIDMap.set(post.cID, id);
+    }
+  }
+
+  const posts: Announce['posts'] = {};
+  for (const [id, post] of newPostsMap.entries()) {
+    const p: Announce['posts'][string] = { pT: post.pT };
+    if (post.refID) {
+      const parent = cIDMap.get(post.refID);
+      if (!parent) {
+        throw new Error(`missing refID: ${post.refID}`);
+      }
+      p.parent = parent;
+    }
+    posts[id] = p;
+  }
 
   await firestore.runTransaction(async t => {
     const announceRef = firestore.doc(`announces/${announceID}`);
@@ -119,35 +139,32 @@ const importPostsJSON = async (
       throw new Error(`missing announce: ${announceID}`);
     }
 
-    let same = false;
-
-    const ids = Object.keys(curAnnounce);
-    const deleteList = [] as string[];
-
-    for (const id of ids) {
-      if (!newPostsMap.has(id)) {
-        deleteList.push(id);
-      }
-    }
-
-    if (deleteList.length == 0 && newPostsMap.size == ids.length) {
-      same = true;
-    } else {
-      for (const id of deleteList) {
-        t.delete(announceRef.collection('posts').doc(id));
-      }
-    }
-
-    if (same) {
+    const curPosts = curAnnounce.posts;
+    if (Object.keys(posts).sort().join(':') == Object.keys(curPosts).sort().join(':')) {
       logger.warn('Same posts');
       // TODO: logging for user
       return;
     }
 
-    const posts: Announce['posts'] = {};
-    for (const [id, post] of newPostsMap.entries()) {
-      t.set(announceRef.collection('posts').doc(id), post);
-      posts[id] = { pT: post.pT };
+    for (const [id, v] of newPostsMap.entries()) {
+      if (!(id in curPosts)) {
+        t.create(
+          announceRef.collection('posts').doc(id),
+          stripObj({
+            title: v.title,
+            body: v.body,
+            link: v.link,
+            img: v.img,
+            pT: v.pT,
+          } as Post),
+        );
+      }
+    }
+
+    for (const id of Object.keys(curPosts)) {
+      if (!newPostsMap.has(id)) {
+        t.delete(announceRef.collection('posts').doc(id));
+      }
     }
 
     const newAnnounce: Announce = {
@@ -155,6 +172,6 @@ const importPostsJSON = async (
       posts,
       uT: admin.firestore.FieldValue.serverTimestamp() as any,
     };
-    t.set(announceRef, newAnnounce);
+    t.set(announceRef, newAnnounce, { merge: true });
   });
 };

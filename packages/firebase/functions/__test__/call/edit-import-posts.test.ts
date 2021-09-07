@@ -65,7 +65,7 @@ describe('callEditImportPosts', () => {
       callEditImportPosts(
         {
           id: '1111111111',
-          url: 'http://announcing.test/import.json',
+          url: 'ftp://announcing.test/import.json',
           pubKey: '1234567890',
         } as any,
         { auth: { uid: 'AAAAA' } } as any,
