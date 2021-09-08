@@ -167,11 +167,10 @@ const importPostsJSON = async (
       }
     }
 
-    const newAnnounce: Announce = {
-      ...curAnnounce,
+    const announceUpdate: Partial<Announce> = {
       posts,
       uT: admin.firestore.FieldValue.serverTimestamp() as any,
     };
-    t.set(announceRef, newAnnounce, { merge: true });
+    t.update(announceRef, announceUpdate);
   });
 };
