@@ -120,10 +120,10 @@ const importPostsJSON = async (
   const posts: Announce['posts'] = {};
   for (const [id, post] of newPostsMap.entries()) {
     const p: Announce['posts'][string] = { pT: post.pT };
-    if (post.refID) {
-      const parent = cIDMap.get(post.refID);
+    if (post.parentID) {
+      const parent = cIDMap.get(post.parentID);
       if (!parent) {
-        throw new Error(`missing refID: ${post.refID}`);
+        throw new Error(`missing parentID: ${post.parentID}`);
       }
       p.parent = parent;
     }

@@ -92,13 +92,13 @@ describe('firestoreUpdateImportPosts', () => {
     await expect(invoke()).rejects.toThrow('Validate JSON Error');
   });
 
-  it('refID', async () => {
+  it('parentID', async () => {
     nock('https://announcing.test')
       .get('/posts.json')
       .reply(200, {
         posts: [
           { body: 'parent', pT: '2021-09-09T12:24:56', cID: 'AAA' },
-          { body: 'child', pT: '2021-09-09T12:24:56', refID: 'AAA' },
+          { body: 'child', pT: '2021-09-09T12:24:56', parentID: 'AAA' },
         ],
       });
 

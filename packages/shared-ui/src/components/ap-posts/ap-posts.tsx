@@ -25,8 +25,25 @@ export class ApPosts {
   @Watch('posts')
   watchPosts() {
     const pe = Object.entries(this.posts);
+
+    const timeForSort = (p: Announce['posts']['string']) => {
+      if (p.parent) {
+        return this.posts[p.parent]?.pT.toMillis() || 0;
+      } else {
+        return p.pT.toMillis();
+      }
+    };
+
     pe.sort(([, p1], [, p2]) => {
-      return p2.pT.toMillis() - p1.pT.toMillis();
+      if (!p1.parent && !p2.parent) {
+        return p2.pT.toMillis() - p1.pT.toMillis();
+      }
+
+      if (p1.parent == p2.parent) {
+        return p1.pT.toMillis() - p2.pT.toMillis();
+      } else {
+        return timeForSort(p2) - timeForSort(p1);
+      }
     });
     this.postIds = pe.map(([id]) => id);
 
@@ -118,8 +135,15 @@ export class ApPosts {
       <Host>
         {this.postIds.map(id => {
           const r = this.renderPost(id);
+          const child = !!this.posts[id]?.parent;
           return (
-            <a key={id} data-postid={id} ref={this.handleRef} class="post" {...href(r.href)}>
+            <a
+              key={id}
+              data-postid={id}
+              ref={this.handleRef}
+              class={{ post: true, child }}
+              {...href(r.href)}
+            >
               {r.el}
             </a>
           );
