@@ -38,7 +38,6 @@ export class ApPosts {
         }
       }
     }
-    console.log('times', postTimes.size);
 
     pe.sort(([id1, p1], [id2, p2]) => {
       if (p1.parent) {
