@@ -23,6 +23,7 @@ interface PostBase {
   body?: string;
   link?: string;
   img?: string;
+  imgs?: string[];
   edited?: string;
 }
 

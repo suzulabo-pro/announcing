@@ -1,6 +1,7 @@
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
+import { bs62 } from '../../app/utils';
 import {
   ApNaviLink,
   assertIsDefined,
@@ -112,6 +113,15 @@ export class AppPost {
         post,
         imgPromise: post.img ? new PromiseState(this.app.fetchImage(post.img)) : undefined,
         imgHref: post.img ? `/${this.announceID}/${this.postID}/image/${post.img}` : undefined,
+        imgs: post.imgs
+          ? post.imgs.map(v => {
+              const v62 = bs62.encode(new TextEncoder().encode(v));
+              return {
+                srcPromise: new PromiseState(this.app.fetchImage(v)),
+                href: `/${this.announceID}/${this.postID}/image_uri/${v62}`,
+              };
+            })
+          : undefined,
       };
     }
     return;
@@ -216,13 +226,14 @@ const renderPost = (ctx: RenderContext) => {
       redirectRoute(`/${ctx.announceID}`);
       return;
     case 'fulfilled': {
-      const { post, imgPromise, imgHref } = status.value;
+      const { post, imgPromise, imgHref, imgs } = status.value;
 
       return (
         <ap-post
           post={post}
           imgPromise={imgPromise}
           imgHref={imgHref}
+          imgs={imgs}
           msgs={{ datetime: ctx.msgs.common.datetime }}
           showTweet={ctx.pageVisible.isVisible() && ctx.config.embedTwitter}
           showYoutube={ctx.pageVisible.isVisible() && ctx.config.embedYoutube}

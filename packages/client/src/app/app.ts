@@ -196,6 +196,9 @@ export class App {
   }
 
   async fetchImage(id: string) {
+    if (id.startsWith('https://')) {
+      return id;
+    }
     const v = await this.fetchData<string>(`images/${id}`, 'blob');
     if (v) {
       return `data:image/jpeg;base64,${v}`;

@@ -155,6 +155,7 @@ const importPostsJSON = async (
             body: v.body,
             link: v.link,
             img: v.img,
+            imgs: v.imgs,
             pT: v.pT,
           } as Post),
         );

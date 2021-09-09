@@ -37,6 +37,9 @@ export class ApPost {
   imgHref?: string;
 
   @Prop()
+  imgs?: { srcPromise: PromiseState<string>; href?: string }[];
+
+  @Prop()
   msgs!: {
     datetime: (v: number) => string;
   };
@@ -105,6 +108,13 @@ export class ApPost {
         <span class="date">{this.msgs.datetime(post.pT)}</span>
         {post.title && <span class="title">{post.title}</span>}
         {post.body && <ap-textview class="body" text={post.body} />}
+        {this.imgs && (
+          <div class="images">
+            {this.imgs.map(v => {
+              return <ap-image srcPromise={v.srcPromise} href={v.href} />;
+            })}
+          </div>
+        )}
         {post.link && (
           <Fragment>
             {embed}

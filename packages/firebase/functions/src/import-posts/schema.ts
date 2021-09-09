@@ -67,6 +67,8 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
           imgs: {
             type: 'array',
             nullable: true,
+            maxItems: 4,
+            uniqueItems: true,
             items: {
               type: 'string',
               nullable: false,
