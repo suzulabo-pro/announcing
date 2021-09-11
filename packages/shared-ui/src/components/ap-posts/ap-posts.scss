@@ -18,6 +18,7 @@ ap-posts {
       -webkit-line-clamp: 3;
       -webkit-box-orient: vertical;
       overflow: hidden;
+      overflow-wrap: break-word;
       .body {
         font-size: 0.95em;
       }

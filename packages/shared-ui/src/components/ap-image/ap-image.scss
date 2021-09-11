@@ -4,6 +4,10 @@ ap-image {
   justify-content: center;
   color: var(--light-color);
 
+  a {
+    display: contents;
+  }
+
   img {
     object-fit: contain;
     border-radius: 5px;

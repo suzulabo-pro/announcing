@@ -99,7 +99,7 @@ export class ApPost {
     const embed = this.renderEmbed();
 
     return (
-      <Host class={{ 'full-width': embed != undefined }}>
+      <Host>
         {this.imgPromise && (
           <div class="image">
             <ap-image srcPromise={this.imgPromise} href={this.imgHref} />
@@ -109,7 +109,7 @@ export class ApPost {
         {post.title && <span class="title">{post.title}</span>}
         {post.body && <ap-textview class="body" text={post.body} />}
         {this.imgs && (
-          <div class="images">
+          <div class={{ images: true, single: this.imgs.length == 1, multi: this.imgs.length > 1 }}>
             {this.imgs.map(v => {
               return <ap-image srcPromise={v.srcPromise} href={v.href} />;
             })}
