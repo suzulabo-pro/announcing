@@ -2,6 +2,10 @@ app-announce {
   display: flex;
   flex-direction: column;
 
+  ap-posts {
+    margin-top: 20px;
+  }
+
   ap-spinner,
   .deleted,
   .data-error {

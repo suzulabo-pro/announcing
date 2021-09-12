@@ -86,11 +86,18 @@ export class ApRoot {
       <Host>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;
+          if (!visible && tagInfo.pageVisible.isVisible()) {
+            const hideEl = this.el.getElementsByTagName(Tag)[0];
+            if (hideEl) {
+              hideEl.dispatchEvent(new CustomEvent('PageDeactivated'));
+            }
+          }
           tagInfo.pageVisible.setVisible(visible);
           return (
             <Tag
               key={Tag}
               class={{ page: true, hide: !visible }}
+              PageActivate={visible}
               pageVisible={tagInfo.pageVisible}
               {...tagInfo.params}
             />

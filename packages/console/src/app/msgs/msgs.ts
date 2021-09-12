@@ -79,6 +79,7 @@ export interface Msgs {
       btn: (s: string) => string;
       confirm: string;
     };
+    importPosts: string;
   };
   importPosts: {
     pageTitle: (s: string) => string;

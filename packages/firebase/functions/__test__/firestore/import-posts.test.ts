@@ -91,4 +91,19 @@ describe('firestoreUpdateImportPosts', () => {
 
     await expect(invoke()).rejects.toThrow('Validate JSON Error');
   });
+
+  it('parentID', async () => {
+    nock('https://announcing.test')
+      .get('/posts.json')
+      .reply(200, {
+        posts: [
+          { body: 'parent', pT: '2021-09-09T12:24:56', cID: 'AAA' },
+          { body: 'child', pT: '2021-09-09T12:24:56', parentID: 'AAA' },
+        ],
+      });
+
+    const data = await invoke();
+    const announce = data.announces['111111111111'];
+    expect(announce.posts['4PF3BY6s'].parent).toEqual('4c29MVcQ');
+  });
 });

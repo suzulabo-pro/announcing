@@ -37,6 +37,9 @@ export class ApPost {
   imgHref?: string;
 
   @Prop()
+  imgs?: { srcPromise: PromiseState<string>; href?: string }[];
+
+  @Prop()
   msgs!: {
     datetime: (v: number) => string;
   };
@@ -96,7 +99,7 @@ export class ApPost {
     const embed = this.renderEmbed();
 
     return (
-      <Host class={{ 'full-width': embed != undefined }}>
+      <Host>
         {this.imgPromise && (
           <div class="image">
             <ap-image srcPromise={this.imgPromise} href={this.imgHref} />
@@ -105,10 +108,17 @@ export class ApPost {
         <span class="date">{this.msgs.datetime(post.pT)}</span>
         {post.title && <span class="title">{post.title}</span>}
         {post.body && <ap-textview class="body" text={post.body} />}
+        {this.imgs && (
+          <div class={{ images: true, single: this.imgs.length == 1, multi: this.imgs.length > 1 }}>
+            {this.imgs.map(v => {
+              return <ap-image srcPromise={v.srcPromise} href={v.href} />;
+            })}
+          </div>
+        )}
         {post.link && (
           <Fragment>
             {embed}
-            <a class="link" href={post.link}>
+            <a class="link" href={post.link} target="_blank" rel="noopener">
               {post.link}
             </a>
           </Fragment>

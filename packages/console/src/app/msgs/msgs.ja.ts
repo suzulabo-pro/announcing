@@ -100,6 +100,7 @@ export const msgs: Msgs = {
       },
       confirm: 'アナウンスを削除します。本当によろしいですか？',
     },
+    importPosts: 'インポート設定',
   },
   importPosts: {
     pageTitle: (s: string) => {

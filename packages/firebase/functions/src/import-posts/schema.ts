@@ -15,7 +15,7 @@ type PostItem = RequireAtLeastOne<
     imgs?: string[];
     link?: string;
     cID?: string; // Custom ID
-    refID?: string;
+    parentID?: string;
   },
   'title' | 'body'
 >;
@@ -67,6 +67,8 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
           imgs: {
             type: 'array',
             nullable: true,
+            maxItems: 4,
+            uniqueItems: true,
             items: {
               type: 'string',
               nullable: false,
@@ -90,7 +92,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
             minLength: 1,
             maxLength: 100,
           },
-          refID: {
+          parentID: {
             type: 'string',
             nullable: true,
             minLength: 1,

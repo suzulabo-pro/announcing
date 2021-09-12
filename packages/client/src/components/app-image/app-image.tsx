@@ -1,5 +1,6 @@
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { App } from '../../app/app';
+import { bs62 } from '../../app/utils';
 import { ApNaviLink, assertIsDefined, PromiseState, redirectRoute } from '../../shared';
 
 @Component({
@@ -28,9 +29,13 @@ export class AppImage {
   }
 
   @Prop()
-  imageID!: string;
+  imageID?: string;
+
+  @Prop()
+  image62?: string;
 
   @Watch('imageID')
+  @Watch('image62')
   watchImageID() {
     this.imageState = undefined;
   }
@@ -46,7 +51,13 @@ export class AppImage {
 
   componentWillRender() {
     if (!this.imageState) {
-      this.imageState = new PromiseState(this.app.fetchImage(this.imageID));
+      if (this.imageID) {
+        this.imageState = new PromiseState(this.app.fetchImage(this.imageID));
+      }
+      if (this.image62) {
+        const uri = new TextDecoder().decode(bs62.decode(this.image62));
+        this.imageState = new PromiseState(Promise.resolve(uri));
+      }
     }
   }
 

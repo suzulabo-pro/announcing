@@ -3,6 +3,7 @@ import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stenc
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import { ApNaviLink, assertIsDefined, PromiseState, redirectRoute } from '../../shared';
+import { isURL } from '../../utils/isurl';
 
 const generateKeys = () => {
   const keys = nacl.box.keyPair();
@@ -32,7 +33,7 @@ export class AppImportPosts {
     this.naviLinks = [
       {
         label: this.app.msgs.common.back,
-        href: `/${this.announceID}`,
+        href: `/${this.announceID}/edit`,
         back: true,
       },
     ];
@@ -110,11 +111,12 @@ export class AppImportPosts {
     const announceStatus = this.announceState?.status();
     assertIsDefined(announceStatus);
 
-    const { announce } = this.announceState?.result() || {};
+    const { announce, importPosts } = this.announceState?.result() || {};
 
     const values = this.values || {};
+    const modified = values.url != importPosts?.url;
 
-    const canSubmit = true;
+    const canSubmit = isURL(values.url) && modified && !values.secKey;
 
     return {
       msgs: this.app.msgs,
@@ -169,9 +171,6 @@ const renderForm = (ctx: RenderContext) => {
         {ctx.values.secKey && (
           <div>
             <span class="ping-url">{`${location.origin}/import-posts/${ctx.announceID}/${ctx.values.secKey}`}</span>
-            <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>
-              {ctx.msgs.importPosts.form.tokenBtn}
-            </button>
           </div>
         )}
         <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>

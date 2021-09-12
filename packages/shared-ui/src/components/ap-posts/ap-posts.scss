@@ -1,26 +1,43 @@
 ap-posts {
   .post {
-    margin: 15px 10px;
+    margin: 0 10px;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     line-height: 1.8;
-    padding: 5px 10px;
-    height: 100px;
+    padding: 20px 10px;
+    height: 150px;
+    border-top: 1px solid var(--light-border-color);
+    text-decoration: none;
 
     .date {
       font-size: 0.9em;
     }
-    .title {
+    .content {
+      margin: auto 0;
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
       overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+      overflow-wrap: break-word;
+      .body {
+        font-size: 0.95em;
+      }
     }
-    .body {
-      font-size: 0.95em;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
+
+    &.child {
+      margin-left: 40px;
+      position: relative;
+      border-top: unset;
+
+      &::before {
+        position: absolute;
+        display: block;
+        content: '';
+        top: 15px;
+        left: -10px;
+        bottom: 15px;
+        border-left: 2px solid var(--light-border-color);
+      }
     }
   }
 }

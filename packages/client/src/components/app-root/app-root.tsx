@@ -44,6 +44,16 @@ const matches: RouteMatch[] = [
               },
             ],
           },
+          {
+            pattern: 'image_uri',
+            nexts: [
+              {
+                pattern: /^[0-9a-zA-Z]{1,1500}$/,
+                name: 'image62',
+                tag: 'app-image',
+              },
+            ],
+          },
         ],
       },
     ],

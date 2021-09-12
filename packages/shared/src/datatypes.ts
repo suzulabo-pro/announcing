@@ -14,7 +14,7 @@ export const isLang = (s: any): s is Lang => {
 
 export interface Announce {
   mid: string; // meta id
-  posts: { [postID: string]: { pT: Timestamp } };
+  posts: { [postID: string]: { pT: Timestamp; parent?: string } };
   uT: Timestamp; // updated time
 }
 
@@ -23,6 +23,7 @@ interface PostBase {
   body?: string;
   link?: string;
   img?: string;
+  imgs?: string[];
   edited?: string;
 }
 

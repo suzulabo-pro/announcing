@@ -15,10 +15,9 @@ export const announceMetaHash = (v: AnnounceMetaBase) => {
 };
 
 export const postHash = (v: Post) => {
-  return toMD5Base62(serialize(v.pT.toMillis().toString(), v.title, v.body, v.link, v.img)).substr(
-    0,
-    8,
-  );
+  return toMD5Base62(
+    serialize(v.pT.toMillis().toString(), v.title, v.body, v.link, v.img, v.imgs?.join(':')),
+  ).substr(0, 8);
 };
 
 export const checkOwner = async (firestore: admin.firestore.Firestore, uid: string, id: string) => {

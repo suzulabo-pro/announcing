@@ -25,8 +25,36 @@ export class ApPosts {
   @Watch('posts')
   watchPosts() {
     const pe = Object.entries(this.posts);
-    pe.sort(([, p1], [, p2]) => {
-      return p2.pT.toMillis() - p1.pT.toMillis();
+
+    const postTimes = new Map<string, number>();
+    for (const [id, post] of pe) {
+      const pT = post.pT.toMillis();
+      if (pT > (postTimes.get(id) || 0)) {
+        postTimes.set(id, pT);
+      }
+      if (post.parent) {
+        if (pT > (postTimes.get(post.parent) || 0)) {
+          postTimes.set(post.parent, pT);
+        }
+      }
+    }
+
+    pe.sort(([id1, p1], [id2, p2]) => {
+      if (p1.parent) {
+        if (p1.parent == p2.parent) {
+          return p1.pT.toMillis() - p2.pT.toMillis();
+        }
+        if (p1.parent == id2) {
+          return 1;
+        }
+      }
+      if (p2.parent) {
+        if (p2.parent == id1) {
+          return -1;
+        }
+      }
+
+      return (postTimes.get(id2) || 0) - (postTimes.get(id1) || 0);
     });
     this.postIds = pe.map(([id]) => id);
 
@@ -103,8 +131,11 @@ export class ApPosts {
       el: (
         <Fragment>
           <span class="date">{this.msgs.datetime(post.pT)}</span>
-          {post.title && <span class="title">{post.title}</span>}
-          {post.body && <div class="body">{post.body}</div>}
+          <div class="content">
+            {post.title && <span class="title">{post.title}</span>}
+            {post.title && post.body && <br />}
+            {post.body && <span class="body">{post.body}</span>}
+          </div>
         </Fragment>
       ),
     };
@@ -115,8 +146,15 @@ export class ApPosts {
       <Host>
         {this.postIds.map(id => {
           const r = this.renderPost(id);
+          const child = !!this.posts[id]?.parent;
           return (
-            <a key={id} data-postid={id} ref={this.handleRef} class="card post" {...href(r.href)}>
+            <a
+              key={id}
+              data-postid={id}
+              ref={this.handleRef}
+              class={{ post: true, child }}
+              {...href(r.href)}
+            >
               {r.el}
             </a>
           );
