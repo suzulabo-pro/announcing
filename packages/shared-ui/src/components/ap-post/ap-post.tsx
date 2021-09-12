@@ -118,7 +118,7 @@ export class ApPost {
         {post.link && (
           <Fragment>
             {embed}
-            <a class="link" href={post.link}>
+            <a class="link" href={post.link} target="_blank" rel="noopener">
               {post.link}
             </a>
           </Fragment>

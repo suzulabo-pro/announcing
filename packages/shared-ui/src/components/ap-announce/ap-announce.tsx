@@ -50,7 +50,7 @@ export class ApAnnounce {
           <Fragment>
             {announce.desc && <div class="desc">{announce.desc}</div>}
             {announce.link && (
-              <a class="link" href={announce.link}>
+              <a class="link" href={announce.link} target="_blank" rel="noopener">
                 {announce.link}
               </a>
             )}
