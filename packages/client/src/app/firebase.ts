@@ -195,7 +195,10 @@ export class AppFirebase {
     return this.firestoreHelper.listenAndGet<Announce>(
       `announces/${id}`,
       (oldData, newData) => {
-        return oldData.uT.toMillis() != newData.uT.toMillis();
+        if (oldData && newData) {
+          return oldData.uT.toMillis() != newData.uT.toMillis();
+        }
+        return true;
       },
       temporary,
     );

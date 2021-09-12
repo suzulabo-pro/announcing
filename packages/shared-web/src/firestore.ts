@@ -32,7 +32,7 @@ export class FirestoreHelper {
 
   async listenAndGet<T>(
     p: string,
-    shoudFireEvent?: (oldData: T, newData: T) => boolean,
+    shoudFireEvent?: (oldData?: T, newData?: T) => boolean,
     temporary?: boolean,
   ): Promise<T | undefined> {
     const docInfo = this.listenerMap.get(p) || {};
@@ -56,7 +56,7 @@ export class FirestoreHelper {
                 new FirestoreUpdatedEvent({
                   collection: docRef.parent.id,
                   id: docRef.id,
-                  value: ds.data(),
+                  value: newData,
                 }),
               );
             }
