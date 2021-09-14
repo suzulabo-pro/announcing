@@ -10,11 +10,10 @@ import { callEditAnnounce } from './call/edit-announce';
 import { callEditImportPosts } from './call/edit-import-posts';
 import { callPutPost } from './call/put-post';
 import { callRegisterNotification } from './call/register-notification';
-import { firestoreDeleteAnnounce } from './firestore/announce';
+import { firestoreDeleteAnnounce, firestoreUpdateAnnounce } from './firestore/announce';
 import { firestoreUpdateImportPosts } from './firestore/import-posts';
 import { firestoreNotificationDeviceWrite } from './firestore/notif-devices';
 import { firestoreImmediateNotificationWrite } from './firestore/notif-imm';
-import { firestoreCreatePost } from './firestore/post';
 import {
   httpsGetAnnounceMetaData,
   httpsGetAnnouncePostData,
@@ -71,11 +70,10 @@ export const onFirestoreDeleteAnnounce = region.firestore
   .onDelete((qds, context) => {
     return firestoreDeleteAnnounce(qds, context, adminApp);
   });
-
-export const onFirestoreCreatePost = region.firestore
-  .document('announces/{announceID}/posts/{postID}')
-  .onCreate((qds, context) => {
-    return firestoreCreatePost(qds, context, adminApp);
+export const onFirestoreUpdateAnnounce = region.firestore
+  .document('announces/{announceID}')
+  .onUpdate((change, context) => {
+    return firestoreUpdateAnnounce(change, context, adminApp);
   });
 
 export const onFirestoreUpdateImportPosts = region.firestore

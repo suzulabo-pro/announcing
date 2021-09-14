@@ -1,3 +1,4 @@
+/*
 import { Announce, AnnounceMeta, Lang, Post } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { EventContext } from 'firebase-functions/lib/cloud-functions';
@@ -101,3 +102,4 @@ export const firestoreCreatePost = async (
 
   await pubMulticastMessages(msgs);
 };
+*/

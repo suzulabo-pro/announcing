@@ -60,7 +60,6 @@ export const callPutPost = async (
     if (!data) {
       throw new Error(`missing edit data: ${id}/${editID}`);
     }
-    postData.edited = editID;
     postData.pT = data.pT;
   }
 
@@ -88,7 +87,7 @@ export const callPutPost = async (
 
     if (editID) {
       const updateData = {
-        [`posts.${postID}`]: { pT: postData.pT },
+        [`posts.${postID}`]: { pT: postData.pT, edited: editID },
         [`posts.${editID}`]: admin.firestore.FieldValue.delete(),
         uT: admin.firestore.FieldValue.serverTimestamp(),
       };
