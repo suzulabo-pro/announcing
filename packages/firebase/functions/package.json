@@ -33,13 +33,8 @@
   "devDependencies": {
     "@announcing/shared": "*",
     "@types/cors": "^2.8.12",
-    "@types/jest": "^27.0.1",
-    "docsify-cli": "^4.4.3",
-    "jest": "^27.0.6",
     "nock": "^13.1.3",
-    "ts-jest": "^27.0.5",
     "ts-loader": "^9.2.5",
-    "typescript": "^4.4.3",
     "webpack": "^5.52.1",
     "webpack-cli": "^4.8.0",
     "webpack-node-externals": "^3.0.0"

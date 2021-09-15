@@ -10,6 +10,7 @@
     "clean": "rm -rf dist www",
     "build": "touch src/components.d.ts && stencil build",
     "build.watch": "stencil build --watch",
+    "test": "echo ok",
     "serve": "stencil build --dev --watch --serve",
     "start": "npm run serve"
   },
