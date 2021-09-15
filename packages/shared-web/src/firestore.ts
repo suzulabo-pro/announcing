@@ -3,6 +3,7 @@ import {
   DocumentData,
   DocumentReference,
   Firestore,
+  FirestoreError,
   getDocFromCache,
   getDocFromServer,
   onSnapshot,
@@ -112,7 +113,7 @@ const getCache = async <T>(docRef: DocumentReference): Promise<T | undefined> =>
       return doc.data() as T;
     }
   } catch (err) {
-    if (err.code == 'unavailable') {
+    if (err instanceof FirestoreError && err.code == 'unavailable') {
       return;
     }
     throw err;

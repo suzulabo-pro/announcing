@@ -10,13 +10,13 @@
     "build.watch": "tsc -p tconfig.build.json -w"
   },
   "dependencies": {
-    "@stencil/core": "^2.6.0",
-    "firebase": "^9.0.0-beta.8"
+    "@stencil/core": "^2.8.0",
+    "firebase": "^9.0.2"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.1",
     "jest": "^27.0.6",
     "ts-jest": "^27.0.3",
-    "typescript": "^4.3.5"
+    "typescript": "^4.4.3"
   }
 }
