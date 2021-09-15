@@ -68,7 +68,7 @@ export const callEditAnnounce = async (
   const announceRef = firestore.doc(`announces/${id}`);
   const announceData = (await announceRef.get()).data() as Announce;
   if (!announceData) {
-    logger.debug('no data', id);
+    logger.debug('no data', { id });
     return;
   }
   if (announceData.mid == newMetaID) {

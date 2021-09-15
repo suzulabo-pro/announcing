@@ -97,7 +97,7 @@ export const firestoreUpdateAnnounce = async (
   const announceRef = firestore.doc(`announces/${announceID}`);
   const a = (await announceRef.get()).data() as Announce;
   if (!a) {
-    logger.warn('missing announce', announceID);
+    logger.warn('missing announce', { announceID });
     return;
   }
   const announceMeta = (
@@ -105,7 +105,7 @@ export const firestoreUpdateAnnounce = async (
   ).data() as AnnounceMeta;
 
   if (!announceMeta) {
-    logger.warn('missing announce meta', announceID);
+    logger.warn('missing announce meta', { announceID });
     return;
   }
 

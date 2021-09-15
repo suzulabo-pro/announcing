@@ -35,7 +35,7 @@ export const callDeletePost = async (
     const announceRef = firestore.doc(`announces/${id}`);
     const announceData = (await t.get(announceRef)).data() as Announce;
     if (!announceData) {
-      logger.debug('no data', id);
+      logger.debug('no data', { id });
       return;
     }
     if (!(postID in announceData.posts)) {

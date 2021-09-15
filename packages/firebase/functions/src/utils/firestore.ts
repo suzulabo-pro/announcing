@@ -24,7 +24,7 @@ export const checkOwner = async (firestore: admin.firestore.Firestore, uid: stri
   const userRef = firestore.doc(`users/${uid}`);
   const userData = (await userRef.get()).data() as User;
   if (!userData) {
-    logger.warn('no user', uid);
+    logger.warn('no user', { uid });
     return false;
   }
   if (!userData.announces || userData.announces.indexOf(id) < 0) {
