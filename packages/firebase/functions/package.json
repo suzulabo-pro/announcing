@@ -31,7 +31,6 @@
     "type-fest": "^2.3.2"
   },
   "devDependencies": {
-    "@announcing/shared": "*",
     "@types/cors": "^2.8.12",
     "nock": "^13.1.3",
     "ts-loader": "^9.2.5",
