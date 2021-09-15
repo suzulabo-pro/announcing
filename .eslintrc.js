@@ -1,8 +1,12 @@
 module.exports = {
   root: true,
   env: {
+    serviceworker: true,
     node: true,
     es6: true,
+  },
+  parserOptions: {
+    ecmaVersion: 2020,
   },
   extends: ['eslint:recommended', 'prettier'],
   overrides: [

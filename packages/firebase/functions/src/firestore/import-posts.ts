@@ -94,7 +94,7 @@ const importPostsJSON = async (
   data: any,
 ) => {
   if (!validatePostsImportJSON(data)) {
-    logger.error('Invalid JSON', validatePostsImportJSON.errors);
+    logger.error('Invalid JSON', { errors: validatePostsImportJSON.errors });
     // TODO: logging for user
     throw new Error('Validate JSON Error');
   }

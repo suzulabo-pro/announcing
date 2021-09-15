@@ -8,8 +8,7 @@ self.addEventListener('push', event => {
   const title = data.notification.title;
   const icon = data.data?.icon ? `/data/images/${data.data.icon}` : null;
   const announceID = data.data?.announceID;
-  const postID = data.data?.postID;
-  const href = announceID && postID ? `/${announceID}/${postID}` : '/';
+  const href = announceID ? `/${announceID}` : '/';
 
   const options = {
     body: data.notification.body,

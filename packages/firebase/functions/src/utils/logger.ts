@@ -1,16 +1,16 @@
 import { logger as fnLogger } from 'firebase-functions';
 
 export const logger = {
-  debug: (msg: string, v?: any) => {
-    fnLogger.debug(msg, v);
+  debug: (message: string, v?: Record<string, any>) => {
+    fnLogger.write({ severity: 'DEBUG', message, ...v });
   },
-  info: (msg: string, v?: any) => {
-    fnLogger.info(msg, v);
+  info: (message: string, v?: Record<string, any>) => {
+    fnLogger.write({ severity: 'INFO', message, ...v });
   },
-  warn: (msg: string, v?: any) => {
-    fnLogger.warn(msg, v);
+  warn: (message: string, v?: Record<string, any>) => {
+    fnLogger.write({ severity: 'WARNING', message, ...v });
   },
-  error: (msg: string, v?: any) => {
-    fnLogger.error(msg, v);
+  error: (message: string, v?: Record<string, any>) => {
+    fnLogger.write({ severity: 'ERROR', message, ...v });
   },
 };
