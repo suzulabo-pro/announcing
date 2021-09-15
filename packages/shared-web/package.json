@@ -10,6 +10,7 @@
     "build.watch": "tsc -p tconfig.build.json -w"
   },
   "dependencies": {
+    "@announcing/shared": "*",
     "@stencil/core": "^2.8.0",
     "firebase": "^9.0.2"
   },
