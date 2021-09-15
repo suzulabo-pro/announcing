@@ -1,8 +1,6 @@
-import bsx from 'base-x';
+import { bs62 } from '@announcing/shared';
 import * as crypto from 'crypto';
 import nacl from 'tweetnacl';
-
-export const bs62 = bsx('0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ');
 
 export const toMD5Base62 = (v: Buffer | string) => {
   const md5 = crypto.createHash('md5');

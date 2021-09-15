@@ -9,6 +9,7 @@ import {
   AnnounceMetaBase,
   AnnounceMetaJSON,
   AppEnv,
+  bs62,
   LazyPromiseState,
   PostJSON,
   pushRoute,
@@ -18,7 +19,6 @@ import { AppFirebase } from './firebase';
 import { AppIdbCache } from './idbcache';
 import { AppMsg } from './msg';
 import { AppStorage } from './storage';
-import { bs62 } from './utils';
 
 const BUILD_INFO = {
   src: '__BUILD_SRC__',

@@ -4,6 +4,7 @@
   "version": "0.0.0",
   "scripts": {
     "clean": "rm -rf console client",
+    "build": "ok",
     "build:func": "npm --prefix ./functions run build",
     "build:func:watch": "npm --prefix ./functions run build.watch",
     "build:console": "npm --prefix ../console run build",
