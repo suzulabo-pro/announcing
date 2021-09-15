@@ -25,4 +25,4 @@ jobs:
       - run: npm run deploy
         working-directory: ./packages/firebase
         env:
-          FIREBASE_TOKEN: ${{ secrets._FIREBASE_TOKEN }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
