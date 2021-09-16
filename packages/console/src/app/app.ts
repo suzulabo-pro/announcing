@@ -87,12 +87,12 @@ export class App {
     await this.appFirebase.signOut();
   }
 
-  signInGoogle(keep: boolean) {
-    return this.appFirebase.signIn(keep, 'google');
+  signInGoogle() {
+    return this.appFirebase.signIn('google');
   }
 
-  signInTwitter(keep: boolean) {
-    return this.appFirebase.signIn(keep, 'twitter');
+  signInTwitter() {
+    return this.appFirebase.signIn('twitter');
   }
 
   createAnnounce(name: string, desc: string) {

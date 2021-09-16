@@ -3,12 +3,9 @@ import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
-  browserLocalPersistence,
-  browserSessionPersistence,
   connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
-  setPersistence,
   signInWithRedirect,
   TwitterAuthProvider,
 } from 'firebase/auth';
@@ -82,28 +79,20 @@ export class AppFirebase {
       console.warn('enablePersistence', err);
     }
 
+    this.auth.languageCode = this.appMsg.lang;
     await new Promise<void>(resolve => {
       this.auth.onAuthStateChanged(user => {
         this.appState.signIn.set(user != null);
         resolve();
       });
     });
-    this.auth.languageCode = this.appMsg.lang;
   }
 
   get user() {
     return this.auth.currentUser;
   }
 
-  async signIn(keep: boolean, kind: 'google' | 'twitter') {
-    if (keep) {
-      console.log('local');
-      await setPersistence(this.auth, browserLocalPersistence);
-    } else {
-      console.log('session');
-      await setPersistence(this.auth, browserSessionPersistence);
-    }
-
+  async signIn(kind: 'google' | 'twitter') {
     switch (kind) {
       case 'google': {
         const provider = new GoogleAuthProvider();
