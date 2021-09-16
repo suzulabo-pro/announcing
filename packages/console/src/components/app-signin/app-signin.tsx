@@ -1,4 +1,4 @@
-import { Component, h, Host, Prop, State } from '@stencil/core';
+import { Component, h, Host, Prop } from '@stencil/core';
 import { App } from '../../app/app';
 
 @Component({
@@ -9,22 +9,13 @@ export class AppSignIn {
   @Prop()
   app!: App;
 
-  @State()
-  keepSignedIn = false;
-
   private handleGoogleClick = () => {
-    return this.app.signInGoogle(this.keepSignedIn);
+    return this.app.signInGoogle();
   };
 
   private handleTwitterClick = () => {
-    return this.app.signInTwitter(this.keepSignedIn);
+    return this.app.signInTwitter();
   };
-
-  /*
-  private handleKeepSignedIn = () => {
-    this.keepSignedIn = !this.keepSignedIn;
-  };
-  */
 
   render() {
     const msgs = this.app.msgs;
@@ -39,14 +30,6 @@ export class AppSignIn {
           <ap-icon icon="twitter"></ap-icon>
           {msgs.signIn.twitterBtn}
         </button>
-        {/*
-        // TODO: Check at end of firebase sdk beta
-        <ap-checkbox
-          label={msgs.signIn.keepSignedIn}
-          checked={this.keepSignedIn}
-          onClick={this.handleKeepSignedIn}
-        />
-        */}
       </Host>
     );
   }

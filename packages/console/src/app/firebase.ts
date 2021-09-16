@@ -1,3 +1,4 @@
+import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
@@ -20,7 +21,6 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
 import {
   Announce,
   AnnounceMeta,
@@ -79,27 +79,20 @@ export class AppFirebase {
       console.warn('enablePersistence', err);
     }
 
+    this.auth.languageCode = this.appMsg.lang;
     await new Promise<void>(resolve => {
       this.auth.onAuthStateChanged(user => {
         this.appState.signIn.set(user != null);
         resolve();
       });
     });
-    this.auth.languageCode = this.appMsg.lang;
   }
 
   get user() {
     return this.auth.currentUser;
   }
 
-  async signIn(keep: boolean, kind: 'google' | 'twitter') {
-    // TODO: not work v9 beta
-    if (keep) {
-      //await setPersistence(this.auth, { type: 'LOCAL' });
-    } else {
-      //await setPersistence(this.auth, { type: 'SESSION' });
-    }
-
+  async signIn(kind: 'google' | 'twitter') {
     switch (kind) {
       case 'google': {
         const provider = new GoogleAuthProvider();
