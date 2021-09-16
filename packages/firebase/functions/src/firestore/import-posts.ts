@@ -5,6 +5,8 @@ import * as admin from 'firebase-admin';
 import { Change, EventContext } from 'firebase-functions';
 import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { validatePostsImportJSON } from '../import-posts/schema';
+import { IMPORT_POSTS_EXPIRED_MSEC } from '../utils/datatypes';
+import { RetryError } from '../utils/errors';
 import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
@@ -14,9 +16,15 @@ const FETCH_MAX_SIZE = 1024 * 1024;
 
 export const firestoreUpdateImportPosts = async (
   change: Change<QueryDocumentSnapshot>,
-  _context: EventContext,
+  context: EventContext,
   adminApp: admin.app.App,
 ): Promise<void> => {
+  const eventAgeMs = Date.now() - Date.parse(context.timestamp);
+  if (eventAgeMs > IMPORT_POSTS_EXPIRED_MSEC) {
+    logger.warn('event expired');
+    return;
+  }
+
   const firestore = adminApp.firestore();
   const id = change.after.id;
 
@@ -71,15 +79,24 @@ const fetch = async (url: string) => {
     const res = await axios.get(url, {
       timeout,
       maxContentLength: FETCH_MAX_SIZE,
+      maxRedirects: 0,
+      validateStatus: undefined,
       headers: {
         'user-agent': FETCH_UA,
       },
       cancelToken: source.token,
     });
-    return res.data;
+    const status = res.status;
+    if (status >= 200 && status < 300) {
+      return res.data;
+    }
+    if (status >= 500) {
+      throw new RetryError(`status(retry): ${status}`);
+    }
+    throw new Error(`status: ${status}`);
   } catch (err) {
     if (axios.isCancel(err)) {
-      throw new Error('timeout(timer)');
+      throw new RetryError('timeout(timer)');
     } else {
       throw err;
     }

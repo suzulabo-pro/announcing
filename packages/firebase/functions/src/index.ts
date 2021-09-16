@@ -21,6 +21,8 @@ import {
 } from './https/get-data';
 import { httpsPingImportPosts } from './https/import-posts';
 import { pubsubSendNotification } from './pubsub/send-notification';
+import { RetryError } from './utils/errors';
+import { logger } from './utils/logger';
 
 const adminApp = admin.initializeApp();
 const appEnv = new AppEnv().env;
@@ -65,8 +67,9 @@ export const getAnnouncePostData = onHttpsRequest(httpsGetAnnouncePostData);
 export const getImageData = onHttpsRequest(httpsGetImageData);
 export const pingImportPosts = onHttpsRequest(httpsPingImportPosts);
 
-export const onFirestoreUpdateAnnounce = region.firestore
-  .document('announces/{announceID}')
+export const onFirestoreUpdateAnnounce = region
+  .runWith({ failurePolicy: true })
+  .firestore.document('announces/{announceID}')
   .onUpdate((change, context) => {
     return firestoreUpdateAnnounce(change, context, adminApp);
   });
@@ -76,10 +79,19 @@ export const onFirestoreDeleteAnnounce = region.firestore
     return firestoreDeleteAnnounce(qds, context, adminApp);
   });
 
-export const onFirestoreUpdateImportPosts = region.firestore
-  .document('import-posts/{announceID}')
+export const onFirestoreUpdateImportPosts = region
+  .runWith({ failurePolicy: true })
+  .firestore.document('import-posts/{announceID}')
   .onUpdate((change, context) => {
-    return firestoreUpdateImportPosts(change, context, adminApp);
+    try {
+      return firestoreUpdateImportPosts(change, context, adminApp);
+    } catch (err) {
+      if (err instanceof RetryError) {
+        throw err;
+      }
+      logger.error('onFirestoreUpdateImportPosts Error', { err });
+      return;
+    }
   });
 
 export const onFirestoreNotificationDeviceWrite = region.firestore

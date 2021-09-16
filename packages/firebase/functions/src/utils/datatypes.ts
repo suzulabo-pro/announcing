@@ -19,3 +19,5 @@ export interface ImmediateNotification {
 export interface ImmediateNotificationArchive {
   devices: { [token: string]: [lang: Lang] };
 }
+
+export const IMPORT_POSTS_EXPIRED_MSEC = 1000 * 60 * 60; // 1 hour

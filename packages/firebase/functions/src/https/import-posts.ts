@@ -2,6 +2,7 @@ import { bs62, ImportPosts } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { Request, Response } from 'firebase-functions';
 import nacl from 'tweetnacl';
+import { IMPORT_POSTS_EXPIRED_MSEC } from '../utils/datatypes';
 import { logger } from '../utils/logger';
 
 const pathPattern = new RegExp('^/import-posts/([a-zA-Z0-9]{12})/([a-zA-Z0-9]{32,43})$');
@@ -57,7 +58,10 @@ export const httpsPingImportPosts = async (
       sendErr('bad path (secKey does not match)');
       return;
     }
-    if (data.requested) {
+
+    const expired = Date.now() + IMPORT_POSTS_EXPIRED_MSEC;
+
+    if (data.requested && data.uT.toMillis() < expired) {
       res.status(200).send('already requested');
       return;
     }
