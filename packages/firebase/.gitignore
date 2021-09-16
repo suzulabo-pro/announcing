@@ -69,3 +69,5 @@ node_modules/
 console/
 client/
 emu-data/
+
+lib

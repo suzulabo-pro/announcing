@@ -1,8 +1,15 @@
-import { bs62, ImportPostsRule, nacl } from '@announcing/shared';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
+import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
-import { ApNaviLink, assertIsDefined, PromiseState, redirectRoute } from '../../shared';
+import {
+  ApNaviLink,
+  assertIsDefined,
+  bs62,
+  ImportPostsRule,
+  PromiseState,
+  redirectRoute,
+} from '../../shared';
 import { isURL } from '../../utils/isurl';
 
 const generateKeys = () => {

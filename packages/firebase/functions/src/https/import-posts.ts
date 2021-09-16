@@ -1,9 +1,8 @@
-import { ImportPosts } from '@announcing/shared';
+import { bs62, ImportPosts } from '@announcing/shared';
 import * as admin from 'firebase-admin';
 import { Request, Response } from 'firebase-functions';
 import nacl from 'tweetnacl';
 import { logger } from '../utils/logger';
-import { bs62 } from '../utils/util';
 
 const pathPattern = new RegExp('^/import-posts/([a-zA-Z0-9]{12})/([a-zA-Z0-9]{32,43})$');
 

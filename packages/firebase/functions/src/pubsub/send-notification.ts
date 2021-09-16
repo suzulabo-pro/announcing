@@ -61,7 +61,7 @@ export const pubsubSendNotification = async (
       try {
         await batch.commit();
       } catch (err) {
-        logger.error('update error', err);
+        logger.error('update error', { err });
       }
     }
   };

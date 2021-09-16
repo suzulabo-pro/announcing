@@ -1,6 +1,6 @@
+import { bs62 } from '@announcing/shared';
 import nacl from 'tweetnacl';
 import { httpsPingImportPosts } from '../../src/https/import-posts';
-import { bs62 } from '../../src/utils/util';
 import { FakeFirestore } from '../fake-firestore';
 
 describe('httpsPingImportPosts', () => {

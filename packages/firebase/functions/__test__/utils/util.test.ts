@@ -1,4 +1,5 @@
-import { bs62, millisToBase62, postIDtoMillis } from '../../src/utils/util';
+import { bs62 } from '@announcing/shared';
+import { millisToBase62, postIDtoMillis } from '../../src/utils/util';
 
 describe('util', () => {
   it('postIDtoMillis', () => {

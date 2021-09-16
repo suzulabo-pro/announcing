@@ -1,10 +1,10 @@
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
-import { bs62 } from '../../app/utils';
 import {
   ApNaviLink,
   assertIsDefined,
+  bs62,
   FirestoreUpdatedEvent,
   PageVisible,
   PromiseState,
