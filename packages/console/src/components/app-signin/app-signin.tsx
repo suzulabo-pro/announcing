@@ -20,11 +20,9 @@ export class AppSignIn {
     return this.app.signInTwitter(this.keepSignedIn);
   };
 
-  /*
   private handleKeepSignedIn = () => {
     this.keepSignedIn = !this.keepSignedIn;
   };
-  */
 
   render() {
     const msgs = this.app.msgs;
@@ -39,14 +37,13 @@ export class AppSignIn {
           <ap-icon icon="twitter"></ap-icon>
           {msgs.signIn.twitterBtn}
         </button>
-        {/*
-        // TODO: Check at end of firebase sdk beta
-        <ap-checkbox
-          label={msgs.signIn.keepSignedIn}
-          checked={this.keepSignedIn}
-          onClick={this.handleKeepSignedIn}
-        />
-        */}
+        {
+          <ap-checkbox
+            label={msgs.signIn.keepSignedIn}
+            checked={this.keepSignedIn}
+            onClick={this.handleKeepSignedIn}
+          />
+        }
       </Host>
     );
   }

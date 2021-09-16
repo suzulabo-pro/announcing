@@ -1,10 +1,14 @@
+import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
   Auth,
+  browserLocalPersistence,
+  browserSessionPersistence,
   connectAuthEmulator,
   getAuth,
   GoogleAuthProvider,
+  setPersistence,
   signInWithRedirect,
   TwitterAuthProvider,
 } from 'firebase/auth';
@@ -20,7 +24,6 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
 import {
   Announce,
   AnnounceMeta,
@@ -93,11 +96,12 @@ export class AppFirebase {
   }
 
   async signIn(keep: boolean, kind: 'google' | 'twitter') {
-    // TODO: not work v9 beta
     if (keep) {
-      //await setPersistence(this.auth, { type: 'LOCAL' });
+      console.log('local');
+      await setPersistence(this.auth, browserLocalPersistence);
     } else {
-      //await setPersistence(this.auth, { type: 'SESSION' });
+      console.log('session');
+      await setPersistence(this.auth, browserSessionPersistence);
     }
 
     switch (kind) {
