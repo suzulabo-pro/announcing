@@ -65,15 +65,15 @@ export const getAnnouncePostData = onHttpsRequest(httpsGetAnnouncePostData);
 export const getImageData = onHttpsRequest(httpsGetImageData);
 export const pingImportPosts = onHttpsRequest(httpsPingImportPosts);
 
-export const onFirestoreDeleteAnnounce = region.firestore
-  .document('announces/{announceID}')
-  .onDelete((qds, context) => {
-    return firestoreDeleteAnnounce(qds, context, adminApp);
-  });
 export const onFirestoreUpdateAnnounce = region.firestore
   .document('announces/{announceID}')
   .onUpdate((change, context) => {
     return firestoreUpdateAnnounce(change, context, adminApp);
+  });
+export const onFirestoreDeleteAnnounce = region.firestore
+  .document('announces/{announceID}')
+  .onDelete((qds, context) => {
+    return firestoreDeleteAnnounce(qds, context, adminApp);
   });
 
 export const onFirestoreUpdateImportPosts = region.firestore
