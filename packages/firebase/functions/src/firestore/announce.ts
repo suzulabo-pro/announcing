@@ -66,7 +66,7 @@ export const firestoreUpdateAnnounce = async (
     const beforeLatest = Math.max(...Object.values(beforePosts).map(v => v.pT.toMillis()));
     const afterLatest = Math.max(...Object.values(afterPosts).map(v => v.pT.toMillis()));
     if (beforeLatest >= afterLatest) {
-      logger.warn('no new post');
+      logger.debug('no new post');
       return;
     }
   }
@@ -120,6 +120,10 @@ export const firestoreUpdateAnnounce = async (
     const postID = newPosts.pop()!;
     const postRef = announceRef.collection('posts').doc(postID);
     const postData = (await postRef.get()).data() as Post;
+    if (!postData) {
+      logger.warn('missing post', { announceID, postID });
+      return;
+    }
 
     baseMsg.notification.body = postData.title || postData.body;
   }
