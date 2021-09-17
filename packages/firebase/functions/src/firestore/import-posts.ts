@@ -58,8 +58,15 @@ export const firestoreUpdateImportPosts = async (
       return;
     }
 
-    const json = await fetch(url);
-    await importPostsJSON(firestore, id, json);
+    try {
+      const json = await fetch(url);
+      await importPostsJSON(firestore, t, id, json);
+    } catch (err) {
+      if (err instanceof RetryError) {
+        throw err;
+      }
+      logger.warn('import error', { err });
+    }
     t.update(docRef, { requested: false, uT: admin.firestore.FieldValue.serverTimestamp() });
   });
 };
@@ -97,9 +104,12 @@ const fetch = async (url: string) => {
   } catch (err) {
     if (axios.isCancel(err)) {
       throw new RetryError('timeout(timer)');
-    } else {
-      throw err;
+    } else if (axios.isAxiosError(err)) {
+      if (err.code == 'ECONNABORTED') {
+        throw new RetryError('timeout(ECONNABORTED)');
+      }
     }
+    throw err;
   } finally {
     clearTimeout(timer);
   }
@@ -107,6 +117,7 @@ const fetch = async (url: string) => {
 
 const importPostsJSON = async (
   firestore: admin.firestore.Firestore,
+  t: FirebaseFirestore.Transaction,
   announceID: string,
   data: any,
 ) => {
@@ -147,48 +158,46 @@ const importPostsJSON = async (
     posts[id] = p;
   }
 
-  await firestore.runTransaction(async t => {
-    const announceRef = firestore.doc(`announces/${announceID}`);
+  const announceRef = firestore.doc(`announces/${announceID}`);
 
-    const announce = await t.get(announceRef);
-    const curAnnounce = announce.data() as Announce;
-    if (!curAnnounce) {
-      throw new Error(`missing announce: ${announceID}`);
+  const announce = await t.get(announceRef);
+  const curAnnounce = announce.data() as Announce;
+  if (!curAnnounce) {
+    throw new Error(`missing announce: ${announceID}`);
+  }
+
+  const curPosts = curAnnounce.posts;
+  if (Object.keys(posts).sort().join(':') == Object.keys(curPosts).sort().join(':')) {
+    logger.warn('Same posts');
+    // TODO: logging for user
+    return;
+  }
+
+  for (const [id, v] of newPostsMap.entries()) {
+    if (!(id in curPosts)) {
+      t.create(
+        announceRef.collection('posts').doc(id),
+        stripObj({
+          title: v.title,
+          body: v.body,
+          link: v.link,
+          img: v.img,
+          imgs: v.imgs,
+          pT: v.pT,
+        } as Post),
+      );
     }
+  }
 
-    const curPosts = curAnnounce.posts;
-    if (Object.keys(posts).sort().join(':') == Object.keys(curPosts).sort().join(':')) {
-      logger.warn('Same posts');
-      // TODO: logging for user
-      return;
+  for (const id of Object.keys(curPosts)) {
+    if (!newPostsMap.has(id)) {
+      t.delete(announceRef.collection('posts').doc(id));
     }
+  }
 
-    for (const [id, v] of newPostsMap.entries()) {
-      if (!(id in curPosts)) {
-        t.create(
-          announceRef.collection('posts').doc(id),
-          stripObj({
-            title: v.title,
-            body: v.body,
-            link: v.link,
-            img: v.img,
-            imgs: v.imgs,
-            pT: v.pT,
-          } as Post),
-        );
-      }
-    }
-
-    for (const id of Object.keys(curPosts)) {
-      if (!newPostsMap.has(id)) {
-        t.delete(announceRef.collection('posts').doc(id));
-      }
-    }
-
-    const announceUpdate: Partial<Announce> = {
-      posts,
-      uT: admin.firestore.FieldValue.serverTimestamp() as any,
-    };
-    t.update(announceRef, announceUpdate);
-  });
+  const announceUpdate: Partial<Announce> = {
+    posts,
+    uT: admin.firestore.FieldValue.serverTimestamp() as any,
+  };
+  t.update(announceRef, announceUpdate);
 };
