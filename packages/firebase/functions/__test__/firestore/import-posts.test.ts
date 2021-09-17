@@ -120,4 +120,21 @@ describe('firestoreUpdateImportPosts', () => {
 
     await expect(invoke()).rejects.toThrow(RetryError);
   });
+
+  it('URL error', async () => {
+    const data = await invoke({
+      'announces': {
+        '111111111111': {
+          posts: { '1': {}, '2': {}, '3': {} },
+        },
+      },
+      'import-posts': {
+        '111111111111': {
+          url: 'https://announcing.announcing/posts.json',
+          requested: true,
+        },
+      },
+    });
+    expect(data['import-posts']['111111111111']['requested']).toEqual(false);
+  });
 });
