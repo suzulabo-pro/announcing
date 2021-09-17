@@ -203,7 +203,7 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderContent(ctx)}
       {renderURLModal(ctx)}
-      <ap-navi links={ctx.naviLinks} />
+      <ap-navi links={ctx.naviLinks} position="sticky" />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
