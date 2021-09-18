@@ -6,6 +6,10 @@ import { FakeFirestore } from '../fake-firestore';
 describe('firestoreUpdateImportPosts', () => {
   process.env['FETCH_TIMEOUT'] = '1000';
 
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
   const invoke = async (_data?: any) => {
     const data = _data || {
       'announces': {
