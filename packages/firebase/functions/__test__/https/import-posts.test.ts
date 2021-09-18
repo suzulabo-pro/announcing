@@ -13,6 +13,9 @@ describe('httpsPingImportPosts', () => {
 
     const req = {
       path: '/import-posts/123456789012/Bu6jbt95uheLCtzNBcO0YMAdVkCgZuFhw7BgJ0XfuFQ',
+      header: () => {
+        return;
+      },
     };
     const res = { status: jest.fn().mockReturnThis(), send: jest.fn().mockReturnThis() };
 
@@ -31,6 +34,9 @@ describe('httpsPingImportPosts', () => {
 
     const req = {
       path: '/import-posts/123456789012/Bu6jbt95uheLCtzNBcO0YMAdVkCgZuFhw7BgJ0XfuFQXX',
+      header: () => {
+        return;
+      },
     };
     const res = { status: jest.fn().mockReturnThis(), send: jest.fn().mockReturnThis() };
 

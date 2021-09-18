@@ -66,7 +66,13 @@ export const httpsPingImportPosts = async (
       return;
     }
 
-    t.update(docRef, { requested: true, uT: admin.firestore.FieldValue.serverTimestamp() });
+    const requestedURL = req.header('APP-IMPORT-URL') || data.url;
+
+    t.update(docRef, {
+      requested: true,
+      requestedURL,
+      uT: admin.firestore.FieldValue.serverTimestamp(),
+    });
 
     res.status(200).send('ok');
   });

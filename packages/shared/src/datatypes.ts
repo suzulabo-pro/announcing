@@ -98,6 +98,7 @@ export interface ImportPosts {
   url?: string;
   pubKey?: string;
   requested?: boolean;
+  requestedURL?: string;
   logs: ImportPostsLog[];
   uT: Timestamp; // updated time
 }

@@ -43,6 +43,7 @@ export const firestoreUpdateImportPosts = async (
 
   await firestore.runTransaction(async t => {
     const data = (await t.get(docRef)).data() as ImportPosts;
+
     if (!data) {
       logger.warn('no data', { id });
       return;
@@ -52,7 +53,7 @@ export const firestoreUpdateImportPosts = async (
       return;
     }
 
-    const url = data.url;
+    const url = data.requestedURL;
     if (!url) {
       logger.warn('no url', { id });
       return;
