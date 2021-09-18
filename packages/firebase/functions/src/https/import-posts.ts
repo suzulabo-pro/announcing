@@ -50,7 +50,10 @@ export const httpsPingImportPosts = async (
       sendErr('data not found');
       return;
     }
-    if (!data.url) {
+
+    const url = data.url;
+
+    if (!url) {
       sendErr('url does not set');
       return;
     }
@@ -66,7 +69,12 @@ export const httpsPingImportPosts = async (
       return;
     }
 
-    const requestedURL = req.header('APP-IMPORT-URL') || data.url;
+    const importURL = req.header('APP-IMPORT-URL');
+    if (importURL && !importURL.startsWith(url)) {
+      sendErr(`bad APP-IMPORT-URL: ${importURL} / ${url}`);
+      return;
+    }
+    const requestedURL = importURL || url;
 
     t.update(docRef, {
       requested: true,
