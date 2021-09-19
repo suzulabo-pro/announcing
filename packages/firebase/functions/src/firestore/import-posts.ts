@@ -33,11 +33,6 @@ export const firestoreUpdateImportPosts = async (
     logger.debug('not requested', { id });
     return;
   }
-  const beforeData = change.before.data() as ImportPosts;
-  if (beforeData.requested) {
-    logger.debug('alraedy requested', { id });
-    return;
-  }
 
   const docRef = change.after.ref;
 
@@ -56,6 +51,11 @@ export const firestoreUpdateImportPosts = async (
     const url = data.requestedURL;
     if (!url) {
       logger.warn('no url', { id });
+      return;
+    }
+
+    if (url != afterData.requestedURL) {
+      logger.warn('url updated', { id, url, requestedURL: afterData.requestedURL });
       return;
     }
 

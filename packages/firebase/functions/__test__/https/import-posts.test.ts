@@ -21,7 +21,7 @@ describe('httpsPingImportPosts', () => {
 
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);
-    expect(res.send.mock.calls[0][0]).toEqual('ok');
+    expect(res.send.mock.calls[0][0]).toEqual({ reqID: '', status: 'ok' });
     expect(data['import-posts']['123456789012']['requested']).toEqual(true);
   });
 
@@ -42,7 +42,7 @@ describe('httpsPingImportPosts', () => {
 
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(400);
-    expect(res.send.mock.calls[0][0]).toEqual('bad path');
+    expect(res.send.mock.calls[0][0]).toEqual({ msg: 'bad path', status: 'error' });
     expect(data['import-posts']['123456789012']['requested']).toBeUndefined();
   });
   it('import-url', async () => {
@@ -65,7 +65,10 @@ describe('httpsPingImportPosts', () => {
 
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);
-    expect(res.send.mock.calls[0][0]).toEqual('ok');
+    expect(res.send.mock.calls[0][0]).toEqual({
+      reqID: 'https://announcing.test/post.json?token=ABCD',
+      status: 'ok',
+    });
     expect(data['import-posts']['123456789012']['requested']).toEqual(true);
   });
 
