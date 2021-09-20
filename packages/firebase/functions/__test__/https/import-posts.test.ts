@@ -17,7 +17,11 @@ describe('httpsPingImportPosts', () => {
         return;
       },
     };
-    const res = { status: jest.fn().mockReturnThis(), send: jest.fn().mockReturnThis() };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn().mockReturnThis(),
+      setHeader: jest.fn().mockReturnThis(),
+    };
 
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);
@@ -61,7 +65,11 @@ describe('httpsPingImportPosts', () => {
         return 'https://announcing.test/post.json?token=ABCD';
       },
     };
-    const res = { status: jest.fn().mockReturnThis(), send: jest.fn().mockReturnThis() };
+    const res = {
+      status: jest.fn().mockReturnThis(),
+      send: jest.fn().mockReturnThis(),
+      setHeader: jest.fn().mockReturnThis(),
+    };
 
     await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);

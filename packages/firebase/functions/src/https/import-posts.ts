@@ -4,6 +4,7 @@ import { Request, Response } from 'firebase-functions';
 import nacl from 'tweetnacl';
 import { logger } from '../utils/logger';
 
+const cacheControl = 'public, max-age=30, s-maxage=30';
 const pathPattern = new RegExp('^/import-posts/([a-zA-Z0-9]{12})/([a-zA-Z0-9]{32,43})$');
 
 export const httpsPingImportPosts = async (
@@ -76,6 +77,7 @@ export const httpsPingImportPosts = async (
       uT: admin.firestore.FieldValue.serverTimestamp(),
     });
 
+    res.setHeader('Cache-Control', cacheControl);
     res.status(200).send({ reqID, status: 'ok' });
   });
 };
