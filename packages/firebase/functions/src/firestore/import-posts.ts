@@ -11,7 +11,7 @@ import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
 const FETCH_UA = 'announcing-bot';
-const FETCH_TIMEOUT = 5000;
+const FETCH_TIMEOUT = 30 * 1000;
 const FETCH_MAX_SIZE = 1024 * 1024;
 
 export const firestoreUpdateImportPosts = async (
@@ -33,16 +33,12 @@ export const firestoreUpdateImportPosts = async (
     logger.debug('not requested', { id });
     return;
   }
-  const beforeData = change.before.data() as ImportPosts;
-  if (beforeData.requested) {
-    logger.debug('alraedy requested', { id });
-    return;
-  }
 
   const docRef = change.after.ref;
 
   await firestore.runTransaction(async t => {
     const data = (await t.get(docRef)).data() as ImportPosts;
+
     if (!data) {
       logger.warn('no data', { id });
       return;
@@ -52,9 +48,14 @@ export const firestoreUpdateImportPosts = async (
       return;
     }
 
-    const url = data.url;
+    const url = data.requestedURL;
     if (!url) {
       logger.warn('no url', { id });
+      return;
+    }
+
+    if (url != afterData.requestedURL) {
+      logger.warn('url updated', { id, url, requestedURL: afterData.requestedURL });
       return;
     }
 

@@ -56,6 +56,15 @@
               "value": "public, max-age=31556952, immutable"
             }
           ]
+        },
+        {
+          "source": "/data/**/*",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=31556952, immutable"
+            }
+          ]
         }
       ]
     },
@@ -64,6 +73,10 @@
       "public": "console",
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
+        {
+          "regex": "^/import-posts/([a-zA-Z0-9]{12})/([a-zA-Z0-9]{32,43})$",
+          "function": "pingImportPosts"
+        },
         {
           "source": "**",
           "destination": "/index.html"
@@ -94,6 +107,15 @@
             {
               "key": "Cache-Control",
               "value": "public, max-age=31556952, immutable"
+            }
+          ]
+        },
+        {
+          "source": "/import-posts/**/*",
+          "headers": [
+            {
+              "key": "Cache-Control",
+              "value": "public, max-age=30"
             }
           ]
         }

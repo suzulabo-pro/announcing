@@ -6,6 +6,10 @@ import { FakeFirestore } from '../fake-firestore';
 describe('firestoreUpdateImportPosts', () => {
   process.env['FETCH_TIMEOUT'] = '1000';
 
+  afterEach(() => {
+    nock.cleanAll();
+  });
+
   const invoke = async (_data?: any) => {
     const data = _data || {
       'announces': {
@@ -16,6 +20,7 @@ describe('firestoreUpdateImportPosts', () => {
       'import-posts': {
         '111111111111': {
           url: 'https://announcing.test/posts.json',
+          requestedURL: 'https://announcing.test/posts.json',
           requested: true,
         },
       },
@@ -31,7 +36,7 @@ describe('firestoreUpdateImportPosts', () => {
         },
         after: firestore.doc(`import-posts/111111111111`).get(),
       } as any,
-      {} as any,
+      { timestamp: new Date().toISOString() } as any,
       firestore.adminApp(),
     );
 
@@ -79,6 +84,7 @@ describe('firestoreUpdateImportPosts', () => {
       'import-posts': {
         '111111111111': {
           url: 'https://announcing.test/posts.json',
+          requestedURL: 'https://announcing.test/posts.json',
           requested: true,
         },
       },
@@ -131,6 +137,7 @@ describe('firestoreUpdateImportPosts', () => {
       'import-posts': {
         '111111111111': {
           url: 'https://announcing.announcing/posts.json',
+          requestedURL: 'https://announcing.announcing/posts.json',
           requested: true,
         },
       },
