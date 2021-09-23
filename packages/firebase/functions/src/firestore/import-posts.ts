@@ -11,7 +11,7 @@ import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
 const FETCH_UA = 'announcing-bot';
-const FETCH_TIMEOUT = 5000;
+const FETCH_TIMEOUT = 30 * 1000;
 const FETCH_MAX_SIZE = 1024 * 1024;
 
 export const firestoreUpdateImportPosts = async (
