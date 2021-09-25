@@ -1,6 +1,6 @@
+import { POST_BODY_MAX_LENGTH, POST_TITLE_MAX_LENGTH } from '@announcing/shared';
 import Ajv, { JSONSchemaType } from 'ajv';
 import addFormats from 'ajv-formats';
-import { PostRule } from '../../../../shared/dist';
 import { RequireAtLeastOne } from 'type-fest';
 
 const ajv = new Ajv();
@@ -42,14 +42,14 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
             not: { type: 'null' },
             nullable: true,
             minLength: 1,
-            maxLength: PostRule.title.length,
+            maxLength: POST_TITLE_MAX_LENGTH,
           },
           body: {
             type: 'string',
             not: { type: 'null' },
             nullable: true,
             minLength: 1,
-            maxLength: PostRule.body.length,
+            maxLength: POST_BODY_MAX_LENGTH,
           },
           pT: {
             type: 'string',
@@ -61,7 +61,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
             nullable: true,
             minLength: 1,
             maxLength: 1000,
-            format: 'url',
+            format: 'uri',
             pattern: '^https://',
           },
           imgs: {
@@ -74,7 +74,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
               nullable: false,
               minLength: 1,
               maxLength: 1000,
-              format: 'url',
+              format: 'uri',
               pattern: '^https://',
             },
           },
@@ -83,7 +83,7 @@ const PostsImportJSONSchema: JSONSchemaType<PostsImportJSON> = {
             nullable: true,
             minLength: 1,
             maxLength: 1000,
-            format: 'url',
+            format: 'uri',
             pattern: '^https://',
           },
           cID: {

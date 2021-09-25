@@ -188,11 +188,11 @@ export class AppFirebase {
     }
   }
 
-  private async callFunc<RequestData = unknown, ResponseData = unknown>(
-    name: string,
-    params: RequestData,
-  ): Promise<ResponseData> {
-    const f = httpsCallable<RequestData, ResponseData>(this.functions, name);
+  private async callFunc<
+    RequestData = { method: string; [k: string]: any },
+    ResponseData = unknown,
+  >(params: RequestData): Promise<ResponseData> {
+    const f = httpsCallable<RequestData, ResponseData>(this.functions, 'httpsCall');
     const res = await f(params);
     return res.data;
   }
@@ -273,12 +273,15 @@ export class AppFirebase {
       throw new Error("can't get token");
     }
 
-    const signBody = [new Date().toISOString(), token, ...announces].join('\0');
+    const reqTime = new Date().toISOString();
+    const signBody = [reqTime, token, ...announces].join('\0');
     const secKey = bs62.decode(signSecKey);
-    const sign = bs62.encode(nacl.sign(new TextEncoder().encode(signBody), secKey));
+    const sign = bs62.encode(nacl.sign.detached(new TextEncoder().encode(signBody), secKey));
     const signKey = bs62.encode(nacl.sign.keyPair.fromSecretKey(secKey).publicKey);
 
     const params: RegisterNotificationParams = {
+      method: 'RegisterNotification',
+      reqTime,
       token,
       signKey,
       sign,
@@ -286,6 +289,6 @@ export class AppFirebase {
       announces,
     };
 
-    await this.callFunc<RegisterNotificationParams, void>('registerNotification', params);
+    await this.callFunc<RegisterNotificationParams, void>(params);
   }
 }

@@ -1,34 +1,24 @@
-import { AnnounceMetaRule, CreateAnnounceParams } from '@announcing/shared';
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
+import { CreateAnnounceParams } from '@announcing/shared';
+import { arrayUnion, CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { announceMetaHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 import { autoID } from '../utils/util';
 
-export const callCreateAnnounce = async (
-  params: Partial<CreateAnnounceParams>,
+export const createAnnounce = async (
+  params: CreateAnnounceParams,
   context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
     throw new Error('missing uid');
   }
   const { name, desc } = params;
-  if (!name) {
-    throw new Error('missing name');
-  }
-  if (name.length > AnnounceMetaRule.name.length) {
-    throw new Error('name is too long');
-  }
-  if (desc && desc.length > AnnounceMetaRule.desc.length) {
-    throw new Error('desc is too long');
-  }
 
   const metaData = {
     name,
     ...(!!desc && { desc }),
-    cT: admin.firestore.FieldValue.serverTimestamp(),
+    cT: serverTimestamp(),
   };
 
   const id = autoID();
@@ -37,11 +27,11 @@ export const callCreateAnnounce = async (
   const announceData = {
     mid,
     posts: {},
-    uT: admin.firestore.FieldValue.serverTimestamp(),
+    uT: serverTimestamp(),
   };
   const userData = {
-    announces: admin.firestore.FieldValue.arrayUnion(id),
-    uT: admin.firestore.FieldValue.serverTimestamp(),
+    announces: arrayUnion(id),
+    uT: serverTimestamp(),
   };
 
   const firestore = adminApp.firestore();

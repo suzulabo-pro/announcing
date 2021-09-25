@@ -3,7 +3,9 @@ import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stenc
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  AnnounceMetaRule,
+  ANNOUNCE_META_DESC_MAX_LENGTH,
+  ANNOUNCE_META_LINK_MAX_LENGTH,
+  ANNOUNCE_META_NAME_MAX_LENGTH,
   ApNaviLink,
   assertIsDefined,
   PromiseState,
@@ -229,20 +231,20 @@ const renderForm = (ctx: RenderContext) => {
           label={ctx.msgs.announceEdit.form.name}
           value={ctx.values.name}
           onInput={ctx.handlers.input.name}
-          maxLength={AnnounceMetaRule.name.length}
+          maxLength={ANNOUNCE_META_NAME_MAX_LENGTH}
         />
         <ap-input
           textarea={true}
           label={ctx.msgs.announceEdit.form.desc}
           value={ctx.values.desc}
           onInput={ctx.handlers.input.desc}
-          maxLength={AnnounceMetaRule.desc.length}
+          maxLength={ANNOUNCE_META_DESC_MAX_LENGTH}
         />
         <ap-input
           label={ctx.msgs.announceEdit.form.link}
           value={ctx.values.link}
           onInput={ctx.handlers.input.link}
-          maxLength={AnnounceMetaRule.link.length}
+          maxLength={ANNOUNCE_META_LINK_MAX_LENGTH}
         />
         <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>
           {ctx.msgs.announceEdit.form.btn}

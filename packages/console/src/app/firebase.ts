@@ -1,4 +1,3 @@
-import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
 import { Build } from '@stencil/core';
 import { FirebaseApp, initializeApp } from 'firebase/app';
 import {
@@ -29,8 +28,10 @@ import {
   DeleteAnnounceParams,
   DeletePostParams,
   EditAnnounceParams,
+  EditImportPostsParams,
   FirestoreHelper,
   Image,
+  ImportPosts,
   Post,
   PutPostParams,
   User,
@@ -115,37 +116,37 @@ export class AppFirebase {
     await this.auth.signOut();
   }
 
-  private async callFunc<RequestData = unknown, ResponseData = unknown>(
-    name: string,
-    params: RequestData,
-  ): Promise<ResponseData> {
-    const f = httpsCallable<RequestData, ResponseData>(this.functions, name);
+  private async callFunc<
+    RequestData = { method: string; [k: string]: any },
+    ResponseData = unknown,
+  >(params: RequestData): Promise<ResponseData> {
+    const f = httpsCallable<RequestData, ResponseData>(this.functions, 'httpsCall');
     const res = await f(params);
     return res.data;
   }
 
   async callCreateAnnounce(params: CreateAnnounceParams) {
-    return this.callFunc<CreateAnnounceParams, void>('createAnnounce', params);
+    return this.callFunc<CreateAnnounceParams, void>(params);
   }
 
   async callEditAnnounce(params: EditAnnounceParams) {
-    return this.callFunc<EditAnnounceParams, void>('editAnnounce', params);
+    return this.callFunc<EditAnnounceParams, void>(params);
   }
 
   async callEditImportPosts(params: EditImportPostsParams) {
-    return this.callFunc<EditImportPostsParams, void>('editImportPosts', params);
+    return this.callFunc<EditImportPostsParams, void>(params);
   }
 
   async callDeleteAnnounce(params: DeleteAnnounceParams) {
-    return this.callFunc<DeleteAnnounceParams, void>('deleteAnnounce', params);
+    return this.callFunc<DeleteAnnounceParams, void>(params);
   }
 
   async callPutPost(params: PutPostParams) {
-    return this.callFunc<PutPostParams, void>('putPost', params);
+    return this.callFunc<PutPostParams, void>(params);
   }
 
   async callDeletePost(params: DeletePostParams) {
-    return this.callFunc<DeletePostParams, void>('deletePost', params);
+    return this.callFunc<DeletePostParams, void>(params);
   }
 
   getUser() {

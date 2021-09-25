@@ -3,13 +3,7 @@ import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import 'firebase-functions/lib/logger/compat';
 import 'source-map-support/register';
-import { callCreateAnnounce } from './call/create-announce';
-import { callDeleteAnnounce } from './call/delete-announce';
-import { callDeletePost } from './call/delete-post';
-import { callEditAnnounce } from './call/edit-announce';
-import { callEditImportPosts } from './call/edit-import-posts';
-import { callPutPost } from './call/put-post';
-import { callRegisterNotification } from './call/register-notification';
+import { httpsCallHandler } from './call';
 import { firestoreDeleteAnnounce, firestoreUpdateAnnounce } from './firestore/announce';
 import { firestoreUpdateImportPosts } from './firestore/import-posts';
 import { firestoreNotificationDeviceWrite } from './firestore/notif-devices';
@@ -29,26 +23,10 @@ const appEnv = new AppEnv().env;
 
 const region = functions.region(appEnv.functionsRegion);
 
-export const createAnnounce = region.https.onCall(async (data, context) => {
-  return callCreateAnnounce(data, context, adminApp);
-});
-export const editAnnounce = region.https.onCall(async (data, context) => {
-  return callEditAnnounce(data, context, adminApp);
-});
-export const editImportPosts = region.https.onCall(async (data, context) => {
-  return callEditImportPosts(data, context, adminApp);
-});
-export const deleteAnnounce = region.https.onCall(async (data, context) => {
-  return callDeleteAnnounce(data, context, adminApp);
-});
-export const putPost = region.https.onCall(async (data, context) => {
-  return callPutPost(data, context, adminApp);
-});
-export const deletePost = region.https.onCall(async (data, context) => {
-  return callDeletePost(data, context, adminApp);
-});
-export const registerNotification = region.https.onCall(async (data, context) => {
-  return callRegisterNotification(data, context, adminApp);
+adminApp.firestore().settings({ ignoreUndefinedProperties: true });
+
+export const httpsCall = region.https.onCall(async (data, context) => {
+  return httpsCallHandler(data, context, adminApp);
 });
 
 type httpsHandler = (

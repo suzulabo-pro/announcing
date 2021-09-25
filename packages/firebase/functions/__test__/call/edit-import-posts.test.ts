@@ -1,27 +1,28 @@
-import { callEditImportPosts } from '../../src/call/edit-import-posts';
+import { httpsCallHandler, __InvalidParamsError } from '../../src/call';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('callEditImportPosts', () => {
+describe('editImportPosts', () => {
   it('set data', async () => {
     const data = {
       users: {
         AAAAA: {
-          announces: ['1111111111'],
+          announces: ['111111111111'],
         },
       },
     } as any;
     const firestore = new FakeFirestore(data);
 
-    await callEditImportPosts(
+    await httpsCallHandler(
       {
-        id: '1111111111',
+        method: 'EditImportPosts',
+        id: '111111111111',
         url: 'https://announcing.test/import.json',
         pubKey: '1234567890',
       },
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
     );
-    expect(data['import-posts']['1111111111']).toEqual({
+    expect(data['import-posts']['111111111111']).toEqual({
       url: 'https://announcing.test/import.json',
       pubKey: '1234567890',
       requested: false,
@@ -33,16 +34,17 @@ describe('callEditImportPosts', () => {
     const data = {
       users: {
         AAAAA: {
-          announces: ['1111111112'],
+          announces: ['111111111112'],
         },
       },
     } as any;
     const firestore = new FakeFirestore(data);
 
     await expect(
-      callEditImportPosts(
+      httpsCallHandler(
         {
-          id: '1111111111',
+          method: 'EditImportPosts',
+          id: '111111111111',
           url: 'https://announcing.test/import.json',
           pubKey: '1234567890',
         },
@@ -56,22 +58,23 @@ describe('callEditImportPosts', () => {
     const data = {
       users: {
         AAAAA: {
-          announces: ['1111111111'],
+          announces: ['111111111111'],
         },
       },
     } as any;
     const firestore = new FakeFirestore(data);
 
     await expect(
-      callEditImportPosts(
+      httpsCallHandler(
         {
-          id: '1111111111',
+          method: 'EditImportPosts',
+          id: '111111111111',
           url: 'ftp://announcing.test/import.json',
           pubKey: '1234567890',
-        } as any,
+        },
         { auth: { uid: 'AAAAA' } } as any,
         firestore.adminApp(),
       ),
-    ).rejects.toThrow('invalid protocol');
+    ).rejects.toThrow(__InvalidParamsError);
   });
 });

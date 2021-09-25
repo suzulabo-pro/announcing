@@ -1,12 +1,11 @@
-import { EditImportPostsParams, ImportPosts, ImportPostsRule } from '@announcing/shared';
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
+import { EditImportPostsParams, ImportPosts } from '@announcing/shared';
+import { CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { checkOwner } from '../utils/firestore';
 
-export const callEditImportPosts = async (
-  params: Partial<EditImportPostsParams>,
+export const editImportPosts = async (
+  params: EditImportPostsParams,
   context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
@@ -14,25 +13,6 @@ export const callEditImportPosts = async (
   }
 
   const { id, url, pubKey } = params;
-  if (!id) {
-    throw new Error('missing id');
-  }
-  if (url) {
-    if (url.length > ImportPostsRule.url.length) {
-      throw new Error('url is too long');
-    }
-    if (!pubKey) {
-      throw new Error('missing pubKey');
-    }
-
-    {
-      const urlObj = new URL(url);
-      const protocol = urlObj.protocol.toLowerCase();
-      if (protocol != 'https:' && protocol != 'http:') {
-        throw new Error('invalid protocol');
-      }
-    }
-  }
 
   const firestore = adminApp.firestore();
 
@@ -47,7 +27,7 @@ export const callEditImportPosts = async (
     url,
     pubKey,
     requested: false,
-    uT: admin.firestore.FieldValue.serverTimestamp() as any,
+    uT: serverTimestamp() as any,
   };
 
   const optionRef = firestore.doc(`import-posts/${id}`);

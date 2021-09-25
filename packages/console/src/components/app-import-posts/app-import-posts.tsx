@@ -6,7 +6,7 @@ import {
   ApNaviLink,
   assertIsDefined,
   bs62,
-  ImportPostsRule,
+  IMPORT_POSTS_URL_MAX_LENGTH,
   PromiseState,
   redirectRoute,
 } from '../../shared';
@@ -173,7 +173,7 @@ const renderForm = (ctx: RenderContext) => {
           label={ctx.msgs.importPosts.form.imageURL}
           value={ctx.values.url}
           onInput={ctx.handlers.input.importURL}
-          maxLength={ImportPostsRule.url.length}
+          maxLength={IMPORT_POSTS_URL_MAX_LENGTH}
         />
         {ctx.values.secKey && (
           <div>

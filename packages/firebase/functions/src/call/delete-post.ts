@@ -1,13 +1,12 @@
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
 import { Announce, DeletePostParams } from '@announcing/shared';
+import { CallableContext, fieldDelete, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { checkOwner } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
-export const callDeletePost = async (
-  params: Partial<DeletePostParams>,
+export const deletePost = async (
+  params: DeletePostParams,
   context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
@@ -46,8 +45,8 @@ export const callDeletePost = async (
     t.delete(announceRef.collection('posts').doc(postID));
     {
       const updateData = {
-        [`posts.${postID}`]: admin.firestore.FieldValue.delete(),
-        uT: admin.firestore.FieldValue.serverTimestamp(),
+        [`posts.${postID}`]: fieldDelete(),
+        uT: serverTimestamp(),
       };
       t.update(announceRef, updateData);
     }

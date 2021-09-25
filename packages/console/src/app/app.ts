@@ -96,7 +96,11 @@ export class App {
   }
 
   createAnnounce(name: string, desc: string) {
-    return this.appFirebase.callCreateAnnounce({ name, desc });
+    return this.appFirebase.callCreateAnnounce({
+      method: 'CreateAnnounce',
+      name,
+      desc,
+    });
   }
 
   editAnnounce(
@@ -107,11 +111,24 @@ export class App {
     icon?: string,
     newIcon?: string,
   ) {
-    return this.appFirebase.callEditAnnounce({ id, name, desc, link, icon, newIcon });
+    return this.appFirebase.callEditAnnounce({
+      method: 'EditAnnounce',
+      id,
+      name,
+      desc,
+      link,
+      icon,
+      newIcon,
+    });
   }
 
   editImportPosts(id: string, url?: string, pubKey?: string) {
-    return this.appFirebase.callEditImportPosts({ id, url, pubKey });
+    return this.appFirebase.callEditImportPosts({
+      method: 'EditImportPosts',
+      id,
+      url,
+      pubKey,
+    });
   }
 
   putPost(
@@ -122,15 +139,30 @@ export class App {
     imgData?: string,
     editID?: string,
   ) {
-    return this.appFirebase.callPutPost({ id, title, body, link, imgData, editID });
+    return this.appFirebase.callPutPost({
+      method: 'PutPost',
+      id,
+      title,
+      body,
+      link,
+      imgData,
+      editID,
+    });
   }
 
   deleteAnnounce(id: string) {
-    return this.appFirebase.callDeleteAnnounce({ id });
+    return this.appFirebase.callDeleteAnnounce({
+      method: 'DeleteAnnounce',
+      id,
+    });
   }
 
   deletePost(id: string, postID: string) {
-    return this.appFirebase.callDeletePost({ id, postID });
+    return this.appFirebase.callDeletePost({
+      method: 'DeletePost',
+      id,
+      postID,
+    });
   }
 
   getUser() {

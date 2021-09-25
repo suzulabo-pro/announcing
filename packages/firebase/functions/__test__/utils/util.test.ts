@@ -31,11 +31,28 @@ describe('util', () => {
       console.log(s, s.length);
       expect(s.length).toEqual(32);
     }
+
     const dataff = new Uint8Array(32).fill(0xff);
     {
       const s = bs62.encode(dataff);
       console.log(s, s.length);
       expect(s.length).toEqual(43);
+    }
+  });
+
+  it.skip('[EXPERIMENT] length of base62 of nacl sign', () => {
+    const data00 = new Uint8Array(64).fill(0);
+    {
+      const s = bs62.encode(data00);
+      console.log(s, s.length);
+      expect(s.length).toEqual(64);
+    }
+
+    const dataff = new Uint8Array(64).fill(0xff);
+    {
+      const s = bs62.encode(dataff);
+      console.log(s, s.length);
+      expect(s.length).toEqual(86);
     }
   });
 });

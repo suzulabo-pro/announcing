@@ -1,61 +1,38 @@
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { isLang, RegisterNotificationParams } from '@announcing/shared';
+import { bs62, RegisterNotificationParams } from '@announcing/shared';
+import nacl from 'tweetnacl';
+import { TextDecoder } from 'util';
+import { CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { NotificationDevice } from '../utils/datatypes';
 import { logger } from '../utils/logger';
-import { checkSign } from '../utils/sign';
 
-export const callRegisterNotification = async (
-  params: Partial<RegisterNotificationParams>,
+export const verifySign = (_signKey: string, _sign: string) => {
+  const signKey = bs62.decode(_signKey);
+  const sign = bs62.decode(_sign);
+  const data = nacl.sign.open(sign, signKey);
+  if (!data) {
+    return;
+  }
+  const s = new TextDecoder().decode(data);
+  return s.split('\0');
+};
+
+export const registerNotification = async (
+  params: RegisterNotificationParams,
   _context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
-  const { token, signKey, sign, lang, announces } = params;
-
-  if (!token) {
-    throw new Error('missing token');
-  }
-  if (token.length > 300) {
-    throw new Error(`fcmToken is too long (${token.length})`);
-  }
-  if (!lang) {
-    throw new Error('missing lang');
-  }
-  if (!isLang(lang)) {
-    throw new Error(`invalid lang (${lang})`);
-  }
-  if (!signKey) {
-    throw new Error('missing signKey');
-  }
-  if (!sign) {
-    throw new Error('missing sign');
-  }
-  if (!announces) {
-    throw new Error('missing announces');
-  }
-  announces.forEach(v => {
-    if (v.length != 12) throw new Error(`invalid announceID ${v}`);
-  });
+  const { reqTime, token, signKey, sign, lang, announces } = params;
 
   {
-    const body = checkSign(signKey, sign);
-    if (!body) {
-      throw new Error('invalid sign');
-    }
-    const [date, _token, ...ids] = body;
-    if (_token != token) {
-      throw new Error('invalid sign (token)');
-    }
-    if (!date) {
-      throw new Error('invalid sign (date)');
-    }
-    const d = new Date(date).getTime();
+    const d = new Date(reqTime).getTime();
     const now = Date.now();
     if (!(d >= now - 1000 * 60 * 60 && d <= now + 1000 * 60 * 60)) {
-      throw new Error('invalid sign (date)');
+      throw new Error('invalid sign (retTime)');
     }
-    if (announces.join('\0') != ids.join('\0')) {
-      throw new Error('invalid sign (ids)');
+
+    const m = new TextEncoder().encode([reqTime, token, ...announces].join('\0'));
+    if (!nacl.sign.detached.verify(m, bs62.decode(sign), bs62.decode(signKey))) {
+      throw new Error('invalid sign');
     }
   }
 
@@ -75,7 +52,7 @@ export const callRegisterNotification = async (
       signKey,
       lang,
       announces,
-      uT: admin.firestore.FieldValue.serverTimestamp(),
+      uT: serverTimestamp(),
     };
     await firestore.doc(`notif-devices/${token}`).set(data);
     logger.info('SET NOTIFICATION:', { token, data });
