@@ -1,7 +1,7 @@
 import {
   ANNOUNCE_ID_LENGTH,
   EditImportPostsParams,
-  IMPORT_POSTS_PUBKEY_MAX_LENGTH,
+  NACL_KEY_MAX_LENGTH,
   IMPORT_POSTS_URL_MAX_LENGTH,
 } from '@announcing/shared';
 import { JSONSchemaType } from 'ajv';
@@ -32,7 +32,7 @@ export const EditImportPostsParamsSchema: JSONSchemaType<EditImportPostsParams> 
       type: 'string',
       nullable: true,
       minLength: 1,
-      maxLength: IMPORT_POSTS_PUBKEY_MAX_LENGTH,
+      maxLength: NACL_KEY_MAX_LENGTH,
     },
   },
 };

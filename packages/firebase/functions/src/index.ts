@@ -8,12 +8,7 @@ import { firestoreDeleteAnnounce, firestoreUpdateAnnounce } from './firestore/an
 import { firestoreUpdateImportPosts } from './firestore/import-posts';
 import { firestoreNotificationDeviceWrite } from './firestore/notif-devices';
 import { firestoreImmediateNotificationWrite } from './firestore/notif-imm';
-import {
-  httpsGetAnnounceMetaData,
-  httpsGetAnnouncePostData,
-  httpsGetImageData,
-} from './https/get-data';
-import { httpsPingImportPosts } from './https/import-posts';
+import { httpsRequestHandler } from './https';
 import { pubsubSendNotification } from './pubsub/send-notification';
 import { RetryError } from './utils/errors';
 import { logger } from './utils/logger';
@@ -25,25 +20,13 @@ const region = functions.region(appEnv.functionsRegion);
 
 adminApp.firestore().settings({ ignoreUndefinedProperties: true });
 
-export const httpsCall = region.https.onCall(async (data, context) => {
+export const httpsCall = region.https.onCall((data, context) => {
   return httpsCallHandler(data, context, adminApp);
 });
 
-type httpsHandler = (
-  req: functions.Request,
-  res: functions.Response,
-  adminApp: ReturnType<typeof admin.initializeApp>,
-) => Promise<void>;
-const onHttpsRequest = (handler: httpsHandler) => {
-  return region.https.onRequest(async (req, res) => {
-    await handler(req, res, adminApp);
-  });
-};
-
-export const getAnnounceMetaData = onHttpsRequest(httpsGetAnnounceMetaData);
-export const getAnnouncePostData = onHttpsRequest(httpsGetAnnouncePostData);
-export const getImageData = onHttpsRequest(httpsGetImageData);
-export const pingImportPosts = onHttpsRequest(httpsPingImportPosts);
+export const httpsRequest = region.https.onRequest((req, res) => {
+  return httpsRequestHandler(req, res, adminApp);
+});
 
 export const onFirestoreUpdateAnnounce = region
   .runWith({ failurePolicy: true })

@@ -2,8 +2,7 @@ export class Miss {
   constructor(readonly created: number = Date.now()) {}
 }
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-export class Cache<T extends object> {
+export class Cache<T extends Record<string, any>> {
   constructor(private m = new Map<string, WeakRef<T | Miss>>()) {}
   set(k: string, v: T | Miss) {
     this.m.set(k, new WeakRef(v));

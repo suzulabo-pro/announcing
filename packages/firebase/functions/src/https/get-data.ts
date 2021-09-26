@@ -1,19 +1,12 @@
-import * as admin from 'firebase-admin';
-import { Request, Response } from 'firebase-functions';
 import { AnnounceMeta, Post } from '@announcing/shared';
+import { DocumentReference, FirebaseAdminApp, HttpRequest, HttpResponse } from '../firebase';
 import { Cache } from '../utils/cache';
 
 const cacheControl = 'public, max-age=31556952, s-maxage=86400, immutable';
-const announceMetaPattern = new RegExp('^/data/announces/([a-zA-Z0-9]{12})/meta/([a-zA-Z0-9]{8})$');
-const announcePostPattern = new RegExp(
-  '^/data/announces/([a-zA-Z0-9]{12})/posts/([a-zA-Z0-9]{8})$',
-);
-const imagePattern = new RegExp('^/data/images/([a-zA-Z0-9]{15,25})$');
 
 const cache = new Cache();
 
-// eslint-disable-next-line @typescript-eslint/ban-types
-const getCacheFirst = async <T extends object>(docRef: admin.firestore.DocumentReference) => {
+const getCacheFirst = async <T extends Record<string, any>>(docRef: DocumentReference) => {
   const v = cache.get(docRef.path);
   if (v) {
     return v as T;
@@ -27,20 +20,16 @@ const getCacheFirst = async <T extends object>(docRef: admin.firestore.DocumentR
   return data as T;
 };
 
-export const httpsGetAnnounceMetaData = async (
-  req: Request,
-  res: Response,
-  adminApp: admin.app.App,
+export const getAnnounceMetaData = async (
+  params: Record<string, string>,
+  _req: HttpRequest,
+  res: HttpResponse,
+  adminApp: FirebaseAdminApp,
 ) => {
-  const m = announceMetaPattern.exec(req.path);
-  if (!m) {
-    res.sendStatus(400);
-    return;
-  }
-  const [, id, metaID] = m;
+  const { announceID, metaID } = params;
 
   const firestore = adminApp.firestore();
-  const docRef = firestore.doc(`announces/${id}/meta/${metaID}`);
+  const docRef = firestore.doc(`announces/${announceID}/meta/${metaID}`);
   const data = await getCacheFirst<AnnounceMeta>(docRef);
   if (!data) {
     res.sendStatus(404);
@@ -51,20 +40,16 @@ export const httpsGetAnnounceMetaData = async (
   res.json({ ...data, cT: data.cT.toMillis() });
 };
 
-export const httpsGetAnnouncePostData = async (
-  req: Request,
-  res: Response,
-  adminApp: admin.app.App,
+export const getAnnouncePostData = async (
+  params: Record<string, string>,
+  _req: HttpRequest,
+  res: HttpResponse,
+  adminApp: FirebaseAdminApp,
 ) => {
-  const m = announcePostPattern.exec(req.path);
-  if (!m) {
-    res.sendStatus(400);
-    return;
-  }
-  const [, id, postID] = m;
+  const { announceID, postID } = params;
 
   const firestore = adminApp.firestore();
-  const docRef = firestore.doc(`announces/${id}/posts/${postID}`);
+  const docRef = firestore.doc(`announces/${announceID}/posts/${postID}`);
   const data = await getCacheFirst<Post>(docRef);
   if (!data) {
     res.sendStatus(404);
@@ -75,17 +60,16 @@ export const httpsGetAnnouncePostData = async (
   res.json({ ...data, pT: data.pT.toMillis() });
 };
 
-export const httpsGetImageData = async (req: Request, res: Response, adminApp: admin.app.App) => {
-  const m = imagePattern.exec(req.path);
-  if (!m) {
-    res.sendStatus(400);
-    return;
-  }
-
-  const [, id] = m;
+export const getImageData = async (
+  params: Record<string, string>,
+  _req: HttpRequest,
+  res: HttpResponse,
+  adminApp: FirebaseAdminApp,
+) => {
+  const { imageID } = params;
 
   const firestore = adminApp.firestore();
-  const docRef = firestore.doc(`images/${id}`);
+  const docRef = firestore.doc(`images/${imageID}`);
   const data = await getCacheFirst<{ data: Buffer }>(docRef);
   if (!data) {
     res.sendStatus(404);
