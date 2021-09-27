@@ -1,8 +1,7 @@
 import { CreateAnnounceParams } from '@announcing/shared';
 import { arrayUnion, CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
-import { announceMetaHash } from '../utils/firestore';
+import { announceMetaHash, genAnnounceID } from '../utils/firestore';
 import { logger } from '../utils/logger';
-import { autoID } from '../utils/util';
 
 export const createAnnounce = async (
   params: CreateAnnounceParams,
@@ -21,7 +20,7 @@ export const createAnnounce = async (
     cT: serverTimestamp(),
   };
 
-  const id = autoID();
+  const id = genAnnounceID();
   const mid = announceMetaHash(metaData);
 
   const announceData = {

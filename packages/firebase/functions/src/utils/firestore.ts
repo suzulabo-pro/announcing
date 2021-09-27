@@ -1,7 +1,21 @@
-import * as admin from 'firebase-admin';
-import { AnnounceMetaBase, Post, User } from '@announcing/shared';
+import {
+  AnnounceMetaBase,
+  ANNOUNCE_ID_LENGTH,
+  ANNOUNCE_META_ID_LENGTH,
+  bs62,
+  Post,
+  POST_ID_LENGTH,
+  User,
+} from '@announcing/shared';
+import * as crypto from 'crypto';
+import nacl from 'tweetnacl';
+import { Firestore } from '../firebase';
 import { logger } from '../utils/logger';
-import { toMD5Base62 } from './util';
+
+const toMD5Base62 = (v: Buffer | string) => {
+  const md5 = crypto.createHash('md5');
+  return bs62.encode(md5.update(v).digest());
+};
 
 const serialize = (...args: (string | undefined)[]) => {
   return args
@@ -10,17 +24,28 @@ const serialize = (...args: (string | undefined)[]) => {
     .replace(/\0+$/, '');
 };
 
+export const genAnnounceID = () => {
+  const chars = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
+
+  const random = nacl.randomBytes(ANNOUNCE_ID_LENGTH);
+  const l = [] as string[];
+  random.forEach(v => {
+    l.push(chars.charAt(v % 32));
+  });
+  return l.join('');
+};
+
 export const announceMetaHash = (v: AnnounceMetaBase) => {
-  return toMD5Base62(serialize(v.name, v.desc, v.link, v.icon)).substr(0, 8);
+  return toMD5Base62(serialize(v.name, v.desc, v.link, v.icon)).substr(0, ANNOUNCE_META_ID_LENGTH);
 };
 
 export const postHash = (v: Post) => {
   return toMD5Base62(
     serialize(v.pT.toMillis().toString(), v.title, v.body, v.link, v.img, v.imgs?.join(':')),
-  ).substr(0, 8);
+  ).substr(0, POST_ID_LENGTH);
 };
 
-export const checkOwner = async (firestore: admin.firestore.Firestore, uid: string, id: string) => {
+export const checkOwner = async (firestore: Firestore, uid: string, id: string) => {
   const userRef = firestore.doc(`users/${uid}`);
   const userData = (await userRef.get()).data() as User;
   if (!userData) {
@@ -34,7 +59,7 @@ export const checkOwner = async (firestore: admin.firestore.Firestore, uid: stri
   return true;
 };
 
-export const storeImage = async (firestore: admin.firestore.Firestore, img: string) => {
+export const storeImage = async (firestore: Firestore, img: string) => {
   if (!img) {
     return;
   }

@@ -11,9 +11,7 @@ import {
   Timestamp,
   Transaction,
 } from '../firebase';
-import { validatePostsImportJSON } from '../import-posts/schema';
 import { validators } from '../json-schema';
-import { RetryError } from '../utils/errors';
 import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
@@ -86,7 +84,12 @@ const fetch = async (url: string) => {
       timeout,
       maxContentLength: FETCH_MAX_SIZE,
       maxRedirects: 0,
-      validateStatus: undefined,
+      validateStatus: status => {
+        if (status >= 500) {
+          return false;
+        }
+        return true;
+      },
       headers: {
         'user-agent': FETCH_UA,
       },
@@ -95,9 +98,6 @@ const fetch = async (url: string) => {
     const status = res.status;
     if (status >= 200 && status < 300) {
       return res.data;
-    }
-    if (status >= 500) {
-      throw new RetryError(`status(retry): ${status}`);
     }
 
     logger.warn('fetch error', { status, url });
@@ -113,8 +113,7 @@ const importPostsJSON = async (
   announceID: string,
   data: any,
 ) => {
-  if (!validatePostsImportJSON(data)) {
-    logger.error('Invalid JSON', { errors: validatePostsImportJSON.errors });
+  if (!validators.importPostsJSON(data)) {
     // TODO: logging for user
     throw new Error('Validate JSON Error');
   }
