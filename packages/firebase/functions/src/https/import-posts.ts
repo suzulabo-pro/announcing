@@ -4,8 +4,6 @@ import { FirebaseAdminApp, HttpRequest, HttpResponse, Timestamp } from '../fireb
 import { pubImportPostsFetch } from '../pubsub/import-posts-fetch';
 import { logger } from '../utils/logger';
 
-jest.mock('../pubsub/import-posts-fetch');
-
 const cacheControl = 'public, max-age=30, s-maxage=30';
 
 export const pingImportPosts = async (
