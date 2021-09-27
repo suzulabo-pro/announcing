@@ -22,5 +22,8 @@ export const arrayUnion = admin.firestore.FieldValue.arrayUnion;
 export const arrayRemove = admin.firestore.FieldValue.arrayRemove;
 export const fieldDelete = admin.firestore.FieldValue.delete;
 
+export type PubSubMessage = functions.pubsub.Message;
+
 export type Notification = admin.messaging.Notification;
 export type MulticastMessage = admin.messaging.MulticastMessage;
+export type BatchResponse = admin.messaging.BatchResponse;

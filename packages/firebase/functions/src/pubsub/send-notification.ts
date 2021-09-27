@@ -1,10 +1,14 @@
 import { PubSub } from '@google-cloud/pubsub';
-import * as admin from 'firebase-admin';
-import { EventContext } from 'firebase-functions/lib/cloud-functions';
-import { Message } from 'firebase-functions/lib/providers/pubsub';
+import {
+  BatchResponse,
+  EventContext,
+  FirebaseAdminApp,
+  MulticastMessage,
+  PubSubMessage,
+} from '../firebase';
 import { logger } from '../utils/logger';
 
-export const pubMulticastMessages = async (msgs: admin.messaging.MulticastMessage[]) => {
+export const pubMulticastMessages = async (msgs: MulticastMessage[]) => {
   const pubsub = new PubSub();
   const topic = pubsub.topic('send-notification', {
     batching: { maxMessages: 100, maxMilliseconds: 50 },
@@ -16,27 +20,12 @@ export const pubMulticastMessages = async (msgs: admin.messaging.MulticastMessag
   await topic.flush();
 };
 
-export const pubTokenMessages = async (msgs: admin.messaging.TokenMessage[]) => {
-  const pubsub = new PubSub();
-  const topic = pubsub.topic('send-notification', {
-    batching: { maxMessages: 100, maxMilliseconds: 50 },
-  });
-
-  while (msgs.length) {
-    const tmsgs = msgs.splice(0, 500);
-    logger.debug('tokenMsgs', tmsgs);
-    void topic.publishJSON({ tmsgs });
-  }
-
-  await topic.flush();
-};
-
 export const pubsubSendNotification = async (
-  msg: Message,
+  msg: PubSubMessage,
   _context: EventContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ) => {
-  const handleResponse = async (bs: admin.messaging.BatchResponse, tokens: string[]) => {
+  const handleResponse = async (bs: BatchResponse, tokens: string[]) => {
     if (bs.failureCount == 0) {
       return;
     }
@@ -68,7 +57,7 @@ export const pubsubSendNotification = async (
 
   const messaging = adminApp.messaging();
   {
-    const mmsg = msg.json.mmsg as admin.messaging.MulticastMessage;
+    const mmsg = msg.json.mmsg as MulticastMessage;
     if (mmsg) {
       logger.debug('sendMulticast', mmsg);
       const res = await messaging.sendMulticast(mmsg);
@@ -76,19 +65,6 @@ export const pubsubSendNotification = async (
       return;
     }
   }
-  {
-    const tmsgs = msg.json.tmsgs as admin.messaging.TokenMessage[];
-    if (tmsgs) {
-      logger.debug('sendAll', tmsgs);
-      const res = await messaging.sendAll(tmsgs);
-      await handleResponse(
-        res,
-        tmsgs.map(v => {
-          return v.token;
-        }),
-      );
-      return;
-    }
-  }
+
   logger.warn('no msgs', msg.json);
 };
