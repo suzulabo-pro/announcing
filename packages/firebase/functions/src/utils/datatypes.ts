@@ -1,11 +1,11 @@
-import admin from 'firebase-admin';
 import { Lang } from '@announcing/shared';
+import { Timestamp } from '../firebase';
 
 export interface NotificationDevice {
   signKey: string;
   lang: Lang;
   announces: string[];
-  uT: admin.firestore.Timestamp;
+  uT: Timestamp;
 }
 
 export interface ImmediateNotification {
@@ -13,7 +13,7 @@ export interface ImmediateNotification {
   devices?: { [token: string]: [lang: Lang] };
   cancels?: string[];
   archives?: string[];
-  uT: admin.firestore.Timestamp;
+  uT: Timestamp;
 }
 
 export interface ImmediateNotificationArchive {

@@ -6,7 +6,6 @@ import {
   Firestore,
   MulticastMessage,
   Notification,
-  QueryDocumentSnapshot,
 } from '../firebase';
 import { pubMulticastMessages } from '../pubsub/send-notification';
 import { ImmediateNotification, ImmediateNotificationArchive } from '../utils/datatypes';
@@ -47,7 +46,7 @@ const getImmediateNotificationDevices = async (firestore: Firestore, announceID:
   }
 };
 
-export const firestoreUpdateAnnounce = async (
+export const pushPosts = async (
   change: DocumentChange,
   _context: EventContext,
   adminApp: FirebaseAdminApp,
@@ -140,28 +139,10 @@ export const firestoreUpdateAnnounce = async (
     return;
   }
 
-  await pubMulticastMessages(msgs);
-};
-
-export const firestoreDeleteAnnounce = async (
-  qds: QueryDocumentSnapshot,
-  _context: EventContext,
-  adminApp: FirebaseAdminApp,
-): Promise<void> => {
-  const id = qds.id;
-  const announceData = qds.data() as Announce;
-
-  const posts = Object.keys(announceData.posts).map(v => `announces/${id}/posts/${v}`);
-  const pathes = [...posts, `announces/${id}/meta/${announceData.mid}`, `notif-imm/${id}`];
-
-  const firestore = adminApp.firestore();
-
-  while (pathes.length > 0) {
-    const c = pathes.splice(0, 500);
-    const batch = firestore.batch();
-    for (const p of c) {
-      batch.delete(firestore.doc(p));
-    }
-    await batch.commit();
+  try {
+    await pubMulticastMessages(msgs);
+  } catch (err) {
+    logger.critical('pubMulticastMessages error', { err });
+    throw err;
   }
 };
