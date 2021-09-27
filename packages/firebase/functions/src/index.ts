@@ -10,6 +10,7 @@ import {
   immediateNotificationWriteHandler,
 } from './firestore';
 import { httpsRequestHandler } from './https';
+import { pubsubImportPostsFetch } from './pubsub/import-posts-fetch';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
 const adminApp = admin.initializeApp();
@@ -43,10 +44,15 @@ export const firestore = {
     }),
 };
 
-export const onPubsubSendNotification = region
-  .runWith({ failurePolicy: true })
-  .pubsub.topic('send-notification')
-  .onPublish(async (msg, context) => {
+const pubsubBuilder = region.runWith({ failurePolicy: true }).pubsub;
+
+export const pubsub = {
+  sendNotification: pubsubBuilder.topic('send-notification').onPublish(async (msg, context) => {
     await pubsubSendNotification(msg, context, adminApp);
     return 0;
-  });
+  }),
+  importPostsFetch: pubsubBuilder.topic('import-posts-fetch').onPublish(async (msg, context) => {
+    await pubsubImportPostsFetch(msg, context, adminApp);
+    return 0;
+  }),
+};

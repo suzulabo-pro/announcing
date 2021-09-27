@@ -15,6 +15,7 @@ import { DeleteAnnounceParamsSchema } from './delete-announce-params';
 import { DeletePostParamsSchema } from './delete-post-params';
 import { EditAnnounceParamsSchema } from './edit-announce-params';
 import { EditImportPostsParamsSchema } from './edit-import-posts-params';
+import { ImportPostsFetchMessageSchema, ImportPostsFetchMessage } from './import-posts-fetch-msg';
 import { PutPostParamsSchema } from './put-post-params';
 import { RegisterNotificationParamsSchema } from './register-notification-params';
 
@@ -28,6 +29,7 @@ ajv.addSchema(EditAnnounceParamsSchema, 'EditAnnounceParams');
 ajv.addSchema(EditImportPostsParamsSchema, 'EditImportPostsParams');
 ajv.addSchema(PutPostParamsSchema, 'PutPostParams');
 ajv.addSchema(RegisterNotificationParamsSchema, 'RegisterNotificationParams');
+ajv.addSchema(ImportPostsFetchMessageSchema, 'ImportPostsFetchMessage');
 
 const genValidator = <T>(k: string) => {
   const validator = (data: any): data is T => {
@@ -52,4 +54,5 @@ export const validators = {
   registerNotificationParams: genValidator<RegisterNotificationParams>(
     'RegisterNotificationParams',
   ),
+  importPostsFetchMessage: genValidator<ImportPostsFetchMessage>('ImportPostsFetchMessage'),
 };

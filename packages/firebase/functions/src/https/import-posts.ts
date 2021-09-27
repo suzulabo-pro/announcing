@@ -1,6 +1,7 @@
 import { bs62, ImportPosts } from '@announcing/shared';
 import nacl from 'tweetnacl';
-import { FirebaseAdminApp, HttpRequest, HttpResponse, serverTimestamp } from '../firebase';
+import { FirebaseAdminApp, HttpRequest, HttpResponse, Timestamp } from '../firebase';
+import { pubImportPostsFetch } from '../pubsub/import-posts-fetch';
 import { logger } from '../utils/logger';
 
 const cacheControl = 'public, max-age=30, s-maxage=30';
@@ -64,11 +65,15 @@ export const pingImportPosts = async (
 
     const reqID = req.header('APP-REQUEST-ID') || '';
 
+    const uT = Timestamp.now();
+
     t.update(docRef, {
       requested: true,
       requestedURL,
-      uT: serverTimestamp(),
+      uT,
     });
+
+    await pubImportPostsFetch(announceID, uT.toMillis());
 
     res.setHeader('Cache-Control', cacheControl);
     res.status(200).send({ reqID, status: 'ok' });
