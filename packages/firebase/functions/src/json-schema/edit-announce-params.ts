@@ -16,7 +16,7 @@ export const EditAnnounceParamsSchema: JSONSchemaType<EditAnnounceParams> = {
   properties: {
     method: {
       type: 'string',
-      pattern: 'EditAnnounce',
+      const: 'EditAnnounce',
     },
     id: {
       type: 'string',

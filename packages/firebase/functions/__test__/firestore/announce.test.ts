@@ -1,7 +1,7 @@
-import { firestoreDeleteAnnounce } from '../../src/firestore/announce';
+import { announcesDeleteHandler } from '../../src/firestore';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('firestoreDeleteAnnounce', () => {
+describe('announcesDeleteHandler', () => {
   it('clear all posts', async () => {
     const data = {
       announces: {
@@ -31,7 +31,7 @@ describe('firestoreDeleteAnnounce', () => {
     };
     const firestore = new FakeFirestore(data);
 
-    await firestoreDeleteAnnounce(
+    await announcesDeleteHandler(
       firestore.doc('announces/111111111111').get() as any,
       {} as any,
       firestore.adminApp(),

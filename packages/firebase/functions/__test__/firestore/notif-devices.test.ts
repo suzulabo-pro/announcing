@@ -1,3 +1,6 @@
+// WIP
+
+/*
 import { firestoreNotificationDeviceWrite } from '../../src/firestore/notif-devices';
 import { FakeFirestore } from '../fake-firestore';
 
@@ -120,3 +123,4 @@ describe('firestoreNotificationDeviceWrite', () => {
     });
   });
 });
+*/

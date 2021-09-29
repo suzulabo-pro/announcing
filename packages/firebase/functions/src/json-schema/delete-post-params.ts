@@ -8,7 +8,7 @@ export const DeletePostParamsSchema: JSONSchemaType<DeletePostParams> = {
   properties: {
     method: {
       type: 'string',
-      pattern: 'DeletePost',
+      const: 'DeletePost',
     },
     id: {
       type: 'string',

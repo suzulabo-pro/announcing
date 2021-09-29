@@ -1,7 +1,7 @@
-import { firestoreImmediateNotificationWrite } from '../../src/firestore/notif-imm';
+import { immediateNotificationWriteHandler } from '../../src/firestore';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('firestoreImmediateNotificationWrite', () => {
+describe('immediateNotificationWriteHandler', () => {
   it('no archives', async () => {
     const tokenSuffix = 'x'.repeat(160);
 
@@ -20,7 +20,7 @@ describe('firestoreImmediateNotificationWrite', () => {
       },
     });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -46,7 +46,7 @@ describe('firestoreImmediateNotificationWrite', () => {
       },
     });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -80,7 +80,7 @@ describe('firestoreImmediateNotificationWrite', () => {
       },
     });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -89,7 +89,7 @@ describe('firestoreImmediateNotificationWrite', () => {
     const cancels = Object.keys(devices);
     firestore.doc('notif-imm/111111111111').update({ cancels });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),

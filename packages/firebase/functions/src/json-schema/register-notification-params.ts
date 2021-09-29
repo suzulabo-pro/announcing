@@ -15,11 +15,12 @@ export const RegisterNotificationParamsSchema: JSONSchemaType<RegisterNotificati
   properties: {
     method: {
       type: 'string',
-      pattern: 'RegisterNotification',
+      const: 'RegisterNotification',
     },
     reqTime: {
       type: 'string',
       format: 'date-time',
+      maxLength: 40,
     },
     token: {
       type: 'string',

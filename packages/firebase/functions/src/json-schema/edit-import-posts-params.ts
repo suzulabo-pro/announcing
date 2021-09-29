@@ -13,7 +13,7 @@ export const EditImportPostsParamsSchema: JSONSchemaType<EditImportPostsParams> 
   properties: {
     method: {
       type: 'string',
-      pattern: 'EditImportPosts',
+      const: 'EditImportPosts',
     },
     id: {
       type: 'string',

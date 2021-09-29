@@ -59,3 +59,5 @@ export const validators = {
   importPostsFetchMessage: genValidator<ImportPostsFetchMessage>('ImportPostsFetchMessage'),
   importPostsJSON: genValidator<ImportPostsJSON>('ImportPostsJSON'),
 };
+
+export const __schemas = ajv.schemas;

@@ -12,7 +12,7 @@ export const CreateAnnounceParamsSchema: JSONSchemaType<CreateAnnounceParams> = 
   properties: {
     method: {
       type: 'string',
-      pattern: 'CreateAnnounce',
+      const: 'CreateAnnounce',
     },
     name: {
       type: 'string',

@@ -17,7 +17,7 @@ export const PutPostParamsSchema: JSONSchemaType<PutPostParams> = {
   properties: {
     method: {
       type: 'string',
-      pattern: 'PutPost',
+      const: 'PutPost',
     },
     id: {
       type: 'string',
