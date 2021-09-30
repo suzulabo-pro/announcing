@@ -1,7 +1,7 @@
-import { bs62 } from '@announcing/shared';
-import nacl from 'tweetnacl';
-import { httpsPingImportPosts } from '../../src/https/import-posts';
+import { httpsRequestHandler } from '../../src/https';
 import { FakeFirestore } from '../fake-firestore';
+
+jest.mock('../../src/pubsub/import-posts-fetch');
 
 describe('httpsPingImportPosts', () => {
   it('ok', async () => {
@@ -23,7 +23,7 @@ describe('httpsPingImportPosts', () => {
       setHeader: jest.fn().mockReturnThis(),
     };
 
-    await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
+    await httpsRequestHandler(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);
     expect(res.send.mock.calls[0][0]).toEqual({ reqID: '', status: 'ok' });
     expect(data['import-posts']['123456789012']['requested']).toEqual(true);
@@ -44,9 +44,9 @@ describe('httpsPingImportPosts', () => {
     };
     const res = { status: jest.fn().mockReturnThis(), send: jest.fn().mockReturnThis() };
 
-    await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
+    await httpsRequestHandler(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(400);
-    expect(res.send.mock.calls[0][0]).toEqual({ msg: 'bad path', status: 'error' });
+    expect(res.send.mock.calls[0][0]).toEqual({ msg: 'bad path (secKey)', status: 'error' });
     expect(data['import-posts']['123456789012']['requested']).toBeUndefined();
   });
   it('import-url', async () => {
@@ -71,7 +71,7 @@ describe('httpsPingImportPosts', () => {
       setHeader: jest.fn().mockReturnThis(),
     };
 
-    await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
+    await httpsRequestHandler(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(200);
     expect(res.send.mock.calls[0][0]).toEqual({
       reqID: 'https://announcing.test/post.json?token=ABCD',
@@ -98,15 +98,7 @@ describe('httpsPingImportPosts', () => {
     };
     const res = { status: jest.fn().mockReturnThis(), send: jest.fn().mockReturnThis() };
 
-    await httpsPingImportPosts(req as any, res as any, new FakeFirestore(data).adminApp());
+    await httpsRequestHandler(req as any, res as any, new FakeFirestore(data).adminApp());
     expect(res.status.mock.calls[0][0]).toEqual(400);
-  });
-
-  it.skip('gen key', () => {
-    const keys = nacl.box.keyPair();
-    console.log({
-      pubKey: bs62.encode(keys.publicKey),
-      secKey: bs62.encode(keys.secretKey),
-    });
   });
 });

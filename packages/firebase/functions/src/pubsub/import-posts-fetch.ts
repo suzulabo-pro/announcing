@@ -1,40 +1,46 @@
-import { Announce, ImportPosts, Post, stripObj } from '@announcing/shared';
+import { Announce, ImportPosts, Post } from '@announcing/shared';
+import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { toDate } from 'date-fns-tz';
-import * as admin from 'firebase-admin';
-import { Change, EventContext } from 'firebase-functions';
-import { QueryDocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
-import { validatePostsImportJSON } from '../import-posts/schema';
-import { IMPORT_POSTS_EXPIRED_MSEC } from '../utils/datatypes';
-import { RetryError } from '../utils/errors';
+import {
+  EventContext,
+  FirebaseAdminApp,
+  Firestore,
+  PubSubMessage,
+  serverTimestamp,
+  Timestamp,
+  Transaction,
+} from '../firebase';
+import { validators } from '../json-schema';
 import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
+import { RetryError } from './retry-error';
 
 const FETCH_UA = 'announcing-bot';
 const FETCH_TIMEOUT = 30 * 1000;
 const FETCH_MAX_SIZE = 1024 * 1024;
 
-export const firestoreUpdateImportPosts = async (
-  change: Change<QueryDocumentSnapshot>,
-  context: EventContext,
-  adminApp: admin.app.App,
-): Promise<void> => {
-  const eventAgeMs = Date.now() - Date.parse(context.timestamp);
-  if (eventAgeMs > IMPORT_POSTS_EXPIRED_MSEC) {
-    logger.warn('event expired');
+export const pubImportPostsFetch = async (id: string, uT: number) => {
+  const pubsub = new PubSub();
+  const topic = pubsub.topic('import-posts-fetch');
+  await topic.publishJSON({ id, uT });
+};
+
+export const pubsubImportPostsFetch = async (
+  msg: PubSubMessage,
+  _context: EventContext,
+  adminApp: FirebaseAdminApp,
+) => {
+  const params = msg.json;
+  if (!validators.importPostsFetchMessage(params)) {
+    logger.warn('invalid params', { params });
     return;
   }
+
+  const { id, uT } = params;
 
   const firestore = adminApp.firestore();
-  const id = change.after.id;
-
-  const afterData = change.after.data() as ImportPosts;
-  if (!afterData.requested) {
-    logger.debug('not requested', { id });
-    return;
-  }
-
-  const docRef = change.after.ref;
+  const docRef = firestore.doc(`import-posts/${id}`);
 
   await firestore.runTransaction(async t => {
     const data = (await t.get(docRef)).data() as ImportPosts;
@@ -43,8 +49,8 @@ export const firestoreUpdateImportPosts = async (
       logger.warn('no data', { id });
       return;
     }
-    if (!data.requested) {
-      logger.warn('not requested', { id });
+    if (data.uT.toMillis() != uT) {
+      logger.warn('document updated', { id, uT });
       return;
     }
 
@@ -54,25 +60,21 @@ export const firestoreUpdateImportPosts = async (
       return;
     }
 
-    if (url != afterData.requestedURL) {
-      logger.warn('url updated', { id, url, requestedURL: afterData.requestedURL });
-      return;
-    }
-
     try {
       const json = await fetch(url);
-      await importPostsJSON(firestore, t, id, json);
+      if (json) {
+        await importPostsJSON(firestore, t, id, json);
+      }
     } catch (err) {
       if (err instanceof RetryError) {
         throw err;
       }
-      logger.warn('import error', { err });
+      logger.error(err);
     }
-    t.update(docRef, { requested: false, uT: admin.firestore.FieldValue.serverTimestamp() });
   });
 };
 
-const fetch = async (url: string) => {
+const fetch = async (url: string): Promise<any | undefined> => {
   const timeout = process.env['FETCH_TIMEOUT']
     ? parseInt(process.env['FETCH_TIMEOUT'])
     : FETCH_TIMEOUT;
@@ -84,6 +86,7 @@ const fetch = async (url: string) => {
   }, timeout);
 
   try {
+    logger.debug('fetch', { url });
     const res = await axios.get(url, {
       timeout,
       maxContentLength: FETCH_MAX_SIZE,
@@ -99,31 +102,33 @@ const fetch = async (url: string) => {
       return res.data;
     }
     if (status >= 500) {
-      throw new RetryError(`status(retry): ${status}`);
+      throw new RetryError(`Status Error: ${status}`);
     }
-    throw new Error(`status: ${status}`);
+
+    logger.warn('fetch error', { status, url });
   } catch (err) {
-    if (axios.isCancel(err)) {
-      throw new RetryError('timeout(timer)');
+    if (err instanceof RetryError) {
+      throw err;
+    } else if (axios.isCancel(err)) {
+      throw new RetryError('timeout(cancel)');
     } else if (axios.isAxiosError(err)) {
       if (err.code == 'ECONNABORTED') {
         throw new RetryError('timeout(ECONNABORTED)');
       }
     }
-    throw err;
+    logger.warn('fetch error', { url, err });
   } finally {
     clearTimeout(timer);
   }
 };
 
 const importPostsJSON = async (
-  firestore: admin.firestore.Firestore,
-  t: FirebaseFirestore.Transaction,
+  firestore: Firestore,
+  t: Transaction,
   announceID: string,
   data: any,
 ) => {
-  if (!validatePostsImportJSON(data)) {
-    logger.error('Invalid JSON', { errors: validatePostsImportJSON.errors });
+  if (!validators.importPostsJSON(data)) {
     // TODO: logging for user
     throw new Error('Validate JSON Error');
   }
@@ -132,7 +137,7 @@ const importPostsJSON = async (
     data.posts.map(v => {
       const post = {
         ...v,
-        pT: admin.firestore.Timestamp.fromDate(toDate(v.pT, { timeZone: 'UTC' })),
+        pT: Timestamp.fromDate(toDate(v.pT, { timeZone: 'UTC' })),
       };
       const id = postHash(post);
       return [id, post];
@@ -176,17 +181,14 @@ const importPostsJSON = async (
 
   for (const [id, v] of newPostsMap.entries()) {
     if (!(id in curPosts)) {
-      t.create(
-        announceRef.collection('posts').doc(id),
-        stripObj({
-          title: v.title,
-          body: v.body,
-          link: v.link,
-          img: v.img,
-          imgs: v.imgs,
-          pT: v.pT,
-        } as Post),
-      );
+      t.create(announceRef.collection('posts').doc(id), {
+        title: v.title,
+        body: v.body,
+        link: v.link,
+        img: v.img,
+        imgs: v.imgs,
+        pT: v.pT,
+      } as Post);
     }
   }
 
@@ -198,7 +200,7 @@ const importPostsJSON = async (
 
   const announceUpdate: Partial<Announce> = {
     posts,
-    uT: admin.firestore.FieldValue.serverTimestamp() as any,
+    uT: serverTimestamp() as any,
   };
   t.update(announceRef, announceUpdate);
 };

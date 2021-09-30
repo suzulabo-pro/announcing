@@ -1,7 +1,5 @@
-import admin from 'firebase-admin';
-import { Change, EventContext } from 'firebase-functions';
-import { DocumentSnapshot } from 'firebase-functions/lib/providers/firestore';
 import { Lang } from '@announcing/shared';
+import { DocumentSnapshot, EventContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { ImmediateNotification, ImmediateNotificationArchive } from '../utils/datatypes';
 import { incString } from '../utils/incstring';
 import { logger } from '../utils/logger';
@@ -17,10 +15,21 @@ const shouldArchive = (data: ImmediateNotification) => {
   );
 };
 
-const archiveImmediateNotification = async (
-  firestore: admin.firestore.Firestore,
-  announceID: string,
-) => {
+export const archiveImmediateNotification = async (
+  ds: DocumentSnapshot,
+  _context: EventContext,
+  adminApp: FirebaseAdminApp,
+): Promise<void> => {
+  const imm = ds.data() as ImmediateNotification;
+
+  if (!shouldArchive(imm)) {
+    return;
+  }
+
+  const { announceID } = imm;
+
+  const firestore = adminApp.firestore();
+
   await firestore.runTransaction(async t => {
     const immediateRef = firestore.doc(`notif-imm/${announceID}`);
     const immediate = (await t.get(immediateRef)).data() as ImmediateNotification;
@@ -88,46 +97,9 @@ const archiveImmediateNotification = async (
       const data = {
         announceID,
         archives: newArchives,
-        uT: admin.firestore.FieldValue.serverTimestamp(),
+        uT: serverTimestamp(),
       };
       t.set(immediateRef, data);
     }
   });
-};
-
-const deleteArchives = async (
-  firestore: admin.firestore.Firestore,
-  announceID: string,
-  archives: string[],
-) => {
-  while (archives.length > 0) {
-    const ids = archives.splice(0, 500);
-    const batch = firestore.batch();
-    for (const id of ids) {
-      batch.delete(firestore.doc(`notif-imm/${announceID}/archives/${id}`));
-    }
-    await batch.commit();
-  }
-};
-
-export const firestoreImmediateNotificationWrite = async (
-  change: Change<DocumentSnapshot>,
-  _context: EventContext,
-  adminApp: admin.app.App,
-): Promise<void> => {
-  const firestore = adminApp.firestore();
-  if (change.after) {
-    // create, update
-    const imm = change.after.data() as ImmediateNotification;
-    if (!shouldArchive(imm)) {
-      return;
-    }
-    await archiveImmediateNotification(firestore, imm.announceID);
-  } else {
-    // delete
-    const imm = change.before.data() as ImmediateNotification;
-    if (imm.archives) {
-      await deleteArchives(firestore, imm.announceID, imm.archives);
-    }
-  }
 };

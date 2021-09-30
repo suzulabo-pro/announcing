@@ -1,13 +1,18 @@
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { Announce, ImageRule, Post, PostRule, PutPostParams } from '@announcing/shared';
+import { Announce, Post, PutPostParams } from '@announcing/shared';
+import {
+  CallableContext,
+  fieldDelete,
+  FirebaseAdminApp,
+  serverTimestamp,
+  Timestamp,
+} from '../firebase';
 import { checkOwner, postHash, storeImage } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
-export const callPutPost = async (
-  params: Partial<PutPostParams>,
+export const putPost = async (
+  params: PutPostParams,
   context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const uid = context.auth?.uid;
 
@@ -16,24 +21,6 @@ export const callPutPost = async (
   }
 
   const { id, title, body, link, imgData, editID } = params;
-  if (!id) {
-    throw new Error('missing id');
-  }
-  if (!title && !body) {
-    throw new Error('missing title and body');
-  }
-  if (body && body.length > PostRule.body.length) {
-    throw new Error('body is too long');
-  }
-  if (title && title.length > PostRule.title.length) {
-    throw new Error('title is too long');
-  }
-  if (link && link.length > PostRule.link.length) {
-    throw new Error('link is too long');
-  }
-  if (imgData && imgData.length > ImageRule.data.length) {
-    throw new Error('imgData is too long');
-  }
 
   const firestore = adminApp.firestore();
 
@@ -45,7 +32,7 @@ export const callPutPost = async (
     }
   }
 
-  const now = admin.firestore.Timestamp.now();
+  const now = Timestamp.now();
 
   const postData: Post = {
     ...(!!title && { title }),
@@ -88,15 +75,15 @@ export const callPutPost = async (
     if (editID) {
       const updateData = {
         [`posts.${postID}`]: { pT: postData.pT, edited: editID },
-        [`posts.${editID}`]: admin.firestore.FieldValue.delete(),
-        uT: admin.firestore.FieldValue.serverTimestamp(),
+        [`posts.${editID}`]: fieldDelete(),
+        uT: serverTimestamp(),
       };
       t.update(announceRef, updateData);
       t.delete(announceRef.collection('posts').doc(editID));
     } else {
       const updateData = {
         [`posts.${postID}`]: { pT: postData.pT },
-        uT: admin.firestore.FieldValue.serverTimestamp(),
+        uT: serverTimestamp(),
       };
       t.update(announceRef, updateData);
     }

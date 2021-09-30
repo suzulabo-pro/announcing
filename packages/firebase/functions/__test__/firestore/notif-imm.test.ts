@@ -1,7 +1,8 @@
-import { firestoreImmediateNotificationWrite } from '../../src/firestore/notif-imm';
+import { Timestamp } from '../../src/firebase';
+import { immediateNotificationWriteHandler } from '../../src/firestore';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('firestoreImmediateNotificationWrite', () => {
+describe('immediateNotificationWriteHandler', () => {
   it('no archives', async () => {
     const tokenSuffix = 'x'.repeat(160);
 
@@ -20,7 +21,7 @@ describe('firestoreImmediateNotificationWrite', () => {
       },
     });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -46,7 +47,7 @@ describe('firestoreImmediateNotificationWrite', () => {
       },
     });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -54,7 +55,7 @@ describe('firestoreImmediateNotificationWrite', () => {
     expect(firestore.doc('notif-imm/111111111111').get().data()).toEqual({
       announceID: '111111111111',
       archives: ['1'],
-      uT: expect.any(Date),
+      uT: expect.any(Timestamp),
     });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -80,7 +81,7 @@ describe('firestoreImmediateNotificationWrite', () => {
       },
     });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -89,7 +90,7 @@ describe('firestoreImmediateNotificationWrite', () => {
     const cancels = Object.keys(devices);
     firestore.doc('notif-imm/111111111111').update({ cancels });
 
-    await firestoreImmediateNotificationWrite(
+    await immediateNotificationWriteHandler(
       { after: firestore.doc('notif-imm/111111111111').get() } as any,
       {} as any,
       firestore.adminApp(),
@@ -97,7 +98,7 @@ describe('firestoreImmediateNotificationWrite', () => {
     expect(firestore.doc('notif-imm/111111111111').get().data()).toEqual({
       announceID: '111111111111',
       archives: [],
-      uT: expect.any(Date),
+      uT: expect.any(Timestamp),
     });
     expect(firestore.data['notif-imm']['111111111111']['_collections']['archives']).toEqual({});
   });

@@ -1,6 +1,10 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
 import { App } from '../../app/app';
-import { AnnounceMetaRule, pushRoute } from '../../shared';
+import {
+  ANNOUNCE_META_DESC_MAX_LENGTH,
+  ANNOUNCE_META_NAME_MAX_LENGTH,
+  pushRoute,
+} from '../../shared';
 
 @Component({
   tag: 'app-announce-create',
@@ -62,14 +66,14 @@ const render = (ctx: RenderContext) => {
         <ap-input
           label={ctx.msgs.announceCreate.form.name}
           value={ctx.values.name}
-          maxLength={AnnounceMetaRule.name.length}
+          maxLength={ANNOUNCE_META_NAME_MAX_LENGTH}
           onInput={ctx.handlers.input.name}
         />
         <ap-input
           textarea={true}
           label={ctx.msgs.announceCreate.form.desc}
           value={ctx.values.desc}
-          maxLength={AnnounceMetaRule.desc.length}
+          maxLength={ANNOUNCE_META_DESC_MAX_LENGTH}
           onInput={ctx.handlers.input.desc}
         />
         <button class="submit" disabled={!ctx.values.name} onClick={ctx.handlers.submit}>

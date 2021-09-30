@@ -1,13 +1,12 @@
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
-import { Announce, AnnounceMetaRule, EditAnnounceParams, ImageRule } from '@announcing/shared';
+import { Announce, EditAnnounceParams } from '@announcing/shared';
+import { CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { announceMetaHash, checkOwner, storeImage } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
-export const callEditAnnounce = async (
-  params: Partial<EditAnnounceParams>,
+export const editAnnounce = async (
+  params: EditAnnounceParams,
   context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
@@ -15,24 +14,6 @@ export const callEditAnnounce = async (
   }
 
   const { id, name, desc, link, icon, newIcon } = params;
-  if (!id) {
-    throw new Error('missing id');
-  }
-  if (!name) {
-    throw new Error('missing name');
-  }
-  if (name.length > AnnounceMetaRule.name.length) {
-    throw new Error('name is too long');
-  }
-  if (desc && desc.length > AnnounceMetaRule.desc.length) {
-    throw new Error('desc is too long');
-  }
-  if (link && link.length > AnnounceMetaRule.link.length) {
-    throw new Error('link is too long');
-  }
-  if (newIcon && newIcon.length > ImageRule.data.length) {
-    throw new Error('newIcon is too long');
-  }
 
   const firestore = adminApp.firestore();
 
@@ -45,10 +26,10 @@ export const callEditAnnounce = async (
 
   const newMeta = {
     name,
-    ...(!!desc && { desc }),
-    ...(!!link && { link }),
-    ...(!!icon && { icon }),
-    cT: admin.firestore.FieldValue.serverTimestamp() as any,
+    desc,
+    link,
+    icon,
+    cT: serverTimestamp() as any,
   };
 
   if (newIcon) {
@@ -62,7 +43,7 @@ export const callEditAnnounce = async (
 
   const updateAnnounce = {
     mid: newMetaID,
-    uT: admin.firestore.FieldValue.serverTimestamp(),
+    uT: serverTimestamp(),
   };
 
   const announceRef = firestore.doc(`announces/${id}`);

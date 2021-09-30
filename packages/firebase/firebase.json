@@ -13,16 +13,16 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
-          "regex": "^/data/announces/[a-zA-Z0-9]{12}/meta/[a-zA-Z0-9]{8}$",
-          "function": "getAnnounceMetaData"
+          "regex": "^/data/announces/[A-Z0-9]{12}/meta/[a-zA-Z0-9]{8}$",
+          "function": "httpsRequest"
         },
         {
-          "regex": "^/data/announces/[a-zA-Z0-9]{12}/posts/[a-zA-Z0-9]{8}$",
-          "function": "getAnnouncePostData"
+          "regex": "^/data/announces/[A-Z0-9]{12}/posts/[a-zA-Z0-9]{8}$",
+          "function": "httpsRequest"
         },
         {
           "regex": "^/data/images/[a-zA-Z0-9]{15,25}$",
-          "function": "getImageData"
+          "function": "httpsRequest"
         },
         {
           "source": "**",
@@ -74,8 +74,8 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
-          "regex": "^/import-posts/([a-zA-Z0-9]{12})/([a-zA-Z0-9]{32,43})$",
-          "function": "pingImportPosts"
+          "regex": "^/import-posts/([A-Z0-9]{12})/([a-zA-Z0-9]{30,45})$",
+          "function": "httpsRequest"
         },
         {
           "source": "**",

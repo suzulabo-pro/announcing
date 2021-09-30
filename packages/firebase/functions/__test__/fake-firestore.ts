@@ -1,9 +1,14 @@
+import { BaseError } from '@announcing/shared';
+import { Timestamp } from '../src/firebase';
+
 interface SetOptions {
   merge: boolean;
 }
 interface DocData {
   [name: string]: any;
 }
+
+class RaedOnlyError extends BaseError {}
 
 const getPathTree = (ref: DocRef) => {
   const tree = [ref.id, ref.parent.id];
@@ -23,7 +28,7 @@ const copyData = (src: DocData, dst: DocData) => {
         return;
       }
       if (v instanceof Date) {
-        dst[k] = new Date(v);
+        dst[k] = Timestamp.fromDate(v);
         return;
       }
 
@@ -86,6 +91,9 @@ class DocRef {
   }
 
   set(data: DocData, options?: { merge: boolean }) {
+    if (this.firestore.readonly) {
+      throw new RaedOnlyError();
+    }
     const tree = getPathTree(this);
     tree.pop();
     let d = this.firestore.data;
@@ -109,6 +117,9 @@ class DocRef {
   }
 
   create(data: DocData) {
+    if (this.firestore.readonly) {
+      throw new RaedOnlyError();
+    }
     if (this.get().exists) {
       throw new Error('exists');
     }
@@ -116,6 +127,9 @@ class DocRef {
   }
 
   update(data: DocData) {
+    if (this.firestore.readonly) {
+      throw new RaedOnlyError();
+    }
     if (this.get().exists) {
       // TODO: It's worng!!
       // https://firebase.google.com/docs/firestore/manage-data/add-data#update_fields_in_nested_objects
@@ -124,6 +138,9 @@ class DocRef {
   }
 
   delete() {
+    if (this.firestore.readonly) {
+      throw new RaedOnlyError();
+    }
     const tree = getPathTree(this);
     tree.pop();
     let d = this.firestore.data;
@@ -210,7 +227,7 @@ class Transaction extends Batch {
 }
 
 export class FakeFirestore {
-  constructor(public data: DocData = {}) {}
+  constructor(public data: DocData = {}, public readonly = false) {}
 
   adminApp(): any {
     return {

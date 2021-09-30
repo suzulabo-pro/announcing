@@ -1,37 +1,31 @@
 import { bs62, ImportPosts } from '@announcing/shared';
-import * as admin from 'firebase-admin';
-import { Request, Response } from 'firebase-functions';
 import nacl from 'tweetnacl';
+import { FirebaseAdminApp, HttpRequest, HttpResponse, Timestamp } from '../firebase';
+import { pubImportPostsFetch } from '../pubsub/import-posts-fetch';
 import { logger } from '../utils/logger';
 
 const cacheControl = 'public, max-age=30, s-maxage=30';
-const pathPattern = new RegExp('^/import-posts/([a-zA-Z0-9]{12})/([a-zA-Z0-9]{32,43})$');
 
-export const httpsPingImportPosts = async (
-  req: Request,
-  res: Response,
-  adminApp: admin.app.App,
+export const pingImportPosts = async (
+  params: Record<string, string>,
+  req: HttpRequest,
+  res: HttpResponse,
+  adminApp: FirebaseAdminApp,
 ) => {
   const sendErr = (msg: string, info?: Record<string, any>, status = 400) => {
     logger.error(msg, { path: req.path, ...info });
     res.status(status).send({ status: 'error', msg });
   };
 
-  const m = pathPattern.exec(req.path);
-  if (!m) {
-    sendErr('bad path');
-    return;
-  }
-  const [, id, secKey] = m;
-  if (!id || !secKey) {
+  const { announceID, secKey } = params;
+  if (!announceID || !secKey) {
     sendErr('bad path');
     return;
   }
 
   const pubKey = (() => {
     try {
-      const secKeyB = bs62.decode(secKey);
-      return bs62.encode(nacl.box.keyPair.fromSecretKey(secKeyB).publicKey);
+      return bs62.encode(nacl.box.keyPair.fromSecretKey(bs62.decode(secKey)).publicKey);
     } catch (err) {
       sendErr('bad path (secKey)', { err });
       return;
@@ -42,7 +36,7 @@ export const httpsPingImportPosts = async (
   }
 
   const firestore = adminApp.firestore();
-  const docRef = firestore.doc(`import-posts/${id}`);
+  const docRef = firestore.doc(`import-posts/${announceID}`);
 
   await firestore.runTransaction(async t => {
     const data = (await t.get(docRef)).data() as ImportPosts;
@@ -71,11 +65,15 @@ export const httpsPingImportPosts = async (
 
     const reqID = req.header('APP-REQUEST-ID') || '';
 
+    const uT = Timestamp.now();
+
     t.update(docRef, {
       requested: true,
       requestedURL,
-      uT: admin.firestore.FieldValue.serverTimestamp(),
+      uT,
     });
+
+    await pubImportPostsFetch(announceID, uT.toMillis());
 
     res.setHeader('Cache-Control', cacheControl);
     res.status(200).send({ reqID, status: 'ok' });

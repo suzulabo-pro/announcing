@@ -13,4 +13,7 @@ export const logger = {
   error: (message: string, v?: Record<string, any>) => {
     fnLogger.write({ severity: 'ERROR', message, ...v });
   },
+  critical: (message: string, v?: Record<string, any>) => {
+    fnLogger.write({ severity: 'CRITICAL', message, ...v });
+  },
 };

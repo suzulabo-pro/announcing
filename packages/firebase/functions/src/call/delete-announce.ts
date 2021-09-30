@@ -1,12 +1,11 @@
 import { DeleteAnnounceParams } from '@announcing/shared';
-import * as admin from 'firebase-admin';
-import { CallableContext } from 'firebase-functions/lib/providers/https';
+import { arrayRemove, CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
 import { logger } from '../utils/logger';
 
-export const callDeleteAnnounce = async (
-  params: Partial<DeleteAnnounceParams>,
+export const deleteAnnounce = async (
+  params: DeleteAnnounceParams,
   context: CallableContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
@@ -29,8 +28,8 @@ export const callDeleteAnnounce = async (
       isOwner = true;
     }
     batch.update(d.ref, {
-      announces: admin.firestore.FieldValue.arrayRemove(id),
-      uT: admin.firestore.FieldValue.serverTimestamp(),
+      announces: arrayRemove(id),
+      uT: serverTimestamp(),
     });
   }
   if (!isOwner) {

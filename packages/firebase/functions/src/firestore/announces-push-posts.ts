@@ -1,18 +1,17 @@
 import { Announce, AnnounceMeta, Lang, Post } from '@announcing/shared';
-import * as admin from 'firebase-admin';
-import { Change, EventContext } from 'firebase-functions/lib/cloud-functions';
 import {
-  DocumentSnapshot,
-  QueryDocumentSnapshot,
-} from 'firebase-functions/lib/providers/firestore';
+  DocumentChange,
+  EventContext,
+  FirebaseAdminApp,
+  Firestore,
+  MulticastMessage,
+  Notification,
+} from '../firebase';
 import { pubMulticastMessages } from '../pubsub/send-notification';
 import { ImmediateNotification, ImmediateNotificationArchive } from '../utils/datatypes';
 import { logger } from '../utils/logger';
 
-const getImmediateNotificationDevices = async (
-  firestore: admin.firestore.Firestore,
-  announceID: string,
-) => {
+const getImmediateNotificationDevices = async (firestore: Firestore, announceID: string) => {
   const immediateRef = firestore.doc(`notif-imm/${announceID}`);
   const immediate = (await immediateRef.get()).data() as ImmediateNotification;
   if (!immediate) {
@@ -47,10 +46,10 @@ const getImmediateNotificationDevices = async (
   }
 };
 
-export const firestoreUpdateAnnounce = async (
-  change: Change<DocumentSnapshot>,
+export const pushPosts = async (
+  change: DocumentChange,
   _context: EventContext,
-  adminApp: admin.app.App,
+  adminApp: FirebaseAdminApp,
 ): Promise<void> => {
   const beforeData = change.before.data() as Announce;
   const afterData = change.after.data() as Announce;
@@ -112,7 +111,7 @@ export const firestoreUpdateAnnounce = async (
   const baseMsg = {
     notification: {
       title: announceMeta.name,
-    } as admin.messaging.Notification,
+    } as Notification,
     data: { announceID, ...(announceMeta.icon && { icon: announceMeta.icon }) },
   };
   if (newPosts.length == 1) {
@@ -128,7 +127,7 @@ export const firestoreUpdateAnnounce = async (
     baseMsg.notification.body = postData.title || postData.body;
   }
 
-  const msgs = [] as admin.messaging.MulticastMessage[];
+  const msgs = [] as MulticastMessage[];
 
   const tokens = [...tokensSet] as string[];
   while (tokens.length > 0) {
@@ -140,28 +139,10 @@ export const firestoreUpdateAnnounce = async (
     return;
   }
 
-  await pubMulticastMessages(msgs);
-};
-
-export const firestoreDeleteAnnounce = async (
-  qds: QueryDocumentSnapshot,
-  _context: EventContext,
-  adminApp: admin.app.App,
-): Promise<void> => {
-  const id = qds.id;
-  const announceData = qds.data() as Announce;
-
-  const posts = Object.keys(announceData.posts).map(v => `announces/${id}/posts/${v}`);
-  const pathes = [...posts, `announces/${id}/meta/${announceData.mid}`, `notif-imm/${id}`];
-
-  const firestore = adminApp.firestore();
-
-  while (pathes.length > 0) {
-    const c = pathes.splice(0, 500);
-    const batch = firestore.batch();
-    for (const p of c) {
-      batch.delete(firestore.doc(p));
-    }
-    await batch.commit();
+  try {
+    await pubMulticastMessages(msgs);
+  } catch (err) {
+    logger.critical('pubMulticastMessages error', { err });
+    throw err;
   }
 };

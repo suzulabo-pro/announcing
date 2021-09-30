@@ -33,12 +33,6 @@ export interface PostJSON extends PostBase {
   pT: number; // published time
 }
 
-export const PostRule = {
-  title: { length: 100 },
-  body: { length: 500 },
-  link: { length: 500 },
-};
-
 export interface AnnounceMetaBase {
   name: string;
   desc?: string;
@@ -52,12 +46,6 @@ export interface AnnounceMetaJSON extends AnnounceMetaBase {
   cT: number; // created time
 }
 
-export const AnnounceMetaRule = {
-  name: { length: 50 },
-  desc: { length: 500 },
-  link: { length: 500 },
-};
-
 export interface User {
   announces?: string[];
   uT: Timestamp;
@@ -66,10 +54,6 @@ export interface User {
 export interface Image {
   data: Blob;
 }
-
-export const ImageRule = {
-  data: { length: 1000 * 1000 },
-};
 
 export type ImportPostsLog =
   | {
@@ -103,18 +87,16 @@ export interface ImportPosts {
   uT: Timestamp; // updated time
 }
 
-export const ImportPostsRule = {
-  url: { length: 1000 },
-};
-
 export type AnnounceAndMeta = Announce & AnnounceMetaBase;
 
 export interface CreateAnnounceParams {
+  method: 'CreateAnnounce';
   name: string;
   desc?: string;
 }
 
 export interface EditAnnounceParams {
+  method: 'EditAnnounce';
   id: string;
   name: string;
   desc?: string;
@@ -124,16 +106,19 @@ export interface EditAnnounceParams {
 }
 
 export interface EditImportPostsParams {
+  method: 'EditImportPosts';
   id: string;
   url?: string;
   pubKey?: string;
 }
 
 export interface DeleteAnnounceParams {
+  method: 'DeleteAnnounce';
   id: string;
 }
 
 export interface PutPostParams {
+  method: 'PutPost';
   id: string;
   title?: string;
   body?: string;
@@ -143,11 +128,14 @@ export interface PutPostParams {
 }
 
 export interface DeletePostParams {
+  method: 'DeletePost';
   id: string;
   postID: string;
 }
 
 export interface RegisterNotificationParams {
+  method: 'RegisterNotification';
+  reqTime: string;
   token: string;
   signKey: string;
   sign: string;

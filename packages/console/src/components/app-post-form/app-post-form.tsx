@@ -4,7 +4,9 @@ import { App } from '../../app/app';
 import {
   ApNaviLink,
   assertIsDefined,
-  PostRule,
+  POST_BODY_MAX_LENGTH,
+  POST_LINK_MAX_LENGTH,
+  POST_TITLE_MAX_LENGTH,
   PromiseState,
   pushRoute,
   redirectRoute,
@@ -237,20 +239,20 @@ const renderForm = (ctx: RenderContext) => {
         <ap-input
           label={ctx.msgs.postForm.title}
           value={ctx.values.title}
-          maxLength={PostRule.title.length}
+          maxLength={POST_TITLE_MAX_LENGTH}
           onInput={ctx.handlers.input.title}
         />
         <ap-input
           textarea={true}
           label={ctx.msgs.postForm.body}
           value={ctx.values.body}
-          maxLength={PostRule.body.length}
+          maxLength={POST_BODY_MAX_LENGTH}
           onInput={ctx.handlers.input.body}
         />
         <ap-input
           label={ctx.msgs.postForm.lnik}
           value={ctx.values.link}
-          maxLength={PostRule.link.length}
+          maxLength={POST_LINK_MAX_LENGTH}
           onInput={ctx.handlers.input.link}
         />
         <button class="submit" disabled={!ctx.canSubmit} onClick={ctx.handlers.submit}>
