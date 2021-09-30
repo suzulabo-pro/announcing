@@ -20,6 +20,6 @@
   },
   "devDependencies": {
     "docsify-cli": "^4.4.3",
-    "firebase-tools": "^9.18.0"
+    "firebase-tools": "^9.19.0"
   }
 }
