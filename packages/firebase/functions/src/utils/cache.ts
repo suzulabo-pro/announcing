@@ -1,13 +1,9 @@
-export class Miss {
-  constructor(readonly created: number = Date.now()) {}
-}
-
 export class Cache<T extends Record<string, any>> {
-  constructor(private m = new Map<string, WeakRef<T | Miss>>()) {}
-  set(k: string, v: T | Miss) {
+  constructor(private m = new Map<string, WeakRef<T>>()) {}
+  set(k: string, v: T) {
     this.m.set(k, new WeakRef(v));
   }
-  get(k: string): T | Miss | undefined {
+  get(k: string): T | undefined {
     const ref = this.m.get(k);
     if (!ref) {
       return;

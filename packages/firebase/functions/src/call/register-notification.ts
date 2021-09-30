@@ -1,6 +1,5 @@
 import { bs62, Lang, RegisterNotificationParams } from '@announcing/shared';
 import nacl from 'tweetnacl';
-import { TextDecoder } from 'util';
 import {
   arrayRemove,
   arrayUnion,
@@ -13,17 +12,6 @@ import {
 } from '../firebase';
 import { NotificationDevice } from '../utils/datatypes';
 import { logger } from '../utils/logger';
-
-export const verifySign = (_signKey: string, _sign: string) => {
-  const signKey = bs62.decode(_signKey);
-  const sign = bs62.decode(_sign);
-  const data = nacl.sign.open(sign, signKey);
-  if (!data) {
-    return;
-  }
-  const s = new TextDecoder().decode(data);
-  return s.split('\0');
-};
 
 export const registerNotification = async (
   params: RegisterNotificationParams,
