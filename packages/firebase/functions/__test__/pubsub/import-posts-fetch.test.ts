@@ -10,10 +10,10 @@ describe('firestoreUpdateImportPosts', () => {
     nock.cleanAll();
   });
 
-  const invoke = async (_data?: any, _now?: Date) => {
-    const uT = _now || new Date();
+  const invoke = async (params?: { data?: any; readonly?: boolean }) => {
+    const uT = new Date();
 
-    const data = _data || {
+    const data = params?.data || {
       'announces': {
         '111111111111': {
           posts: { '1': {}, '2': {}, '3': {} },
@@ -27,7 +27,7 @@ describe('firestoreUpdateImportPosts', () => {
         },
       },
     };
-    const firestore = new FakeFirestore(data);
+    const firestore = new FakeFirestore(data, params?.readonly);
 
     await pubsubImportPostsFetch(
       {
@@ -63,7 +63,7 @@ describe('firestoreUpdateImportPosts', () => {
       .delayConnection(1500)
       .reply(200, { posts: [{ body: 'testing', pT: '2021-09-09T12:24:56' }] });
 
-    await expect(invoke()).rejects.toThrow(RetryError);
+    await expect(invoke({ readonly: true })).rejects.toThrow(RetryError);
   });
 
   it('body timeout', async () => {
@@ -72,7 +72,7 @@ describe('firestoreUpdateImportPosts', () => {
       .delayBody(1500)
       .reply(200, { posts: [{ body: 'testing', pT: '2021-09-09T12:24:56' }] });
 
-    await expect(invoke()).rejects.toThrow(RetryError);
+    await expect(invoke({ readonly: true })).rejects.toThrow(RetryError);
   });
 
   it('no announce', async () => {
@@ -81,11 +81,14 @@ describe('firestoreUpdateImportPosts', () => {
       .reply(200, { posts: [{ body: 'test', pT: '2021-09-09T12:24:56' }] });
 
     await invoke({
-      'import-posts': {
-        '111111111111': {
-          url: 'https://announcing.test/posts.json',
-          requestedURL: 'https://announcing.test/posts.json',
-          uT: new Date(),
+      readonly: true,
+      data: {
+        'import-posts': {
+          '111111111111': {
+            url: 'https://announcing.test/posts.json',
+            requestedURL: 'https://announcing.test/posts.json',
+            uT: new Date(),
+          },
         },
       },
     });
@@ -94,7 +97,7 @@ describe('firestoreUpdateImportPosts', () => {
   it('json error', async () => {
     nock('https://announcing.test').get('/posts.json').reply(200, 'hello');
 
-    await invoke();
+    await invoke({ readonly: true });
   });
 
   it('parentID', async () => {
@@ -121,22 +124,25 @@ describe('firestoreUpdateImportPosts', () => {
   it('500 error', async () => {
     nock('https://announcing.test').get('/posts.json').reply(500, 'error');
 
-    await expect(invoke()).rejects.toThrow(RetryError);
+    await expect(invoke({ readonly: true })).rejects.toThrow(RetryError);
   });
 
   it('URL error', async () => {
     const now = new Date();
     await invoke({
-      'announces': {
-        '111111111111': {
-          posts: { '1': {}, '2': {}, '3': {} },
+      readonly: true,
+      data: {
+        'announces': {
+          '111111111111': {
+            posts: { '1': {}, '2': {}, '3': {} },
+          },
         },
-      },
-      'import-posts': {
-        '111111111111': {
-          url: 'https://announcing.announcing/posts.json',
-          requestedURL: 'https://announcing.announcing/posts.json',
-          uT: now,
+        'import-posts': {
+          '111111111111': {
+            url: 'https://announcing.announcing/posts.json',
+            requestedURL: 'https://announcing.announcing/posts.json',
+            uT: now,
+          },
         },
       },
     });
