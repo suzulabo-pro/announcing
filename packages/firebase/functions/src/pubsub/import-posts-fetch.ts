@@ -14,6 +14,7 @@ import {
 import { validators } from '../json-schema';
 import { postHash } from '../utils/firestore';
 import { logger } from '../utils/logger';
+import { RetryError } from './retry-error';
 
 const FETCH_UA = 'announcing-bot';
 const FETCH_TIMEOUT = 30 * 1000;
@@ -59,15 +60,21 @@ export const pubsubImportPostsFetch = async (
       return;
     }
 
-    const json = await fetch(url);
-    if (json) {
-      await importPostsJSON(firestore, t, id, json);
+    try {
+      const json = await fetch(url);
+      if (json) {
+        await importPostsJSON(firestore, t, id, json);
+      }
+    } catch (err) {
+      if (err instanceof RetryError) {
+        throw err;
+      }
+      logger.error(err);
     }
-    t.update(docRef, { uT: serverTimestamp() });
   });
 };
 
-const fetch = async (url: string) => {
+const fetch = async (url: string): Promise<any | undefined> => {
   const timeout = process.env['FETCH_TIMEOUT']
     ? parseInt(process.env['FETCH_TIMEOUT'])
     : FETCH_TIMEOUT;
@@ -84,12 +91,7 @@ const fetch = async (url: string) => {
       timeout,
       maxContentLength: FETCH_MAX_SIZE,
       maxRedirects: 0,
-      validateStatus: status => {
-        if (status >= 500) {
-          return false;
-        }
-        return true;
-      },
+      validateStatus: undefined,
       headers: {
         'user-agent': FETCH_UA,
       },
@@ -99,9 +101,22 @@ const fetch = async (url: string) => {
     if (status >= 200 && status < 300) {
       return res.data;
     }
+    if (status >= 500) {
+      throw new RetryError(`Status Error: ${status}`);
+    }
 
     logger.warn('fetch error', { status, url });
-    return;
+  } catch (err) {
+    if (err instanceof RetryError) {
+      throw err;
+    } else if (axios.isCancel(err)) {
+      throw new RetryError('timeout(cancel)');
+    } else if (axios.isAxiosError(err)) {
+      if (err.code == 'ECONNABORTED') {
+        throw new RetryError('timeout(ECONNABORTED)');
+      }
+    }
+    logger.warn('fetch error', { url, err });
   } finally {
     clearTimeout(timer);
   }

@@ -1,3 +1,5 @@
+import { Timestamp } from '../src/firebase';
+
 interface SetOptions {
   merge: boolean;
 }
@@ -23,7 +25,7 @@ const copyData = (src: DocData, dst: DocData) => {
         return;
       }
       if (v instanceof Date) {
-        dst[k] = new Date(v);
+        dst[k] = Timestamp.fromDate(v);
         return;
       }
 
