@@ -3,6 +3,17 @@ ap-root {
   display: flex;
   flex-direction: column;
 
+  div.header {
+    padding: 8px;
+    font-family: serif;
+    font-size: 20px;
+    background-color: var(--header-bk-color);
+    color: var(--header-color);
+    a {
+      text-decoration: none;
+    }
+  }
+
   .page {
     flex-grow: 1;
     width: 100%;
