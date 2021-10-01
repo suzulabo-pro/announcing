@@ -1,6 +1,6 @@
 import { Match, pathMatcher } from '@announcing/shared';
 import { Component, Element, h, Host, Listen, Prop, State } from '@stencil/core';
-import { PageVisible, redirectRoute, restoreScroll } from '../../utils';
+import { href, PageVisible, redirectRoute, restoreScroll } from '../../utils';
 
 export type RouteMatch = Match & { tag?: string };
 
@@ -84,6 +84,9 @@ export class ApRoot {
 
     return (
       <Host>
+        <div class="header">
+          <a {...href('/')}>Announcing♪</a>
+        </div>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;
           if (!visible && tagInfo.pageVisible.isVisible()) {
