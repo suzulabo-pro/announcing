@@ -13,8 +13,8 @@
     "test.watch": "jest --watch"
   },
   "dependencies": {
-    "base-x": "^3.0.8",
-    "tweetnacl": "^1.0.3",
-    "type-fest": "^2.3.2"
+    "base-x": "3.0.8",
+    "tweetnacl": "1.0.3",
+    "type-fest": "2.3.4"
   }
 }
