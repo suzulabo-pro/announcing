@@ -12,8 +12,7 @@
     "start": "npm run serve"
   },
   "devDependencies": {
-    "@announcing/shared-ui": "*",
-    "@rollup/plugin-replace": "^3.0.0",
-    "qr-code-styling": "^1.6.0-rc.1"
+    "@rollup/plugin-replace": "3.0.0",
+    "qr-code-styling": "1.6.0-rc.1"
   }
 }
