@@ -98,6 +98,7 @@ export class AppRoot {
           routeMatches={matches}
           redirect={this.handleRedirect}
           componentProps={{ app: this.app }}
+          headerTitle="Announcing♪ Console"
         />
       </Host>
     );
