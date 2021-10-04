@@ -5,11 +5,11 @@ ap-root {
 
   div.header {
     padding: 8px;
-    font-family: serif;
     font-size: 20px;
     background-color: var(--header-bk-color);
     color: var(--header-color);
     a {
+      display: block;
       text-decoration: none;
     }
   }

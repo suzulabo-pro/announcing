@@ -35,7 +35,7 @@ export class App {
     } else {
       this.clientSite = appEnv.env.sites.client;
     }
-    this.manualSite = `${appEnv.env.sites.docs}/manual/#/${this.appMsg.lang}/publisher`;
+    this.manualSite = `${appEnv.env.sites.docs}/manual/#/${this.appMsg.lang}/`;
   }
 
   async init() {

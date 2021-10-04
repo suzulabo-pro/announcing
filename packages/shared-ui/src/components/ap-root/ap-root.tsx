@@ -24,6 +24,9 @@ export class ApRoot {
   @Prop()
   redirect?: (p: string) => string | undefined;
 
+  @Prop()
+  headerTitle = 'Announcing♪';
+
   @State()
   path?: string;
 
@@ -85,7 +88,7 @@ export class ApRoot {
     return (
       <Host>
         <div class="header">
-          <a {...href('/')}>Announcing♪</a>
+          <a {...href('/')}>{this.headerTitle}</a>
         </div>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;

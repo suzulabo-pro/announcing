@@ -1,3 +1,3 @@
-# Headline
+# Announcing♪ <!-- {docsify-ignore} -->
 
-> An awesome project.
+[日本語](ja/)
