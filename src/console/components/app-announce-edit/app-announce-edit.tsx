@@ -1,4 +1,3 @@
-import { href } from '@announcing/shared-ui';
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
@@ -8,6 +7,7 @@ import {
   ANNOUNCE_META_NAME_MAX_LENGTH,
   ApNaviLink,
   assertIsDefined,
+  href,
   PromiseState,
   pushRoute,
   redirectRoute,

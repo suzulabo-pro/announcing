@@ -3,7 +3,6 @@ import {
   Announce,
   AnnounceMetaBase,
   AppEnv,
-  assertIsDefined,
   LazyPromiseState,
   PostJSON,
   PromiseState,
@@ -75,7 +74,6 @@ export class App {
   }
 
   get msgs() {
-    assertIsDefined(this.appMsg.msgs);
     return this.appMsg.msgs;
   }
 
