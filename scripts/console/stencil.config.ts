@@ -39,16 +39,16 @@ const buildRepo = () => {
 const isDev = process.argv.includes('--dev');
 
 export const config: Config = {
-  globalScript: 'src/console/global/app.ts',
-  srcDir: 'src/console',
+  globalScript: '../../src/console/global/app.ts',
+  srcDir: '../../src/console',
   taskQueue: 'async',
   outputTargets: [
     {
       type: 'www',
       serviceWorker: null,
       copy: [
-        { src: '../../../resources/icon192.png', dest: 'icon192.png' },
-        { src: '../../../resources/icon180.png', dest: 'icon180.png' },
+        { src: '../../resources/icon192.png', dest: 'icon192.png' },
+        { src: '../../resources/icon180.png', dest: 'icon180.png' },
       ],
       dir: isDev ? 'www' : 'www-dist',
     },

@@ -1,6 +1,6 @@
-import { PostJSON } from '@announcing/shared';
-import { PromiseState } from '@announcing/shared-web';
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
+import { PostJSON } from '../../../shared';
+import { PromiseState } from '../../../shared-web';
 
 const tweetIDPattern = new RegExp('^https://twitter\\.com/.+/status/([0-9]+)$');
 const youtubeIDPattern = (s: string) => {

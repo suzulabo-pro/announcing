@@ -1,6 +1,6 @@
-import { AnnounceAndMeta } from '@announcing/shared';
-import { PromiseState } from '@announcing/shared-web';
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
+import { AnnounceAndMeta } from '../../../shared';
+import { PromiseState } from '../../../shared-web';
 import { href } from '../../utils';
 
 @Component({

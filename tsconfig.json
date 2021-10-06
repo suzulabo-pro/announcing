@@ -13,7 +13,8 @@
     "module": "ESNext",
     "target": "ESNext",
 
-    "sourceMap": true
+    "sourceMap": true,
+    "allowJs": true
   },
 
   "include": ["src", "**/stencil.config.ts", "**/capacitor.config.ts"]
