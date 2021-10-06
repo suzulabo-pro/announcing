@@ -1,0 +1,26 @@
+ap-root {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+
+  div.header {
+    padding: 8px;
+    font-size: 20px;
+    background-color: var(--header-bk-color);
+    color: var(--header-color);
+    a {
+      display: block;
+      text-decoration: none;
+    }
+  }
+
+  .page {
+    flex-grow: 1;
+    width: 100%;
+    max-width: var(--page-max-width);
+    margin: 0 auto var(--page-margin-bottom);
+  }
+  .page.hide {
+    display: none;
+  }
+}
