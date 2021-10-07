@@ -1,5 +1,5 @@
 import { forceUpdate, getRenderingRef } from '@stencil/core';
-import { LazyPromise } from '../../shared';
+import { LazyPromise } from '../shared';
 
 type StatusResult<T> =
   | { state: 'pending' }

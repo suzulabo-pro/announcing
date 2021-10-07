@@ -1,8 +1,6 @@
 import { Component, Element, h, Host, Listen, Prop, State } from '@stencil/core';
-import { Match, pathMatcher } from '../../../shared';
-import { href, PageVisible, redirectRoute, restoreScroll } from '../../utils';
-
-export type RouteMatch = Match & { tag?: string };
+import { href, PageVisible, redirectRoute, restoreScroll, RouteMatch } from '../../';
+import { pathMatcher } from '../../../shared';
 
 @Component({
   tag: 'ap-root',

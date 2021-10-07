@@ -1,12 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
-import { href } from '../../utils';
-
-export interface ApNaviLink {
-  label: string;
-  href?: string;
-  handler?: () => void;
-  back?: boolean;
-}
+import { ApNaviLink, href } from '../../';
 
 @Component({
   tag: 'ap-navi',

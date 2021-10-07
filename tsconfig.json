@@ -1,19 +1,37 @@
 {
-  "extends": "./tsconfig.base.json",
   "compilerOptions": {
+    // Type Checking
+    "strict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    // "exactOptionalPropertyTypes": true, # work from Typescript 4.4
+    "noFallthroughCasesInSwitch": true,
+    // "noImplicitOverride": true,  # Unknown compiler option in Stencil
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    // Recommended
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+
+    // StencilJS
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
-
     "jsx": "react",
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
 
     "lib": ["DOM", "ES2017"],
-
     "module": "ESNext",
     "target": "ESNext",
 
-    "sourceMap": true
+    "sourceMap": true,
+    "noEmit": true,
+    "isolatedModules": true
   },
 
   "include": ["src", "scripts/**/*.ts"]
