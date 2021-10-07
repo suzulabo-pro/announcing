@@ -2,6 +2,9 @@ import replace from '@rollup/plugin-replace';
 import { Config } from '@stencil/core';
 import { sass } from '@stencil/sass';
 import nodePolyfills from 'rollup-plugin-node-polyfills';
+import * as path from 'path';
+
+const ROOT_DIR = path.resolve(path.join(__dirname, '../..'));
 
 // https://stenciljs.com/docs/config
 
@@ -39,18 +42,18 @@ const buildRepo = () => {
 const isDev = process.argv.includes('--dev');
 
 export const config: Config = {
-  globalScript: '../../src/console/global/app.ts',
-  srcDir: '../../src/console',
+  globalScript: `${ROOT_DIR}/src/console/global/app.ts`,
+  srcDir: `${ROOT_DIR}/src/console`,
   taskQueue: 'async',
   outputTargets: [
     {
       type: 'www',
       serviceWorker: null,
       copy: [
-        { src: '../../resources/icon192.png', dest: 'icon192.png' },
-        { src: '../../resources/icon180.png', dest: 'icon180.png' },
+        { src: `${ROOT_DIR}/resources/icon192.png`, dest: 'icon192.png' },
+        { src: `${ROOT_DIR}/resources/icon180.png`, dest: 'icon180.png' },
       ],
-      dir: isDev ? 'www' : 'www-dist',
+      dir: isDev ? `${ROOT_DIR}/dist/console/www` : `${ROOT_DIR}/dist/console/www-dist`,
     },
   ],
   plugins: [
@@ -63,12 +66,7 @@ export const config: Config = {
     }),
   ],
   rollupPlugins: {
-    after: [
-      // https://github.com/ionic-team/rollup-plugin-node-polyfills/issues/17
-      nodePolyfills({
-        include: '../../node_modules/**/*.js',
-      }),
-    ],
+    after: [nodePolyfills()],
   },
   devServer: {
     openBrowser: false,

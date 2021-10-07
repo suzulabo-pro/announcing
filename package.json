@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "lint": "eslint --ext .ts,.tsx .",
+    "script": "node -r esbuild-register scripts/index.ts",
     "clean:shared": "npm run clean -w packages/shared -w packages/shared-web -w packages/shared-ui",
     "build:shared": "npm run build -w packages/shared -w packages/shared-web -w packages/shared-ui"
   },
@@ -41,6 +42,7 @@
     "date-fns-tz": "1.1.6",
     "destyle.css": "3.0.0",
     "esbuild": "0.13.4",
+    "esbuild-register": "3.0.0",
     "firebase": "9.1.1",
     "firebase-admin": "9.12.0",
     "firebase-functions": "3.15.7",
