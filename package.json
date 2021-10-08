@@ -2,10 +2,7 @@
   "name": "announcing",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .ts,.tsx .",
-    "script": "node -r esbuild-register scripts/index.ts",
-    "clean:shared": "npm run clean -w packages/shared -w packages/shared-web -w packages/shared-ui",
-    "build:shared": "npm run build -w packages/shared -w packages/shared-web -w packages/shared-ui"
+    "-": "node -r esbuild-register scripts/index.ts"
   },
   "devDependencies": {
     "@stencil/eslint-plugin": "github:suzulabo/stencil-eslint#0.3.1+",
