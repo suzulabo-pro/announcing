@@ -30,7 +30,6 @@
     "target": "ESNext",
 
     "sourceMap": true,
-    "noEmit": true,
     "isolatedModules": true
   },
 
