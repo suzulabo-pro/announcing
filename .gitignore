@@ -5,6 +5,7 @@ dist/
 www/
 www-dist/
 
+/firebase/.firebaserc
 /firebase/*.log
 /firebase/emu-data/
 
