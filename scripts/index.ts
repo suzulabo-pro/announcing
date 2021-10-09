@@ -27,6 +27,9 @@ const commands: [string, string | ScriptInfo | string[]][] = [
     'stencil build --dev --watch --serve --config scripts/console/stencil.config.ts',
   ],
   ['console.build', 'stencil build --config scripts/console/stencil.config.ts'],
+
+  ['client.start', 'stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'],
+  ['client.build', 'stencil build --config scripts/client/stencil.config.ts'],
 ];
 
 const commandsMap = new Map(commands);
