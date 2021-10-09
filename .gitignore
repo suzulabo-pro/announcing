@@ -5,8 +5,8 @@ dist/
 www/
 www-dist/
 
-firebase/*.log
-firebase/emu-data/
+/firebase/*.log
+/firebase/emu-data/
 
-secrets/
-scripts/dev-proxy/*.pem
+/secrets/
+/scripts/dev-proxy/*.pem

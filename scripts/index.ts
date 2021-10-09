@@ -1,5 +1,6 @@
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
+import { copySecrets } from './secrets/copy';
 import { sh } from './sh';
 
 type ScriptFunction = () => Promise<unknown> | void;
@@ -52,6 +53,8 @@ const commands: [string, string | ScriptInfo | string[]][] = [
   ],
 
   ['dev-proxy.start', { func: startDevProxy }],
+
+  ['secrets.copy', { func: copySecrets }],
 
   [
     'ios.openurl',
