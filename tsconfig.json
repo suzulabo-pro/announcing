@@ -33,5 +33,5 @@
     "isolatedModules": true
   },
 
-  "include": ["src", "scripts/**/*.ts"]
+  "include": ["src", "scripts/**/*.ts", "capacitor/client/capacitor.config.ts"]
 }

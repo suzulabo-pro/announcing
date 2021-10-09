@@ -31,6 +31,18 @@ const commands: [string, string | ScriptInfo | string[]][] = [
 
   ['client.start', 'stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'],
   ['client.build', 'stencil build --config scripts/client/stencil.config.ts'],
+  ['client.cap.build', 'CAP_BUILD=y stencil build --config scripts/client/stencil.config.ts'],
+  [
+    'client.cap.build.dev',
+    'CAP_BUILD=y stencil build --dev --config scripts/client/stencil.config.ts',
+  ],
+  [
+    'client.cap.sync',
+    {
+      cmd: 'cap sync',
+      cwd: 'capacitor/client',
+    },
+  ],
 
   ['dev-proxy.start', { func: startDevProxy }],
 ];

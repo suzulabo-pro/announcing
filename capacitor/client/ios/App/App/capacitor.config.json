@@ -1,0 +1,6 @@
+{
+	"appId": "app.announcing.client",
+	"appName": "Announcing♪",
+	"webDir": "../../dist/client/cap",
+	"bundledWebRuntime": false
+}
