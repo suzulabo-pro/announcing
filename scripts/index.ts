@@ -33,8 +33,6 @@ const commands: [string, string | ScriptInfo | string[]][] = [
   ['client.build', 'stencil build --config scripts/client/stencil.config.ts'],
 
   ['dev-proxy.start', { func: startDevProxy }],
-
-  ['start', ['dev-proxy.start', 'firebase.start', 'console.start', 'client.start']],
 ];
 
 const commandsMap = new Map(commands);
