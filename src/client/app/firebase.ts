@@ -28,7 +28,7 @@ import {
 import { PostNotificationRecievedEvent } from './datatypes';
 
 const devonly_setEmulator = (functions: Functions, firestore: Firestore) => {
-  if (!Build.isDev) {
+  if (!Build.isDev || Capacitor.getPlatform() != 'web') {
     return;
   }
   console.log('useEmulator');

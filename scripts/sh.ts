@@ -3,9 +3,9 @@ import { stderr, stdout } from 'process';
 
 const procs = new Set<ReturnType<typeof spawn>>();
 
-export const sh = (command: string, options?: { cwd?: string }) => {
+export const sh = (command: string, args?: string[], options?: { cwd?: string }) => {
   return new Promise<void>((resolve, reject) => {
-    const p = spawn(command, { shell: true, cwd: options?.cwd });
+    const p = spawn(command, args, { shell: true, cwd: options?.cwd });
     p.stdout.pipe(stdout);
     p.stderr.pipe(stderr);
 

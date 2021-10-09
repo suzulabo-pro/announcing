@@ -43,17 +43,33 @@ const commands: [string, string | ScriptInfo | string[]][] = [
       cwd: 'capacitor/client',
     },
   ],
+  [
+    'client.cap.copy',
+    {
+      cmd: 'cap copy',
+      cwd: 'capacitor/client',
+    },
+  ],
 
   ['dev-proxy.start', { func: startDevProxy }],
+
+  [
+    'ios.openurl',
+    {
+      cmd: 'xcrun simctl openurl booted',
+    },
+  ],
 ];
 
 const commandsMap = new Map(commands);
 
 const exec = async (script: string | ScriptInfo | string[]) => {
+  const args = process.argv.slice(3);
+
   if (typeof script == 'string') {
     console.info(`> ${script}`);
     console.info();
-    await sh(script);
+    await sh(script, args);
     return;
   }
 
@@ -73,7 +89,7 @@ const exec = async (script: string | ScriptInfo | string[]) => {
   if (script.cmd) {
     console.info(`> ${script.cmd}`);
     console.info();
-    await sh(script.cmd, script);
+    await sh(script.cmd, args, script);
   } else if (script.func) {
     console.info();
     await script.func();
