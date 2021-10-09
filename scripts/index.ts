@@ -1,7 +1,8 @@
+import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
 import { sh } from './sh';
 
-type ScriptFunction = () => Promise<unknown>;
+type ScriptFunction = () => Promise<unknown> | void;
 type ScriptInfo = { cmd?: string; func?: ScriptFunction; cwd?: string };
 
 const commands: [string, string | ScriptInfo | string[]][] = [
@@ -30,6 +31,10 @@ const commands: [string, string | ScriptInfo | string[]][] = [
 
   ['client.start', 'stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'],
   ['client.build', 'stencil build --config scripts/client/stencil.config.ts'],
+
+  ['dev-proxy.start', { func: startDevProxy }],
+
+  ['start', ['dev-proxy.start', 'firebase.start', 'console.start', 'client.start']],
 ];
 
 const commandsMap = new Map(commands);

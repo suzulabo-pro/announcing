@@ -9,3 +9,4 @@ firebase/*.log
 firebase/emu-data/
 
 secrets/
+scripts/dev-proxy/*.pem
