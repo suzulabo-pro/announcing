@@ -35,7 +35,7 @@ const entries: ScriptEntries = [
       'ts-check',
       Cmd('cp -a dist/console/www-dist firebase/console'),
       Cmd('cp -a dist/client/www-dist firebase/client'),
-      Cmd('firebase deploy --force'),
+      Cmd('firebase deploy --force', 'firebase'),
     ]),
   ],
 
