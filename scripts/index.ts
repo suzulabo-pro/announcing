@@ -21,6 +21,7 @@ const entries: ScriptEntries = [
     },
   ],
   ['firebase.start', new ParallelRun(['functions.build.watch', 'firebase.serve'])],
+  ['firebase.docs', { cmd: 'docsify serve docs', cwd: 'firebase' }],
 
   ['firebase.build', new SequentialRun(['functions.build', 'console.build', 'client.build'])],
 
