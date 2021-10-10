@@ -1,12 +1,12 @@
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
-import { ParallelRun, runScript, ScriptEntries, SequentialRun } from './scripts';
+import { Cmd, ParallelRun, runScript, ScriptEntries, SequentialRun } from './scripts';
 import { copySecrets } from './secrets/copy';
 
 const entries: ScriptEntries = [
   // checking
-  ['lint', 'eslint --ext .ts,.tsx src'],
-  ['ts-check', 'tsc --noEmit'],
+  ['lint', Cmd('eslint --ext .ts,.tsx src')],
+  ['ts-check', Cmd('tsc --noEmit')],
 
   // functions
   ['functions.build', buildFunctions],
@@ -15,13 +15,10 @@ const entries: ScriptEntries = [
   // firebase
   [
     'firebase.serve',
-    {
-      cmd: 'firebase emulators:start --import=./emu-data --export-on-exit',
-      cwd: 'firebase',
-    },
+    Cmd('firebase emulators:start --import=./emu-data --export-on-exit', 'firebase'),
   ],
   ['firebase.start', new ParallelRun(['functions.build.watch', 'firebase.serve'])],
-  ['firebase.docs', { cmd: 'docsify serve docs', cwd: 'firebase' }],
+  ['firebase.docs', Cmd('docsify serve docs', 'firebase')],
 
   [
     'firebase.deploy',
@@ -31,43 +28,34 @@ const entries: ScriptEntries = [
       'console.build',
       'client.build',
       'ts-check',
-      { cmd: 'cp -a dist/console/www-dist firebase/console' },
-      { cmd: 'cp -a dist/client/www-dist firebase/client' },
-      { cmd: 'firebase deploy --force' },
+      Cmd('cp -a dist/console/www-dist firebase/console'),
+      Cmd('cp -a dist/client/www-dist firebase/client'),
+      Cmd('firebase deploy --force'),
     ]),
   ],
 
   // console
   [
     'console.start',
-    'stencil build --dev --watch --serve --config scripts/console/stencil.config.ts',
+    Cmd('stencil build --dev --watch --serve --config scripts/console/stencil.config.ts'),
   ],
-  ['console.build', 'stencil build --config scripts/console/stencil.config.ts'],
+  ['console.build', Cmd('stencil build --config scripts/console/stencil.config.ts')],
 
   // client
-  ['client.start', 'stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'],
-  ['client.build', 'stencil build --config scripts/client/stencil.config.ts'],
+  [
+    'client.start',
+    Cmd('stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'),
+  ],
+  ['client.build', Cmd('stencil build --config scripts/client/stencil.config.ts')],
 
   // client capacitor
-  ['client.cap.build', 'CAP_BUILD=y stencil build --config scripts/client/stencil.config.ts'],
+  ['client.cap.build', Cmd('CAP_BUILD=y stencil build --config scripts/client/stencil.config.ts')],
   [
     'client.cap.build.dev',
-    'CAP_BUILD=y stencil build --dev --config scripts/client/stencil.config.ts',
+    Cmd('CAP_BUILD=y stencil build --dev --config scripts/client/stencil.config.ts'),
   ],
-  [
-    'client.cap.sync',
-    {
-      cmd: 'cap sync',
-      cwd: 'capacitor/client',
-    },
-  ],
-  [
-    'client.cap.copy',
-    {
-      cmd: 'cap copy',
-      cwd: 'capacitor/client',
-    },
-  ],
+  ['client.cap.sync', Cmd('cap sync', 'capacitor/client')],
+  ['client.cap.copy', Cmd('cap copy', 'capacitor/client')],
 
   ['secrets.copy', copySecrets],
 
@@ -75,12 +63,7 @@ const entries: ScriptEntries = [
   ['dev-proxy.start', startDevProxy],
 
   // utilities
-  [
-    'ios.openurl',
-    {
-      cmd: 'xcrun simctl openurl booted',
-    },
-  ],
+  ['ios.openurl', Cmd('xcrun simctl openurl booted')],
 ];
 
 const main = async () => {

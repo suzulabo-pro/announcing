@@ -1,20 +1,36 @@
 import { sh } from './sh';
 
-export type ScriptFunction = (args?: string[]) => Promise<unknown> | void;
-export type Command = { cmd: string; cwd?: string };
+type ScriptFunction = (args?: string[]) => Promise<unknown> | void;
 
-export type Script = ScriptFunction | Command | string;
+class Command {
+  constructor(public readonly cmd: string, public readonly cwd?: string) {}
+  exec(args?: string[]) {
+    return sh(this.cmd, args, { cwd: this.cwd });
+  }
+}
+
+export const Cmd = (cmd: string, cwd?: string) => {
+  return new Command(cmd, cwd);
+};
+
+export type Script = ScriptFunction | Command;
 
 export class ParallelRun {
-  constructor(public readonly scripts: Script[]) {}
+  constructor(public readonly scripts: (string | Script)[]) {}
 }
 export class SequentialRun {
-  constructor(public readonly scripts: Script[]) {}
+  constructor(public readonly scripts: (string | Script)[]) {}
 }
-
 export type ScriptEntries = [string, Script | ParallelRun | SequentialRun][];
 
 const execScript = async (script: Script, args?: string[]) => {
+  if (script instanceof Command) {
+    console.info(`> ${script.cmd} ${args?.join(' ')}`);
+    console.info();
+    await script.exec(args);
+    return;
+  }
+
   if (typeof script == 'function') {
     console.info(`> ${script.name}`);
     console.info();
@@ -22,10 +38,7 @@ const execScript = async (script: Script, args?: string[]) => {
     return;
   }
 
-  const command = typeof script == 'string' ? { cmd: script } : script;
-  console.info(`> ${command.cmd}`);
-  console.info();
-  await sh(command.cmd, args, { cwd: command.cwd });
+  throw 'never';
 };
 
 export const runScript = async (entries: ScriptEntries, name: string, args: string[]) => {
