@@ -1,10 +1,13 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { ROOT_DIR, SECRET_DIR, SECRET_FILES } from './constants';
+import { ROOT_DIR, SECRET_DIR, SECRET_FILES } from './config';
 
 export const copySecrets = () => {
-  for (const [src, dest] of SECRET_FILES) {
-    console.info(`${src} -> ${dest}`);
-    fs.copyFileSync(path.join(SECRET_DIR, src), path.join(ROOT_DIR, dest));
+  for (const sec of SECRET_FILES) {
+    if (!sec.location) {
+      continue;
+    }
+    console.info(`${sec.name} -> ${sec.location}/${sec.name}`);
+    fs.copyFileSync(path.join(SECRET_DIR, sec.name), path.join(ROOT_DIR, sec.location, sec.name));
   }
 };
