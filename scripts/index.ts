@@ -6,6 +6,9 @@ import { packSecrets } from './secrets/pack';
 import { unpackSecrets } from './secrets/unpack';
 
 const entries: ScriptEntries = [
+  // hello
+  ['hello', Cmd('echo hello')],
+
   // checking
   ['lint', Cmd('eslint --ext .ts,.tsx src')],
   ['ts-check', Cmd('tsc --noEmit')],

@@ -1,5 +1,5 @@
 inputs:
-  BUILD_VALUES:
+  SECRET_VALUES:
     required: true
 
 outputs:

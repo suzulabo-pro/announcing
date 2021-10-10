@@ -6,9 +6,11 @@ import * as path from 'path';
 
 type ProxyServer = ReturnType<typeof createProxyServer>;
 
-const httpsOptions = {
-  key: fs.readFileSync(path.join(__dirname, 'localhttps_key.pem')),
-  cert: fs.readFileSync(path.join(__dirname, 'localhttps_cert.pem')),
+const makeHttpsOptions = () => {
+  return {
+    key: fs.readFileSync(path.join(__dirname, 'localhttps_key.pem')),
+    cert: fs.readFileSync(path.join(__dirname, 'localhttps_cert.pem')),
+  };
 };
 
 const logging = (s?: string, all?: boolean) => {
@@ -113,7 +115,7 @@ const createDevProxy = (port: number, httpsPort: number, patterns: ProxyConfig[]
     httpServer.listen(port);
   }
   {
-    const httpsServer = https.createServer(httpsOptions, reqListener);
+    const httpsServer = https.createServer(makeHttpsOptions(), reqListener);
     httpsServer.on('upgrade', handleUpgrade);
     httpsServer.on('error', err => {
       logging(`${err.stack}`, true);
