@@ -3,6 +3,7 @@ import { buildFunctions, buildFunctionsWatch } from './functions/build';
 import { Cmd, ParallelRun, runScript, ScriptEntries, SequentialRun } from './scripts';
 import { copySecrets } from './secrets/copy';
 import { packSecrets } from './secrets/pack';
+import { unpackSecrets } from './secrets/unpack';
 
 const entries: ScriptEntries = [
   // checking
@@ -61,6 +62,7 @@ const entries: ScriptEntries = [
   // secrets
   ['secrets.copy', copySecrets],
   ['secrets.pack', packSecrets],
+  ['secrets.unpack', unpackSecrets],
 
   // dev-proxy
   ['dev-proxy.start', startDevProxy],
