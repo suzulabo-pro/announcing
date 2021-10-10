@@ -23,7 +23,19 @@ const entries: ScriptEntries = [
   ['firebase.start', new ParallelRun(['functions.build.watch', 'firebase.serve'])],
   ['firebase.docs', { cmd: 'docsify serve docs', cwd: 'firebase' }],
 
-  ['firebase.build', new SequentialRun(['functions.build', 'console.build', 'client.build'])],
+  [
+    'firebase.deploy',
+    new SequentialRun([
+      'lint',
+      'functions.build',
+      'console.build',
+      'client.build',
+      'ts-check',
+      { cmd: 'cp -a dist/console/www-dist firebase/console' },
+      { cmd: 'cp -a dist/client/www-dist firebase/client' },
+      { cmd: 'firebase deploy --force' },
+    ]),
+  ],
 
   // console
   [
