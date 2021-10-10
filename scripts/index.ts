@@ -2,6 +2,7 @@ import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
 import { Cmd, ParallelRun, runScript, ScriptEntries, SequentialRun } from './scripts';
 import { copySecrets } from './secrets/copy';
+import { packSecrets } from './secrets/pack';
 
 const entries: ScriptEntries = [
   // checking
@@ -57,7 +58,9 @@ const entries: ScriptEntries = [
   ['client.cap.sync', Cmd('cap sync', 'capacitor/client')],
   ['client.cap.copy', Cmd('cap copy', 'capacitor/client')],
 
+  // secrets
   ['secrets.copy', copySecrets],
+  ['secrets.pack', packSecrets],
 
   // dev-proxy
   ['dev-proxy.start', startDevProxy],
