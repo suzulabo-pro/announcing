@@ -73,6 +73,7 @@ const entries: ScriptEntries = [
 
   // utilities
   ['android.open', Cmd('cap open android', 'capacitor/client')],
+  ['android.openurl', Cmd('adb shell am start -a android.intent.action.VIEW -d')],
   ['ios.open', Cmd('cap open ios', 'capacitor/client')],
   ['ios.openurl', Cmd('xcrun simctl openurl booted')],
 ];
