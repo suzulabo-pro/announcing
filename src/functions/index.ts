@@ -44,7 +44,7 @@ export const firestore = {
     }),
 };
 
-const pubsubBuilder = region.runWith({ failurePolicy: true }).pubsub;
+const pubsubBuilder = region.pubsub;
 
 export const pubsub = {
   sendNotification: pubsubBuilder.topic('send-notification').onPublish(async (msg, context) => {

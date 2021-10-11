@@ -35,7 +35,7 @@ const entries: ScriptEntries = [
       'ts-check',
       Cmd('cp -a dist/console/www-dist firebase/console'),
       Cmd('cp -a dist/client/www-dist firebase/client'),
-      Cmd('firebase deploy --force', 'firebase'),
+      Cmd('firebase deploy', 'firebase'),
     ]),
   ],
 
@@ -61,6 +61,7 @@ const entries: ScriptEntries = [
   ],
   ['client.cap.sync', Cmd('cap sync', 'capacitor/client')],
   ['client.cap.copy', Cmd('cap copy', 'capacitor/client')],
+  ['client.cap.dev.update', new SequentialRun(['client.cap.build.dev', 'client.cap.copy'])],
 
   // secrets
   ['secrets.copy', copySecrets],
