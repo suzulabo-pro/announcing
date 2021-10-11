@@ -72,6 +72,8 @@ const entries: ScriptEntries = [
   ['dev-proxy.start', startDevProxy],
 
   // utilities
+  ['android.open', Cmd('cap open android', 'capacitor/client')],
+  ['ios.open', Cmd('cap open ios', 'capacitor/client')],
   ['ios.openurl', Cmd('xcrun simctl openurl booted')],
 ];
 

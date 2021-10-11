@@ -73,7 +73,7 @@ try {
 }
 
 def props = new Properties()
-file("../../android.custom.properties").withInputStream { props.load(it) }
+file("../../../../secrets/android.custom.properties").withInputStream { props.load(it) }
 
 android {
     defaultConfig {
