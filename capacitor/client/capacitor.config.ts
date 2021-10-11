@@ -5,6 +5,7 @@ const config: CapacitorConfig = {
   appName: 'Announcing♪',
   webDir: '../../dist/client/cap',
   bundledWebRuntime: false,
+  loggingBehavior: 'production',
   includePlugins: [
     '@capacitor-community/http',
     '@capacitor/app',

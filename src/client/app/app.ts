@@ -2,7 +2,6 @@ import { Http } from '@capacitor-community/http';
 import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { Share } from '@capacitor/share';
-import { Build } from '@stencil/core';
 import nacl from 'tweetnacl';
 import {
   Announce,
@@ -40,17 +39,20 @@ export class App {
     private appStorage: AppStorage,
     private appIdbCache: AppIdbCache,
   ) {
-    if (Build.isDev || Capacitor.getPlatform() == 'web') {
+    if (Capacitor.getPlatform() == 'web') {
       this.dataURLPrefix = '/data';
       this.clientSite = location.origin;
     } else {
       this.dataURLPrefix = `${this.appEnv.env.sites.client}/data`;
       this.clientSite = this.appEnv.env.sites.client;
     }
+
     this.manualSite = `${this.appEnv.env.sites.docs}/manual/#/${this.appMsg.lang}/`;
   }
 
   async init() {
+    console.log('start app init');
+
     const apError = document.querySelector('ap-error');
     if (apError) {
       apError.msgs = this.appMsg.msgs.error;
