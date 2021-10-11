@@ -30,7 +30,7 @@ export const unpackSecrets = async () => {
       continue;
     }
 
-    console.info(`unpack: #{sec.name}`);
+    console.info(`unpack: ${sec.name}`);
     fs.writeFileSync(filename, data);
   }
 };
