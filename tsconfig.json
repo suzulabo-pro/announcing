@@ -30,7 +30,9 @@
     "target": "ESNext",
 
     "sourceMap": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+
+    "resolveJsonModule": true
   },
 
   "include": ["src", "scripts/**/*.ts", "capacitor/client/capacitor.config.ts"]
