@@ -14,6 +14,7 @@ const Sec = (name: string, locaction?: string) => {
 export const SECRET_FILES: SecretFile[] = [
   Sec('App.entitlements', 'capacitor/client/ios/App/App'),
   Sec('GoogleService-Info.plist', 'capacitor/client/ios/App/App'),
+  Sec('google-services.json', 'capacitor/client/android/app'),
   Sec('.firebaserc', 'firebase'),
   Sec('appenv.env.ts'),
   Sec('apple-app-site-association'),
