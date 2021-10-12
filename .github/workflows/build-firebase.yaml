@@ -16,13 +16,9 @@ jobs:
 
       - uses: ./.github/workflows/build-setup
         with:
-          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+          SECRET_VALUES: ${{ secrets.SECRET_VALUES }}
         id: build_setup
 
-      - run: npm run deploy.prepare
-        working-directory: ./packages/firebase
-
-      - run: npm run deploy
-        working-directory: ./packages/firebase
+      - run: npm run - firebase.deploy
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

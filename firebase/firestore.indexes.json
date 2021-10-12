@@ -1,0 +1,130 @@
+{
+  "indexes": [],
+  "fieldOverrides": [
+    {
+      "collectionGroup": "announces",
+      "fieldPath": "mid",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "announces",
+      "fieldPath": "posts",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "announces",
+      "fieldPath": "uT",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "title",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "body",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "link",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "img",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "edited",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "posts",
+      "fieldPath": "pT",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "meta",
+      "fieldPath": "name",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "meta",
+      "fieldPath": "desc",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "meta",
+      "fieldPath": "link",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "meta",
+      "fieldPath": "icon",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "meta",
+      "fieldPath": "cT",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "images",
+      "fieldPath": "data",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-devices",
+      "fieldPath": "signKey",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-devices",
+      "fieldPath": "lang",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-devices",
+      "fieldPath": "announces",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-devices",
+      "fieldPath": "uT",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-imm",
+      "fieldPath": "announceID",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-imm",
+      "fieldPath": "devices",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-imm",
+      "fieldPath": "cancels",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-imm",
+      "fieldPath": "archives",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "notif-imm",
+      "fieldPath": "uT",
+      "indexes": []
+    },
+    {
+      "collectionGroup": "archives",
+      "fieldPath": "devices",
+      "indexes": []
+    }
+  ]
+}

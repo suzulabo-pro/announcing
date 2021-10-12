@@ -1,5 +1,5 @@
 inputs:
-  BUILD_VALUES:
+  SECRET_VALUES:
     required: true
 
 outputs:
@@ -26,13 +26,13 @@ runs:
     - run: npm ci
       shell: bash
 
-    - id: extract_secrets
-      run: npm run extract -w tools/secrets
+    - id: unpack_secrets
+      run: npm run - secrets.unpack
       shell: bash
       env:
-        BUILD_VALUES: ${{ inputs.BUILD_VALUES }}
+        SECRET_VALUES: ${{ inputs.SECRET_VALUES }}
 
-    - run: npm run build:shared
+    - run: npm run - secrets.copy
       shell: bash
 
     - id: build_version

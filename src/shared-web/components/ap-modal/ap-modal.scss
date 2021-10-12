@@ -1,0 +1,22 @@
+ap-modal {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: 0;
+  background-color: var(--modal-bk-color);
+  backdrop-filter: blur(1px);
+  z-index: 999;
+
+  padding: 10px;
+  display: flex;
+
+  .modal-content {
+    background-color: var(--bk-color);
+    border-radius: 5px;
+    flex-grow: 1;
+    max-width: var(--modal-max-width, 400px);
+    margin: auto;
+  }
+}

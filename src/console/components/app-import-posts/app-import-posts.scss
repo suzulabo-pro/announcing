@@ -1,0 +1,15 @@
+app-import-posts {
+  padding: 10px;
+
+  div.form {
+    & > * {
+      margin-top: 30px;
+    }
+
+    button.submit {
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+    }
+  }
+}

@@ -1,0 +1,16 @@
+app-post {
+  ap-post {
+    margin-top: 30px;
+  }
+
+  div.delete-modal {
+    padding: 20px 10px;
+
+    text-align: center;
+    .buttons {
+      margin-top: 40px;
+      display: flex;
+      justify-content: space-around;
+    }
+  }
+}

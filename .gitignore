@@ -1,4 +1,32 @@
+.DS_Store
+
 node_modules/
 dist/
+www/
+www-dist/
 
-.DS_Store
+
+# secrets
+appenv.env.ts
+
+.firebaserc
+
+android.custom.properties
+assetlinks.json
+google-services.json
+play-console-account.json
+upload-keystore.jks
+
+apple-app-site-association
+App.entitlements
+GoogleService-Info.plist
+Ad_Hoc.mobileprovision
+AppleDistribution.p12
+
+.secrets.json
+SECRET_VALUES.txt
+
+
+/firebase/*.log
+/firebase/emu-data/
+/scripts/dev-proxy/*.pem

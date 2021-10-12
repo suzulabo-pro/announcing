@@ -1,4 +1,39 @@
 {
-  "extends": "./tsconfig.base.json",
-  "include": ["**/stencil.config.ts", "**/capacitor.config.ts", "**/jest.config.ts"]
+  "compilerOptions": {
+    // Type Checking
+    "strict": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    // "exactOptionalPropertyTypes": true, # work from Typescript 4.4
+    "noFallthroughCasesInSwitch": true,
+    // "noImplicitOverride": true,  # Unknown compiler option in Stencil
+    "noImplicitReturns": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+
+    // Recommended
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "moduleResolution": "Node",
+
+    // StencilJS
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "jsx": "react",
+    "jsxFactory": "h",
+    "jsxFragmentFactory": "Fragment",
+
+    "lib": ["DOM", "ES2017"],
+    "module": "ESNext",
+    "target": "ESNext",
+
+    "sourceMap": true,
+    "isolatedModules": true,
+
+    "resolveJsonModule": true
+  },
+
+  "include": ["src", "scripts/**/*.ts", "capacitor/client/capacitor.config.ts"]
 }
