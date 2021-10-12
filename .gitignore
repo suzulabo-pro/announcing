@@ -5,9 +5,28 @@ dist/
 www/
 www-dist/
 
-/firebase/.firebaserc
+
+# secrets
+appenv.env.ts
+
+.firebaserc
+
+android.custom.properties
+assetlinks.json
+google-services.json
+play-console-account.json
+upload-keystore.jks
+
+apple-app-site-association
+App.entitlements
+GoogleService-Info.plist
+Ad_Hoc.mobileprovision
+AppleDistribution.p12
+
+.secrets.json
+SECRET_VALUES.txt
+
+
 /firebase/*.log
 /firebase/emu-data/
-
-/secrets/
 /scripts/dev-proxy/*.pem
