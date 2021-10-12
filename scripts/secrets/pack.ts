@@ -15,5 +15,5 @@ export const packSecrets = async () => {
     compression: 'DEFLATE',
     compressionOptions: { level: 9 },
   });
-  fs.writeFileSync(path.join(SECRET_DIR, 'secrets.txt'), packed);
+  fs.writeFileSync(path.join(SECRET_DIR, 'SECRET_VALUES.txt'), packed);
 };
