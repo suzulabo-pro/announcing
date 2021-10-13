@@ -49,7 +49,9 @@ const entries: ScriptEntries = [
   // client
   [
     'client.start',
-    Cmd('stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'),
+    Cmd(
+      'stencil build --dev --watch --serve --service-worker --config scripts/client/stencil.config.ts',
+    ),
   ],
   ['client.build', Cmd('stencil build --config scripts/client/stencil.config.ts')],
 
