@@ -1,5 +1,6 @@
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { href } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   ApNaviLink,
@@ -162,10 +163,19 @@ const renderContent = (ctx: RenderContext) => {
         <Fragment>
           <ap-announce
             announce={announce}
-            href={`/${ctx.announceID}/config`}
             iconImgPromise={iconImgPromise}
             icons={ctx.icons}
-          ></ap-announce>
+            showDetails={true}
+          >
+            <a slot="above-name" class="buttons" {...href(`/${ctx.announceID}/config`)}>
+              <button class={`slim follow ${ctx.icons?.follow && 'following'}`}>
+                {ctx.icons?.follow ? ctx.msgs.announce.following : ctx.msgs.announce.follow}
+              </button>
+              <button class="slim notification">
+                <ap-icon icon={ctx.icons?.notification ? 'bell' : 'bellSlash'} />
+              </button>
+            </a>
+          </ap-announce>
           <ap-posts
             posts={announce.posts}
             postsPromises={postsPromises}

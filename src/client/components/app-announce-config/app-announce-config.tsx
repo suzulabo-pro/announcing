@@ -174,12 +174,7 @@ const renderContent = (ctx: RenderContext) => {
 
       return (
         <Fragment>
-          <ap-announce
-            announce={announce}
-            iconImgPromise={iconImgPromise}
-            icons={ctx.icons}
-            showDetails={true}
-          />
+          <ap-announce announce={announce} iconImgPromise={iconImgPromise} icons={ctx.icons} />
           <div class="follow">
             {ctx.icons.follow ? (
               <button onClick={ctx.handleUnfollowClick}>

@@ -9,19 +9,13 @@ ap-announce {
     align-items: center;
     min-height: 80px;
 
-    .name {
+    .name-box {
       flex-grow: 1;
 
       display: flex;
       flex-direction: column;
       justify-content: center;
-      .icons {
-        font-size: 1.2em;
-        ap-icon {
-          margin-right: 5px;
-        }
-      }
-      span {
+      span.name {
         font-weight: bold;
         font-size: 1.2em;
       }

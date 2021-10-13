@@ -29,4 +29,27 @@ app-announce {
     margin: auto;
     white-space: pre-line;
   }
+
+  ap-announce {
+    .buttons {
+      margin-bottom: 10px;
+
+      button {
+        margin-right: 10px;
+      }
+
+      button.follow:not(.following) {
+        background-color: black;
+        color: white;
+      }
+
+      button.notification {
+        border-radius: 50%;
+        font-size: 18px;
+        padding: 0;
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
 }
