@@ -33,6 +33,6 @@ process.on('SIGINT', () => {
     process.exit(0);
   }
   procs.forEach(p => {
-    p.kill('SIGTERM');
+    p.kill('SIGINT');
   });
 });
