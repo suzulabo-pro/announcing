@@ -15,24 +15,29 @@ const matches: RouteMatch[] = [
   {
     pattern: 'config',
     tag: 'app-config',
+    back: '/',
   },
   {
     pattern: 'about',
     tag: 'app-about',
+    back: '/',
   },
   {
     pattern: /^[0-9A-Z]{12}$/,
     name: 'announceID',
     tag: 'app-announce',
+    back: '/',
     nexts: [
       {
         pattern: 'config',
         tag: 'app-announce-config',
+        back: p => `/${p['announceID']}`,
       },
       {
         pattern: /^[0-9a-zA-Z]{8}$/,
         name: 'postID',
         tag: 'app-post',
+        back: p => `/${p['announceID']}`,
         nexts: [
           {
             pattern: 'image',
@@ -41,6 +46,7 @@ const matches: RouteMatch[] = [
                 pattern: /^[0-9a-zA-Z]{15,25}$/,
                 name: 'imageID',
                 tag: 'app-image',
+                back: p => `/${p['announceID']}/${p['postID']}`,
               },
             ],
           },
@@ -51,6 +57,7 @@ const matches: RouteMatch[] = [
                 pattern: /^[0-9a-zA-Z]{1,1500}$/,
                 name: 'image62',
                 tag: 'app-image',
+                back: p => `/${p['announceID']}/${p['postID']}`,
               },
             ],
           },

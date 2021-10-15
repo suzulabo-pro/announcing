@@ -83,11 +83,20 @@ export class ApRoot {
       });
     }
 
+    const back = (() => {
+      const bk = m.match.back;
+      if (!bk) {
+        return;
+      }
+      if (typeof bk == 'string') {
+        return bk;
+      }
+      return bk(m.params);
+    })();
+
     return (
       <Host>
-        <div class="header">
-          <a {...href('/')}>{this.headerTitle}</a>
-        </div>
+        <div class="header">{back && <a {...href(back)}>←</a>}</div>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;
           if (!visible && tagInfo.pageVisible.isVisible()) {

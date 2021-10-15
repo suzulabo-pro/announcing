@@ -7,4 +7,7 @@ export interface ApNaviLink {
   back?: boolean;
 }
 
-export type RouteMatch = Match & { tag?: string };
+export type RouteMatch = Match & {
+  tag?: string;
+  back?: string | ((p: Record<string, string>) => string);
+};
