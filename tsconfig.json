@@ -35,5 +35,5 @@
     "resolveJsonModule": true
   },
 
-  "include": ["src", "scripts/**/*.ts", "capacitor/client/capacitor.config.ts"]
+  "include": ["src", "test", "scripts/**/*.ts", "capacitor/client/capacitor.config.ts"]
 }
