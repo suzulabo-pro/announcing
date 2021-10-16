@@ -4,13 +4,13 @@ ap-root {
   flex-direction: column;
 
   div.header {
-    padding: 8px;
     font-size: 20px;
     background-color: var(--header-bk-color);
     color: var(--header-color);
-    a {
-      display: block;
+    a.back {
       text-decoration: none;
+      display: inline-block;
+      padding: 10px 15px 10px 10px;
     }
   }
 

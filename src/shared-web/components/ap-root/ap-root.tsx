@@ -96,7 +96,13 @@ export class ApRoot {
 
     return (
       <Host>
-        <div class="header">{back && <a {...href(back)}>←</a>}</div>
+        <div class="header">
+          {back && (
+            <a class="back" {...href(back)}>
+              ←
+            </a>
+          )}
+        </div>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;
           if (!visible && tagInfo.pageVisible.isVisible()) {
