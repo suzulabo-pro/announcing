@@ -102,9 +102,12 @@ export class ApRoot {
     return (
       <Host>
         <div class="header">
-          <a class={{ back: true, hidden: !back }} {...href(back, true)}>
-            ←
-          </a>
+          {back && (
+            <a class="back" {...href(back, true)}>
+              ←
+            </a>
+          )}
+          <span class="spacer" />
           {getHeaderButtons().map(v => {
             if (v.href) {
               return (

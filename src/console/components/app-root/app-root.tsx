@@ -1,4 +1,5 @@
 import { Component, h, Host } from '@stencil/core';
+import { BeforePageRenderEvent, pushRoute, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import { AppFirebase } from '../../app/firebase';
 import { AppMsg } from '../../app/msg';
@@ -17,32 +18,39 @@ const matches: RouteMatch[] = [
   {
     pattern: 'about',
     tag: 'app-about',
+    back: '/',
   },
   {
     pattern: 'create',
     tag: 'app-announce-create',
+    back: '/',
   },
   {
     pattern: /^[0-9A-Z]{12}$/,
     name: 'announceID',
     tag: 'app-announce',
+    back: '/',
     nexts: [
       {
         pattern: 'edit',
         tag: 'app-announce-edit',
+        back: p => `/${p['announceID']}`,
       },
       {
         pattern: 'import-posts',
         tag: 'app-import-posts',
+        back: p => `/${p['announceID']}`,
       },
       {
         pattern: 'post',
         tag: 'app-post-form',
+        back: p => `/${p['announceID']}`,
       },
       {
         pattern: /^[0-9a-zA-Z]{8}$/,
         name: 'postID',
         tag: 'app-post',
+        back: p => `/${p['announceID']}`,
         nexts: [
           {
             pattern: 'edit',
@@ -91,6 +99,24 @@ export class AppRoot {
     return;
   };
 
+  private handleBeforePageRender = (event: BeforePageRenderEvent) => {
+    if (event.detail.tag == 'app-home') {
+      setHeaderButtons([
+        {
+          label: this.app.msgs.home.about,
+          href: '/about',
+        },
+        {
+          label: this.app.msgs.home.signOut,
+          handler: async () => {
+            await this.app.signOut();
+            pushRoute('/signin');
+          },
+        },
+      ]);
+    }
+  };
+
   render() {
     return (
       <Host>
@@ -98,7 +124,7 @@ export class AppRoot {
           routeMatches={matches}
           redirect={this.handleRedirect}
           componentProps={{ app: this.app }}
-          headerTitle="Announcing♪ Console"
+          onBeforePageRender={this.handleBeforePageRender}
         />
       </Host>
     );

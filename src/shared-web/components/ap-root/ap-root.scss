@@ -6,23 +6,23 @@ ap-root {
   div.header {
     display: flex;
     flex-direction: row;
+    align-items: center;
 
-    font-size: 20px;
+    min-height: 48px;
     background-color: var(--header-bk-color);
     color: var(--header-color);
+
+    .spacer {
+      flex-grow: 1;
+    }
+
     a.back {
       text-decoration: none;
-      display: inline-block;
-      padding: 10px 15px 10px 10px;
-      margin-right: auto;
-      &.hidden {
-        visibility: hidden;
-      }
+      padding: 10px;
     }
     a.button,
     button {
-      display: inline-block;
-      margin: auto 5px;
+      margin: 5px;
     }
   }
 
