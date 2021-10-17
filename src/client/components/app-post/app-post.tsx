@@ -1,5 +1,6 @@
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
@@ -90,6 +91,10 @@ export class AppPost {
     if (post) {
       await this.app.setReadTime(this.announceID, post.pT);
 
+      if (this.app.checkShareSupport()) {
+        setHeaderButtons([{ label: this.app.msgs.post.share, handler: this.shareClick }]);
+      }
+
       return {
         post,
         imgPromise: post.img ? new PromiseState(this.app.fetchImage(post.img)) : undefined,
@@ -108,7 +113,6 @@ export class AppPost {
     return;
   }
 
-  /* TODO
   private shareClick = async () => {
     try {
       await this.app.share(`${this.app.clientSite}/${this.announceID}/${this.postID}`);
@@ -116,7 +120,6 @@ export class AppPost {
       //
     }
   };
-  */
 
   componentWillLoad() {
     this.watchAnnounceID();

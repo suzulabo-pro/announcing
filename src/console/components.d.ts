@@ -8,7 +8,6 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Announce, AnnounceAndMeta, PostJSON } from "../shared";
 import { ApNaviLink, PromiseState, RouteMatch } from "../shared-web";
 import { Icons } from "../shared-web/components/ap-icon/ap-icon";
-import { PageRenderData } from "../shared-web/datatypes";
 import { App } from "./app/app";
 import { PageVisible } from "./shared";
 export namespace Components {
@@ -410,7 +409,7 @@ declare namespace LocalJSX {
     interface ApRoot {
         "componentProps"?: { [k: string]: any };
         "defaultPath"?: string;
-        "onBeforePageRender"?: (event: CustomEvent<PageRenderData>) => void;
+        "onBeforePageRender"?: (event: CustomEvent<any>) => void;
         "redirect"?: (p: string) => string | undefined;
         "routeMatches": RouteMatch[];
     }

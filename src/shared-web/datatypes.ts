@@ -1,3 +1,4 @@
+import { EventEmitter } from '@stencil/core';
 import { Match } from '../shared/path-matcher';
 
 export interface ApNaviLink {
@@ -12,10 +13,5 @@ export type RouteMatch = Match & {
   back?: string | ((p: Record<string, string>) => string);
 };
 
-export interface PageRenderData {
-  path: string;
-  tag: string;
-  headerButtons: { label: string; href: string }[];
-}
-
-export type BeforePageRenderEvent = CustomEvent<PageRenderData>;
+export type BeforePageRenderEvent = CustomEvent<{ path: string; tag: string }>;
+export type BeforePageRenderEventEmmiter = EventEmitter<BeforePageRenderEvent['detail']>;

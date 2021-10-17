@@ -1,5 +1,5 @@
 import { Component, h, Host, Listen } from '@stencil/core';
-import { BeforePageRenderEvent } from '../../../shared-web';
+import { BeforePageRenderEvent, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import { PostNotificationRecievedEvent } from '../../app/datatypes';
 import { AppFirebase } from '../../app/firebase';
@@ -100,7 +100,7 @@ export class AppRoot {
 
   private handleBeforePageRender = (event: BeforePageRenderEvent) => {
     if (event.detail.tag == 'app-home') {
-      event.detail.headerButtons = [
+      setHeaderButtons([
         {
           label: this.app.msgs.home.config,
           href: '/config',
@@ -109,7 +109,7 @@ export class AppRoot {
           label: this.app.msgs.home.about,
           href: '/about',
         },
-      ];
+      ]);
     }
   };
 
