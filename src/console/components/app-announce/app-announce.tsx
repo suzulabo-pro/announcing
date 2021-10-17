@@ -3,7 +3,6 @@ import QRCodeStyling from 'qr-code-styling';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   FirestoreUpdatedEvent,
   href,
@@ -45,25 +44,6 @@ export class AppAnnounce {
       data: this.clientURL,
     });
 
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: '/',
-        back: true,
-      },
-      {
-        label: this.app.msgs.announce.newPostNavi,
-        href: `/${this.announceID}/post`,
-      },
-    ];
-    this.naviLinksLoading = [
-      {
-        label: this.app.msgs.common.back,
-        href: '/',
-        back: true,
-      },
-    ];
-
     this.announceState = undefined;
   }
 
@@ -85,8 +65,6 @@ export class AppAnnounce {
   showQRCode = false;
 
   private qrCode!: QRCodeStyling;
-  private naviLinks!: ApNaviLink[];
-  private naviLinksLoading!: ApNaviLink[];
 
   private async loadAnnounce() {
     const id = this.announceID;
@@ -174,7 +152,6 @@ export class AppAnnounce {
     const announceStatus = this.announceState?.status();
     assertIsDefined(announceStatus);
     const { announce } = this.announceState?.result() || {};
-    const naviLinks = announce ? this.naviLinks : this.naviLinksLoading;
     const pageTitle = announce
       ? this.app.msgs.announce.pageTitle(announce.name)
       : this.app.msgs.common.pageTitle;
@@ -182,7 +159,6 @@ export class AppAnnounce {
       msgs: this.app.msgs,
       announceID: this.announceID,
       announceStatus,
-      naviLinks,
       pageTitle,
       showURL: this.showURL,
       showQRCode: this.showQRCode,
@@ -203,7 +179,6 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderContent(ctx)}
       {renderURLModal(ctx)}
-      <ap-navi links={ctx.naviLinks} position="sticky" />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

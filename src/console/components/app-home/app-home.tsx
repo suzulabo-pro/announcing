@@ -2,7 +2,6 @@ import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   FirestoreUpdatedEvent,
   href,
@@ -72,16 +71,6 @@ export class AppHome {
     return;
   }
 
-  private naviLinks: ApNaviLink[] = [
-    {
-      label: '',
-    },
-    {
-      label: this.app.msgs.home.about,
-      href: '/about',
-    },
-  ];
-
   componentWillRender() {
     if (!this.userState) {
       const p = this.app.getUser();
@@ -124,7 +113,6 @@ export class AppHome {
       pageTitle: this.app.msgs.home.pageTitle,
       userStatus,
       announces,
-      naviLinks: this.naviLinks,
       handleSignOutClick: this.handleSignOutClick,
     };
   }
@@ -146,7 +134,6 @@ const render = (ctx: RenderContext) => {
       <button class="logout anchor" onClick={ctx.handleSignOutClick}>
         {ctx.msgs.home.signOut}
       </button>
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

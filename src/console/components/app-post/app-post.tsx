@@ -1,8 +1,8 @@
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   FirestoreUpdatedEvent,
   PageVisible,
@@ -40,29 +40,6 @@ export class AppPost {
   @Watch('postID')
   watchPostID() {
     this.postState = undefined;
-
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}`,
-        back: true,
-      },
-      {
-        label: this.app.msgs.post.edit,
-        href: `/${this.announceID}/${this.postID}/edit`,
-      },
-      {
-        label: this.app.msgs.post.delete,
-        handler: this.handlers.deletion.show,
-      },
-    ];
-    this.naviLinksLoading = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}`,
-        back: true,
-      },
-    ];
   }
 
   @Listen('FirestoreUpdated', { target: 'window' })
@@ -81,9 +58,6 @@ export class AppPost {
 
   @State()
   postState?: PromiseState<AsyncReturnType<AppPost['loadPost']>>;
-
-  private naviLinks!: ApNaviLink[];
-  private naviLinksLoading!: ApNaviLink[];
 
   private async loadAnnounce() {
     const id = this.announceID;
@@ -105,6 +79,17 @@ export class AppPost {
     const postID = this.postID;
     const post = await this.app.getPostJSON(id, postID);
     if (post) {
+      setHeaderButtons([
+        {
+          label: this.app.msgs.post.edit,
+          href: `/${this.announceID}/${this.postID}/edit`,
+        },
+        {
+          label: this.app.msgs.post.delete,
+          handler: this.handlers.deletion.show,
+        },
+      ]);
+
       return {
         post,
         imgPromise: post.img ? new PromiseState(this.app.getImage(post.img)) : undefined,
@@ -158,7 +143,6 @@ export class AppPost {
 
     const { announce } = this.announceState?.result() || {};
     const { post } = this.postState?.result() || {};
-    const naviLinks = announce && post ? this.naviLinks : this.naviLinksLoading;
     const pageTitle =
       announce && post
         ? this.app.msgs.post.pageTitle(post?.title || post?.body?.substr(0, 20) || '')
@@ -171,7 +155,6 @@ export class AppPost {
       postStatus,
       showDelete: this.showDelete,
       handlers: this.handlers,
-      naviLinks,
       pageTitle,
     };
   }
@@ -189,7 +172,6 @@ const render = (ctx: RenderContext) => {
       {renderAnnounce(ctx)}
       {renderPost(ctx)}
       {renderDeleteModal(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
