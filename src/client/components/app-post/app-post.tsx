@@ -26,6 +26,9 @@ export class AppPost {
   @Listen('PageActivated')
   PageDeactivated() {
     this.rerender = {};
+    if (this.app.checkShareSupport()) {
+      setHeaderButtons([{ label: this.app.msgs.post.share, handler: this.shareClick }]);
+    }
   }
 
   @Listen('PageDeactivated')
@@ -90,10 +93,6 @@ export class AppPost {
     const post = await this.app.fetchPost(id, postID);
     if (post) {
       await this.app.setReadTime(this.announceID, post.pT);
-
-      if (this.app.checkShareSupport()) {
-        setHeaderButtons([{ label: this.app.msgs.post.share, handler: this.shareClick }]);
-      }
 
       return {
         post,

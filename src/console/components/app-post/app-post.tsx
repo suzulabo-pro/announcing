@@ -23,6 +23,20 @@ export class AppPost {
     return this.pageVisible.shouldUpdate();
   }
 
+  @Listen('PageActivated')
+  listenPageActivated() {
+    setHeaderButtons([
+      {
+        label: this.app.msgs.post.edit,
+        href: `/${this.announceID}/${this.postID}/edit`,
+      },
+      {
+        label: this.app.msgs.post.delete,
+        handler: this.handlers.deletion.show,
+      },
+    ]);
+  }
+
   @Prop()
   app!: App;
 
@@ -79,17 +93,6 @@ export class AppPost {
     const postID = this.postID;
     const post = await this.app.getPostJSON(id, postID);
     if (post) {
-      setHeaderButtons([
-        {
-          label: this.app.msgs.post.edit,
-          href: `/${this.announceID}/${this.postID}/edit`,
-        },
-        {
-          label: this.app.msgs.post.delete,
-          handler: this.handlers.deletion.show,
-        },
-      ]);
-
       return {
         post,
         imgPromise: post.img ? new PromiseState(this.app.getImage(post.img)) : undefined,
