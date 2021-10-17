@@ -2,13 +2,7 @@ import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stenc
 import { AsyncReturnType } from 'type-fest';
 import { href } from '../../../shared-web';
 import { App } from '../../app/app';
-import {
-  ApNaviLink,
-  assertIsDefined,
-  FirestoreUpdatedEvent,
-  PageVisible,
-  PromiseState,
-} from '../../shared';
+import { assertIsDefined, FirestoreUpdatedEvent, PageVisible, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-announce',
@@ -31,25 +25,6 @@ export class AppAnnounce {
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
-
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: '/',
-        back: true,
-      },
-      {
-        label: this.app.msgs.announce.detail,
-        href: `/${this.announceID}/config`,
-      },
-    ];
-    this.naviLinksLoading = [
-      {
-        label: this.app.msgs.common.back,
-        href: '/',
-        back: true,
-      },
-    ];
   }
 
   @Listen('FirestoreUpdated', { target: 'window' }) handleFirestoreUpdated(
@@ -89,9 +64,6 @@ export class AppAnnounce {
     return;
   }
 
-  private naviLinks!: ApNaviLink[];
-  private naviLinksLoading!: ApNaviLink[];
-
   componentWillLoad() {
     this.watchAnnounceID();
   }
@@ -110,7 +82,6 @@ export class AppAnnounce {
       notification: this.app.getNotification(this.announceID) != null,
     };
     const { announce } = this.announceState?.result() || {};
-    const naviLinks = announce ? this.naviLinks : this.naviLinksLoading;
     const pageTitle = announce
       ? this.app.msgs.announce.pageTitle(announce.name)
       : this.app.msgs.common.pageTitle;
@@ -119,7 +90,6 @@ export class AppAnnounce {
       announceID: this.announceID,
       announceStatus,
       icons,
-      naviLinks,
       pageTitle,
     };
   }
@@ -135,7 +105,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderContent(ctx)}
-      <ap-navi links={ctx.naviLinks} position="sticky" />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

@@ -2,7 +2,6 @@ import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   bs62,
   FirestoreUpdatedEvent,
@@ -45,21 +44,6 @@ export class AppPost {
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
-
-    this.naviLinksLoading = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}`,
-        back: true,
-      },
-    ];
-    this.naviLinks = [...this.naviLinksLoading];
-    if (this.app.checkShareSupport()) {
-      this.naviLinks.push({
-        label: this.app.msgs.post.share,
-        handler: this.shareClick,
-      });
-    }
   }
 
   @Prop()
@@ -84,9 +68,6 @@ export class AppPost {
 
   @State()
   postState?: PromiseState<AsyncReturnType<AppPost['loadPost']>>;
-
-  private naviLinks!: ApNaviLink[];
-  private naviLinksLoading!: ApNaviLink[];
 
   private async loadAnnounce() {
     const id = this.announceID;
@@ -127,6 +108,7 @@ export class AppPost {
     return;
   }
 
+  /* TODO
   private shareClick = async () => {
     try {
       await this.app.share(`${this.app.clientSite}/${this.announceID}/${this.postID}`);
@@ -134,6 +116,7 @@ export class AppPost {
       //
     }
   };
+  */
 
   componentWillLoad() {
     this.watchAnnounceID();
@@ -159,7 +142,6 @@ export class AppPost {
     };
     const { announce } = this.announceState?.result() || {};
     const { post } = this.postState?.result() || {};
-    const naviLinks = announce && post ? this.naviLinks : this.naviLinksLoading;
     const pageTitle =
       announce && post
         ? this.app.msgs.post.pageTitle(
@@ -174,7 +156,6 @@ export class AppPost {
       postStatus,
       icons,
       config: this.app.getConfig() || {},
-      naviLinks,
       pageTitle,
       pageVisible: this.pageVisible,
     };
@@ -192,7 +173,6 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderAnnounce(ctx)}
       {renderPost(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
