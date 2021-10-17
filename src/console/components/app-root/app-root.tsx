@@ -55,6 +55,7 @@ const matches: RouteMatch[] = [
           {
             pattern: 'edit',
             tag: 'app-post-form',
+            back: p => `/${p['announceID']}/${p['postID']}`,
           },
         ],
       },
