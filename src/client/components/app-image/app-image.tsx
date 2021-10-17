@@ -62,7 +62,7 @@ export class AppImage {
 type RenderContext = ReturnType<AppImage['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return <Host class="full">{renderContent(ctx)}</Host>;
+  return <Host>{renderContent(ctx)}</Host>;
 };
 
 const renderContent = (ctx: RenderContext) => {
