@@ -131,9 +131,6 @@ const render = (ctx: RenderContext) => {
       <a class="create button" {...href('/create')}>
         {ctx.msgs.home.createAnnounceBtn}
       </a>
-      <button class="logout anchor" onClick={ctx.handleSignOutClick}>
-        {ctx.msgs.home.signOut}
-      </button>
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
