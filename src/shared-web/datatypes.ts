@@ -11,3 +11,11 @@ export type RouteMatch = Match & {
   tag?: string;
   back?: string | ((p: Record<string, string>) => string);
 };
+
+export interface PageRenderData {
+  path: string;
+  tag: string;
+  headerButtons: { label: string; href: string }[];
+}
+
+export type BeforePageRenderEvent = CustomEvent<PageRenderData>;

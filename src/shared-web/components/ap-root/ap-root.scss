@@ -4,6 +4,9 @@ ap-root {
   flex-direction: column;
 
   div.header {
+    display: flex;
+    flex-direction: row;
+
     font-size: 20px;
     background-color: var(--header-bk-color);
     color: var(--header-color);
@@ -11,6 +14,13 @@ ap-root {
       text-decoration: none;
       display: inline-block;
       padding: 10px 15px 10px 10px;
+    }
+    a.button {
+      display: inline-block;
+      margin: 5px;
+      &:first-of-type {
+        margin-left: auto;
+      }
     }
   }
 

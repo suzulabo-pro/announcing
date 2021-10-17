@@ -1,6 +1,17 @@
-import { Component, Element, h, Host, Listen, Prop, State } from '@stencil/core';
+import {
+  Component,
+  Element,
+  Event,
+  EventEmitter,
+  h,
+  Host,
+  Listen,
+  Prop,
+  State,
+} from '@stencil/core';
 import { href, PageVisible, redirectRoute, restoreScroll, RouteMatch } from '../../';
 import { pathMatcher } from '../../../shared';
+import { PageRenderData } from '../../datatypes';
 
 @Component({
   tag: 'ap-root',
@@ -22,11 +33,11 @@ export class ApRoot {
   @Prop()
   redirect?: (p: string) => string | undefined;
 
-  @Prop()
-  headerTitle = 'Announcing♪';
-
   @State()
   path?: string;
+
+  @Event()
+  beforePageRender!: EventEmitter<PageRenderData>;
 
   @Listen('popstate', { target: 'window' })
   handlePopState() {
@@ -94,14 +105,26 @@ export class ApRoot {
       return bk(m.params);
     })();
 
+    const renderData: PageRenderData = { path: p, tag: curTag, headerButtons: [] };
+    this.beforePageRender.emit(renderData);
+
+    console.log('renderData', renderData);
+
     return (
       <Host>
         <div class="header">
           {back && (
-            <a class="back" {...href(back)}>
+            <a class="back" {...href(back, true)}>
               ←
             </a>
           )}
+          {renderData.headerButtons.map(v => {
+            return (
+              <a class="button slim" {...href(v.href)}>
+                {v.label}
+              </a>
+            );
+          })}
         </div>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;

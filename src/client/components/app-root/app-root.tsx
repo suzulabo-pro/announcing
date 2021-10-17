@@ -1,4 +1,5 @@
 import { Component, h, Host, Listen } from '@stencil/core';
+import { BeforePageRenderEvent } from '../../../shared-web';
 import { App } from '../../app/app';
 import { PostNotificationRecievedEvent } from '../../app/datatypes';
 import { AppFirebase } from '../../app/firebase';
@@ -72,7 +73,7 @@ const matches: RouteMatch[] = [
   styleUrl: 'app-root.scss',
 })
 export class AppRoot {
-  private app: App;
+  private app!: App;
 
   constructor() {
     const appMsg = new AppMsg();
@@ -89,7 +90,6 @@ export class AppRoot {
 
   @Listen('PostNotificationRecieved', { target: 'window' })
   handlePostNotificationRecieved(event: PostNotificationRecievedEvent) {
-    console.debug('PostNotificationRecieved', event.detail.announceID, event.detail.postID);
     const p = `/${event.detail.announceID}/${event.detail.postID}`;
     if (this.app) {
       pushRoute(p);
@@ -98,6 +98,21 @@ export class AppRoot {
     }
   }
 
+  private handleBeforePageRender = (event: BeforePageRenderEvent) => {
+    if (event.detail.tag == 'app-home') {
+      event.detail.headerButtons = [
+        {
+          label: this.app.msgs.home.config,
+          href: '/config',
+        },
+        {
+          label: this.app.msgs.home.about,
+          href: '/about',
+        },
+      ];
+    }
+  };
+
   async componentWillLoad() {
     await this.app.init();
   }
@@ -105,7 +120,11 @@ export class AppRoot {
   render() {
     return (
       <Host>
-        <ap-root routeMatches={matches} componentProps={{ app: this.app }} />
+        <ap-root
+          routeMatches={matches}
+          componentProps={{ app: this.app }}
+          onBeforePageRender={this.handleBeforePageRender}
+        />
       </Host>
     );
   }

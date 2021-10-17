@@ -15,6 +15,7 @@ html {
   --light-bk-color: #eeeeee;
 
   --button-hover-bk-color: #eeeeee;
+  --button-hover-fg-color: var(--color);
   --modal-bk-color: rgba(0, 0, 0, 0.7);
   --loading-bk-color: rgba(255, 255, 255, 0.5);
   --skeleton-bk-color: #aaaaaa;
@@ -86,6 +87,7 @@ button,
   @media (hover: hover) {
     &:hover:not(:disabled):not(.anchor) {
       background-color: var(--button-hover-bk-color);
+      color: var(--button-hover-fg-color);
     }
   }
 
