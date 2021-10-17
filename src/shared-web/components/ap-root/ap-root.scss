@@ -14,14 +14,15 @@ ap-root {
       text-decoration: none;
       display: inline-block;
       padding: 10px 15px 10px 10px;
+      margin-right: auto;
+      &.hidden {
+        visibility: hidden;
+      }
     }
     a.button,
     button {
       display: inline-block;
       margin: 5px;
-      &:first-of-type {
-        margin-left: auto;
-      }
     }
   }
 
