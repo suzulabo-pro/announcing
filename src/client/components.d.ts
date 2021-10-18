@@ -75,7 +75,6 @@ export namespace Components {
     interface ApRoot {
         "componentProps"?: { [k: string]: any };
         "defaultPath": string;
-        "headerTitle": string;
         "redirect"?: (p: string) => string | undefined;
         "routeMatches": RouteMatch[];
     }
@@ -372,7 +371,7 @@ declare namespace LocalJSX {
     interface ApRoot {
         "componentProps"?: { [k: string]: any };
         "defaultPath"?: string;
-        "headerTitle"?: string;
+        "onBeforePageRender"?: (event: CustomEvent<any>) => void;
         "redirect"?: (p: string) => string | undefined;
         "routeMatches": RouteMatch[];
     }

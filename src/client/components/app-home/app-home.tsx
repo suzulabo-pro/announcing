@@ -2,7 +2,6 @@ import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   FirestoreUpdatedEvent,
   href,
@@ -71,20 +70,6 @@ export class AppHome {
     return;
   }
 
-  private naviLinks: ApNaviLink[] = [
-    {
-      label: '',
-    },
-    {
-      label: this.app.msgs.home.config,
-      href: '/config',
-    },
-    {
-      label: this.app.msgs.home.about,
-      href: '/about',
-    },
-  ];
-
   componentWillRender() {
     const follows = this.app.getFollows();
     for (const [id] of follows) {
@@ -131,7 +116,6 @@ export class AppHome {
       msgs: this.app.msgs,
       pageTitle: this.app.msgs.home.pageTitle,
       announces,
-      naviLinks: this.naviLinks,
       handleUnfollowClick: this.handleUnfollowClick,
     };
   }
@@ -147,7 +131,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderContent(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

@@ -63,6 +63,8 @@ export const msgs: Msgs = {
     dataError: 'データの読み込み中にエラーが発生しました。\nしばらくしてから再度お試しください。',
     noPosts: 'お知らせはまだありません',
     detail: '詳細',
+    follow: 'フォロー',
+    following: 'フォロー中',
   },
   announceConfig: {
     pageTitle: (announceName: string) => {

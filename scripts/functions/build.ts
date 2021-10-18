@@ -55,6 +55,11 @@ const _buildFunctions = async (watch: boolean) => {
     plugins: [externalPackagesPlugin],
   });
 
+  if (watch) {
+    return;
+  }
+
+  // generate package.json
   const sorted = [...imported].sort();
 
   const rootDependencies = rootPackageJSON.dependencies as { [k: string]: string };

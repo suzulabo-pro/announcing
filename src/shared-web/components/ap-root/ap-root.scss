@@ -4,13 +4,25 @@ ap-root {
   flex-direction: column;
 
   div.header {
-    padding: 8px;
-    font-size: 20px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+    min-height: 48px;
     background-color: var(--header-bk-color);
     color: var(--header-color);
-    a {
-      display: block;
+
+    .spacer {
+      flex-grow: 1;
+    }
+
+    a.back {
       text-decoration: none;
+      padding: 10px;
+    }
+    a.button,
+    button {
+      margin: 5px;
     }
   }
 

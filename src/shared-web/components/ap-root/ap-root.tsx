@@ -1,6 +1,8 @@
-import { Component, Element, h, Host, Listen, Prop, State } from '@stencil/core';
+import { Component, Element, Event, h, Host, Listen, Prop, State } from '@stencil/core';
 import { href, PageVisible, redirectRoute, restoreScroll, RouteMatch } from '../../';
 import { pathMatcher } from '../../../shared';
+import { BeforePageRenderEventEmmiter } from '../../datatypes';
+import { getHeaderButtons, setHeaderButtons } from '../../header';
 
 @Component({
   tag: 'ap-root',
@@ -22,11 +24,11 @@ export class ApRoot {
   @Prop()
   redirect?: (p: string) => string | undefined;
 
-  @Prop()
-  headerTitle = 'Announcing♪';
-
   @State()
   path?: string;
+
+  @Event()
+  beforePageRender!: BeforePageRenderEventEmmiter;
 
   @Listen('popstate', { target: 'window' })
   handlePopState() {
@@ -46,6 +48,7 @@ export class ApRoot {
     }
 
     this.path = p;
+    setHeaderButtons([]);
   }
 
   componentWillLoad() {
@@ -83,10 +86,44 @@ export class ApRoot {
       });
     }
 
+    const back = (() => {
+      const bk = m.match.back;
+      if (!bk) {
+        return;
+      }
+      if (typeof bk == 'string') {
+        return bk;
+      }
+      return bk(m.params);
+    })();
+
+    this.beforePageRender.emit({ path: p, tag: curTag });
+
     return (
       <Host>
         <div class="header">
-          <a {...href('/')}>{this.headerTitle}</a>
+          {back && (
+            <a class="back" {...href(back, true)}>
+              ←
+            </a>
+          )}
+          <span class="spacer" />
+          {getHeaderButtons().map(v => {
+            if (v.href) {
+              return (
+                <a class="button slim" {...href(v.href)}>
+                  {v.label}
+                </a>
+              );
+            }
+            if (v.handler) {
+              return (
+                <button class="slim" onClick={v.handler}>
+                  {v.label}
+                </button>
+              );
+            }
+          })}
         </div>
         {[...this.tags.entries()].map(([Tag, tagInfo]) => {
           const visible = Tag == curTag;
@@ -111,6 +148,8 @@ export class ApRoot {
     );
   }
 
+  private lastActivePage?: HTMLElement;
+
   componentDidRender() {
     this.el.children;
 
@@ -118,18 +157,22 @@ export class ApRoot {
       return el.classList.contains('page') && !el.classList.contains('hide');
     });
 
-    if (page) {
-      const apHead = searchElement(page.children, el => {
-        return el.tagName == 'AP-HEAD';
-      }) as HTMLApHeadElement;
-      if (apHead) {
-        void apHead.writeHead();
-      } else if (this.defaultApHead) {
-        void this.defaultApHead.writeHead();
-      }
-
-      page.dispatchEvent(new CustomEvent('PageActivated'));
+    if (!page || page == this.lastActivePage) {
+      return;
     }
+
+    const apHead = searchElement(page.children, el => {
+      return el.tagName == 'AP-HEAD';
+    }) as HTMLApHeadElement;
+    if (apHead) {
+      void apHead.writeHead();
+    } else if (this.defaultApHead) {
+      void this.defaultApHead.writeHead();
+    }
+
+    page.dispatchEvent(new CustomEvent('PageActivated'));
+
+    this.lastActivePage = page;
 
     restoreScroll();
   }

@@ -1,6 +1,7 @@
 import { BaseError, stripObj } from '../../shared';
 import { CallableContext, FirebaseAdminApp } from '../firebase';
 import { validators } from '../json-schema';
+import { logger } from '../utils/logger';
 import { createAnnounce } from './create-announce';
 import { deleteAnnounce } from './delete-announce';
 import { deletePost } from './delete-post';
@@ -10,13 +11,13 @@ import { putPost } from './put-post';
 import { registerNotification } from './register-notification';
 
 class InvalidParamsError extends BaseError {
-  constructor(public data: any) {
+  constructor(public method: string, public data: any) {
     super();
   }
 }
 
 class HttpsCallError extends BaseError {
-  constructor(public error: any, public data: any) {
+  constructor(public method: string, public error: any, public data: any) {
     super();
   }
 }
@@ -31,6 +32,7 @@ export const httpsCallHandler = async (
   const method = data.method;
 
   try {
+    logger.debug('invoke', { method });
     switch (method) {
       case 'CreateAnnounce':
         if (validators.createAnnounceParams(data)) {
@@ -69,10 +71,10 @@ export const httpsCallHandler = async (
         break;
     }
   } catch (err) {
-    throw new HttpsCallError(err, data);
+    throw new HttpsCallError(method, err, data);
   }
 
-  throw new InvalidParamsError({ data });
+  throw new InvalidParamsError(method, data);
 };
 
 export const __InvalidParamsError = InvalidParamsError;

@@ -3,7 +3,6 @@ import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   bs62,
   IMPORT_POSTS_URL_MAX_LENGTH,
@@ -36,14 +35,6 @@ export class AppImportPosts {
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
-
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}/edit`,
-        back: true,
-      },
-    ];
   }
 
   @State()
@@ -69,8 +60,6 @@ export class AppImportPosts {
     }
     return;
   }
-
-  private naviLinks!: ApNaviLink[];
 
   private handlers = {
     input: {
@@ -132,7 +121,6 @@ export class AppImportPosts {
       announceStatus,
       handlers: this.handlers,
       canSubmit,
-      naviLinks: this.naviLinks,
       pageTitle: announce
         ? this.app.msgs.announceEdit.pageTitle(announce.name)
         : this.app.msgs.common.pageTitle,
@@ -150,7 +138,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderForm(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

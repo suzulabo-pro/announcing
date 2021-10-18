@@ -95,6 +95,7 @@ export const httpsRequestHandler = (
 ): Promise<void> => {
   const m = pathMatcher(matches, req.path);
   if (m && m.match.func) {
+    logger.debug('invoke', { name: m.match.func.name, path: req.path });
     return m.match.func(m.params, req, res, adminApp);
   }
 

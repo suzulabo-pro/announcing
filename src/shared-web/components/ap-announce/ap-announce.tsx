@@ -36,12 +36,9 @@ export class ApAnnounce {
     return (
       <Host>
         <Tag class="head" {...(this.href && href(this.href))}>
-          <div class="name">
-            <div class="icons">
-              {this.icons?.follow && <ap-icon icon="heart" />}
-              {this.icons?.notification && <ap-icon icon="bell" />}
-            </div>
-            <span>{announce.name}</span>
+          <div class="name-box">
+            <slot name="above-name" />
+            <span class="name">{announce.name}</span>
           </div>
           {this.iconImgPromise && <ap-image srcPromise={this.iconImgPromise} />}
         </Tag>

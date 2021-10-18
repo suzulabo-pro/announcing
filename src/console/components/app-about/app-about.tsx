@@ -1,6 +1,5 @@
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
 import { App } from '../../app/app';
-import { ApNaviLink } from '../../shared';
 
 @Component({
   tag: 'app-about',
@@ -10,19 +9,11 @@ export class AppAbout {
   @Prop()
   app!: App;
 
-  private naviLinks: ApNaviLink[] = [
-    {
-      label: this.app.msgs.common.back,
-      href: '/',
-      back: true,
-    },
-  ];
   private renderContext() {
     return {
       msgs: this.app.msgs,
       manualSite: this.app.manualSite,
       buildInfo: this.app.buildInfo,
-      naviLinks: this.naviLinks,
       pageTitle: this.app.msgs.about.pageTitle,
     };
   }
@@ -38,7 +29,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderForm(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

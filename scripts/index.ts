@@ -1,6 +1,6 @@
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
-import { Cmd, ParallelRun, runScript, ScriptEntries, SequentialRun } from './scripts';
+import { Cmd, RunP, RunS, runScript, ScriptEntries } from './scripts';
 import { copySecrets } from './secrets/copy';
 import { packSecrets } from './secrets/pack';
 import { unpackSecrets } from './secrets/unpack';
@@ -22,12 +22,12 @@ const entries: ScriptEntries = [
     'firebase.serve',
     Cmd('firebase emulators:start --import=./emu-data --export-on-exit', 'firebase'),
   ],
-  ['firebase.start', new ParallelRun(['functions.build.watch', 'firebase.serve'])],
+  ['firebase.start', RunP(['functions.build.watch', 'firebase.serve'])],
   ['firebase.docs', Cmd('docsify serve docs', 'firebase')],
 
   [
     'firebase.deploy',
-    new SequentialRun([
+    RunS([
       'lint',
       'functions.build',
       'console.build',
@@ -49,7 +49,9 @@ const entries: ScriptEntries = [
   // client
   [
     'client.start',
-    Cmd('stencil build --dev --watch --serve --config scripts/client/stencil.config.ts'),
+    Cmd(
+      'stencil build --dev --watch --serve --service-worker --config scripts/client/stencil.config.ts',
+    ),
   ],
   ['client.build', Cmd('stencil build --config scripts/client/stencil.config.ts')],
 
@@ -61,7 +63,7 @@ const entries: ScriptEntries = [
   ],
   ['client.cap.sync', Cmd('cap sync', 'capacitor/client')],
   ['client.cap.copy', Cmd('cap copy', 'capacitor/client')],
-  ['client.cap.dev.update', new SequentialRun(['client.cap.build.dev', 'client.cap.copy'])],
+  ['client.cap.dev.update', RunS(['client.cap.build.dev', 'client.cap.copy'])],
 
   // secrets
   ['secrets.copy', copySecrets],
@@ -70,6 +72,9 @@ const entries: ScriptEntries = [
 
   // dev-proxy
   ['dev-proxy.start', startDevProxy],
+
+  // test
+  ['test', Cmd('jest')],
 
   // utilities
   ['android.open', Cmd('cap open android', 'capacitor/client')],

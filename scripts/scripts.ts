@@ -15,12 +15,20 @@ export const Cmd = (cmd: string, cwd?: string) => {
 
 export type Script = ScriptFunction | Command;
 
-export class ParallelRun {
+class ParallelRun {
   constructor(public readonly scripts: (string | Script)[]) {}
 }
-export class SequentialRun {
+class SequentialRun {
   constructor(public readonly scripts: (string | Script)[]) {}
 }
+
+export const RunP = (scripts: (string | Script)[]) => {
+  return new ParallelRun(scripts);
+};
+export const RunS = (scripts: (string | Script)[]) => {
+  return new SequentialRun(scripts);
+};
+
 export type ScriptEntries = [string, Script | ParallelRun | SequentialRun][];
 
 const execScript = async (script: Script, args?: string[]) => {

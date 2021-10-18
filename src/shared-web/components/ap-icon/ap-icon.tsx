@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
+import bellSlash from 'bootstrap-icons/icons/bell-slash.svg';
 import bell from 'bootstrap-icons/icons/bell.svg';
 import squareChecked from 'bootstrap-icons/icons/check2-square.svg';
 import dizzy from 'bootstrap-icons/icons/emoji-dizzy.svg';
@@ -31,6 +32,7 @@ const svgMap = {
   exclamationDiamondFill: toHTML(exclamationDiamondFill),
   heart: toHTML(heart),
   bell: toHTML(bell),
+  bellSlash: toHTML(bellSlash),
 };
 export type Icons = keyof typeof svgMap;
 

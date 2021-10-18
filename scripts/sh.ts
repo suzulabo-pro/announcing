@@ -1,5 +1,4 @@
 import { spawn } from 'child_process';
-import { stderr, stdout } from 'process';
 
 const procs = new Set<ReturnType<typeof spawn>>();
 
@@ -7,9 +6,7 @@ let terminated = false;
 
 export const sh = (command: string, args?: string[], options?: { cwd?: string }) => {
   return new Promise<void>((resolve, reject) => {
-    const p = spawn(command, args, { shell: true, cwd: options?.cwd });
-    p.stdout.pipe(stdout);
-    p.stderr.pipe(stderr);
+    const p = spawn(command, args || [], { shell: true, stdio: 'inherit', cwd: options?.cwd });
 
     procs.add(p);
 
@@ -33,6 +30,6 @@ process.on('SIGINT', () => {
     process.exit(0);
   }
   procs.forEach(p => {
-    p.kill('SIGTERM');
+    p.kill('SIGINT');
   });
 });

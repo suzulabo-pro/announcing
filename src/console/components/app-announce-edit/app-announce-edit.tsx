@@ -5,7 +5,6 @@ import {
   ANNOUNCE_META_DESC_MAX_LENGTH,
   ANNOUNCE_META_LINK_MAX_LENGTH,
   ANNOUNCE_META_NAME_MAX_LENGTH,
-  ApNaviLink,
   assertIsDefined,
   href,
   PromiseState,
@@ -35,14 +34,6 @@ export class AppAnnounceEdit {
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
-
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}`,
-        back: true,
-      },
-    ];
   }
 
   @State()
@@ -68,8 +59,6 @@ export class AppAnnounceEdit {
     }
     return;
   }
-
-  private naviLinks!: ApNaviLink[];
 
   private handlers = {
     input: {
@@ -180,7 +169,6 @@ export class AppAnnounceEdit {
       showDeletion: this.showDeletion,
       showDeleteConfirm: this.showDeleteConfirm,
       handlers: this.handlers,
-      naviLinks: this.naviLinks,
       pageTitle: announce
         ? this.app.msgs.announceEdit.pageTitle(announce.name)
         : this.app.msgs.common.pageTitle,
@@ -198,7 +186,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderForm(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

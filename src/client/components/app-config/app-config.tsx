@@ -1,7 +1,6 @@
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
 import { App } from '../../app/app';
 import { ClientConfig } from '../../app/datatypes';
-import { ApNaviLink } from '../../shared';
 
 @Component({
   tag: 'app-config',
@@ -10,14 +9,6 @@ import { ApNaviLink } from '../../shared';
 export class AppConfig {
   @Prop()
   app!: App;
-
-  private naviLinks: ApNaviLink[] = [
-    {
-      label: this.app.msgs.common.back,
-      href: '/',
-      back: true,
-    },
-  ];
 
   private async toggleConfig(key: keyof ClientConfig) {
     const config = this.app.getConfig() || {};
@@ -39,7 +30,6 @@ export class AppConfig {
       msgs: this.app.msgs,
       config: this.app.getConfig() || {},
       handlers: this.handlers,
-      naviLinks: this.naviLinks,
       pageTitle: this.app.msgs.config.pageTitle,
     };
   }
@@ -55,7 +45,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderForm(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

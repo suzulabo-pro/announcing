@@ -2,7 +2,6 @@ import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stenc
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   FirestoreUpdatedEvent,
   PageVisible,
@@ -36,13 +35,6 @@ export class AppAnnounceConfig {
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}`,
-        back: true,
-      },
-    ];
   }
 
   @Listen('FirestoreUpdated', { target: 'window' }) handleFirestoreUpdated(
@@ -72,8 +64,6 @@ export class AppAnnounceConfig {
     }
     return;
   }
-
-  private naviLinks!: ApNaviLink[];
 
   componentWillLoad() {
     this.watchAnnounceID();
@@ -125,7 +115,6 @@ export class AppAnnounceConfig {
       follow: this.app.getFollow(this.announceID) != null,
       notification: this.app.getNotification(this.announceID) != null,
     };
-    const naviLinks = this.naviLinks;
 
     const { announce } = this.announceState?.result() || {};
     const pageTitle = announce
@@ -137,7 +126,6 @@ export class AppAnnounceConfig {
       announceStatus,
       permission: this.permission,
       icons,
-      naviLinks,
       pageTitle,
       handleUnfollowClick: this.handleUnfollowClick,
       handleFollowClick: this.handleFollowClick,
@@ -157,7 +145,6 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       {renderContent(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
@@ -174,12 +161,7 @@ const renderContent = (ctx: RenderContext) => {
 
       return (
         <Fragment>
-          <ap-announce
-            announce={announce}
-            iconImgPromise={iconImgPromise}
-            icons={ctx.icons}
-            showDetails={true}
-          />
+          <ap-announce announce={announce} iconImgPromise={iconImgPromise} icons={ctx.icons} />
           <div class="follow">
             {ctx.icons.follow ? (
               <button onClick={ctx.handleUnfollowClick}>

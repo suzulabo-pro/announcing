@@ -1,4 +1,5 @@
 import { Component, h, Host, Listen } from '@stencil/core';
+import { BeforePageRenderEvent, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import { PostNotificationRecievedEvent } from '../../app/datatypes';
 import { AppFirebase } from '../../app/firebase';
@@ -15,24 +16,29 @@ const matches: RouteMatch[] = [
   {
     pattern: 'config',
     tag: 'app-config',
+    back: '/',
   },
   {
     pattern: 'about',
     tag: 'app-about',
+    back: '/',
   },
   {
     pattern: /^[0-9A-Z]{12}$/,
     name: 'announceID',
     tag: 'app-announce',
+    back: '/',
     nexts: [
       {
         pattern: 'config',
         tag: 'app-announce-config',
+        back: p => `/${p['announceID']}`,
       },
       {
         pattern: /^[0-9a-zA-Z]{8}$/,
         name: 'postID',
         tag: 'app-post',
+        back: p => `/${p['announceID']}`,
         nexts: [
           {
             pattern: 'image',
@@ -41,6 +47,7 @@ const matches: RouteMatch[] = [
                 pattern: /^[0-9a-zA-Z]{15,25}$/,
                 name: 'imageID',
                 tag: 'app-image',
+                back: p => `/${p['announceID']}/${p['postID']}`,
               },
             ],
           },
@@ -51,6 +58,7 @@ const matches: RouteMatch[] = [
                 pattern: /^[0-9a-zA-Z]{1,1500}$/,
                 name: 'image62',
                 tag: 'app-image',
+                back: p => `/${p['announceID']}/${p['postID']}`,
               },
             ],
           },
@@ -65,7 +73,7 @@ const matches: RouteMatch[] = [
   styleUrl: 'app-root.scss',
 })
 export class AppRoot {
-  private app: App;
+  private app!: App;
 
   constructor() {
     const appMsg = new AppMsg();
@@ -82,7 +90,6 @@ export class AppRoot {
 
   @Listen('PostNotificationRecieved', { target: 'window' })
   handlePostNotificationRecieved(event: PostNotificationRecievedEvent) {
-    console.debug('PostNotificationRecieved', event.detail.announceID, event.detail.postID);
     const p = `/${event.detail.announceID}/${event.detail.postID}`;
     if (this.app) {
       pushRoute(p);
@@ -91,6 +98,21 @@ export class AppRoot {
     }
   }
 
+  private handleBeforePageRender = (event: BeforePageRenderEvent) => {
+    if (event.detail.tag == 'app-home') {
+      setHeaderButtons([
+        {
+          label: this.app.msgs.home.config,
+          href: '/config',
+        },
+        {
+          label: this.app.msgs.home.about,
+          href: '/about',
+        },
+      ]);
+    }
+  };
+
   async componentWillLoad() {
     await this.app.init();
   }
@@ -98,7 +120,11 @@ export class AppRoot {
   render() {
     return (
       <Host>
-        <ap-root routeMatches={matches} componentProps={{ app: this.app }} />
+        <ap-root
+          routeMatches={matches}
+          componentProps={{ app: this.app }}
+          onBeforePageRender={this.handleBeforePageRender}
+        />
       </Host>
     );
   }

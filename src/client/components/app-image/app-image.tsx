@@ -1,6 +1,6 @@
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { App } from '../../app/app';
-import { ApNaviLink, assertIsDefined, bs62, PromiseState, redirectRoute } from '../../shared';
+import { assertIsDefined, bs62, PromiseState, redirectRoute } from '../../shared';
 
 @Component({
   tag: 'app-image',
@@ -16,17 +16,6 @@ export class AppImage {
   @Prop()
   postID!: string;
 
-  @Watch('postID')
-  watchPostID() {
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: `/${this.announceID}/${this.postID}`,
-        back: true,
-      },
-    ];
-  }
-
   @Prop()
   imageID?: string;
 
@@ -41,12 +30,6 @@ export class AppImage {
 
   @State()
   imageState?: PromiseState<string>;
-
-  private naviLinks!: ApNaviLink[];
-
-  componentWillLoad() {
-    this.watchPostID();
-  }
 
   componentWillRender() {
     if (!this.imageState) {
@@ -68,7 +51,6 @@ export class AppImage {
       announceID: this.announceID,
       postID: this.postID,
       imgStatus,
-      naviLinks: this.naviLinks,
     };
   }
 
@@ -80,12 +62,7 @@ export class AppImage {
 type RenderContext = ReturnType<AppImage['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host class="full">
-      {renderContent(ctx)}
-      <ap-navi links={ctx.naviLinks} />
-    </Host>
-  );
+  return <Host>{renderContent(ctx)}</Host>;
 };
 
 const renderContent = (ctx: RenderContext) => {

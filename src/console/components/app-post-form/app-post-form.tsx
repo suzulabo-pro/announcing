@@ -2,7 +2,6 @@ import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core'
 import { AsyncReturnType } from 'type-fest';
 import { App } from '../../app/app';
 import {
-  ApNaviLink,
   assertIsDefined,
   POST_BODY_MAX_LENGTH,
   POST_LINK_MAX_LENGTH,
@@ -36,14 +35,6 @@ export class AppPostForm {
   @Watch('postID')
   watchPostID() {
     this.values = undefined;
-
-    this.naviLinks = [
-      {
-        label: this.app.msgs.common.back,
-        href: this.postID ? `/${this.announceID}/${this.postID}` : `/${this.announceID}`,
-        back: true,
-      },
-    ];
   }
 
   @State()
@@ -54,8 +45,6 @@ export class AppPostForm {
 
   @State()
   postState?: PromiseState<AsyncReturnType<AppPostForm['loadPost']>>;
-
-  private naviLinks!: ApNaviLink[];
 
   private async laodAnnounce() {
     const id = this.announceID;
@@ -171,7 +160,6 @@ export class AppPostForm {
       }
     }
 
-    const naviLinks = this.naviLinks;
     const backPath = `/${this.announceID}` + (this.postID ? `/${this.postID}` : '');
     const pageTitle = announce
       ? this.app.msgs.postForm.pageTitle(announce.name)
@@ -184,7 +172,6 @@ export class AppPostForm {
       values,
       canSubmit,
       handlers: this.handlers,
-      naviLinks,
       backPath,
       pageTitle,
     };
@@ -202,7 +189,6 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderAnnounce(ctx)}
       {renderForm(ctx)}
-      <ap-navi links={ctx.naviLinks} />
       <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );

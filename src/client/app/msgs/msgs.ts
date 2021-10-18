@@ -44,6 +44,8 @@ export interface Msgs {
     dataError: string;
     noPosts: string;
     detail: string;
+    follow: string;
+    following: string;
   };
   announceConfig: {
     pageTitle: (announceName: string) => string;
