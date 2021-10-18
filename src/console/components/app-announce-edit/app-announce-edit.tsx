@@ -28,9 +28,12 @@ export class AppAnnounceEdit {
   @Prop()
   announceID!: string;
 
+  @Watch('activePage')
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
+    this.showDeletion = false;
+    this.showDeleteConfirm = false;
   }
 
   @State()
