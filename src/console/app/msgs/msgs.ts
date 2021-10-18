@@ -6,6 +6,7 @@ export interface Msgs {
     ok: string;
     datetime: (d: number) => string;
     pageTitle: string;
+    about: string;
   };
   footer: {
     title: string;
@@ -33,7 +34,6 @@ export interface Msgs {
       editBtn: string;
     };
     dataError: string;
-    about: string;
   };
   about: {
     pageTitle: string;

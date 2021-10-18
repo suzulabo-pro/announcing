@@ -1,6 +1,6 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
+import { setDocumentTitle, setHeaderButtons, setHeaderTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
@@ -114,7 +114,7 @@ export class AppHome {
 
   private headerButtons = [
     {
-      label: this.app.msgs.home.about,
+      label: this.app.msgs.common.about,
       href: '/about',
     },
     {
@@ -129,6 +129,7 @@ export class AppHome {
   render() {
     if (this.activePage) {
       setHeaderButtons(this.headerButtons);
+      setHeaderTitle(this.app.msgs.common.pageTitle);
       setDocumentTitle(this.app.msgs.home.pageTitle);
     }
     return render(this.renderContext());

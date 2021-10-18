@@ -11,6 +11,7 @@ ap-root {
     min-height: 48px;
     background-color: var(--header-bk-color);
     color: var(--header-color);
+    padding-left: 5px;
 
     .spacer {
       flex-grow: 1;

@@ -92,7 +92,7 @@ export class AppRoot {
         return '/';
       }
     } else {
-      if (p != '/signin') {
+      if (p != '/signin' && p != '/about') {
         return '/signin';
       }
     }
