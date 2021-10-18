@@ -1,13 +1,8 @@
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
-import {
-  assertIsDefined,
-  FirestoreUpdatedEvent,
-  PageVisible,
-  PromiseState,
-  redirectRoute,
-} from '../../shared';
+import { assertIsDefined, FirestoreUpdatedEvent, PromiseState, redirectRoute } from '../../shared';
 
 @Component({
   tag: 'app-announce-config',
@@ -15,16 +10,7 @@ import {
 })
 export class AppAnnounceConfig {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
-
-  @Listen('PageActivated')
-  listenPageActivated() {
-    this.permission = undefined;
-  }
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -72,6 +58,7 @@ export class AppAnnounceConfig {
   private handleEnableNotifyClick = async () => {
     await this.app.processLoading(async () => {
       await this.app.setNotify(this.announceID, true);
+      this.permission = await this.app.checkNotifyPermission(false);
     });
   };
 
@@ -116,17 +103,12 @@ export class AppAnnounceConfig {
       notification: this.app.getNotification(this.announceID) != null,
     };
 
-    const { announce } = this.announceState?.result() || {};
-    const pageTitle = announce
-      ? this.app.msgs.announceConfig.pageTitle(announce.name)
-      : this.app.msgs.common.pageTitle;
     return {
       msgs: this.app.msgs,
       announceID: this.announceID,
       announceStatus,
       permission: this.permission,
       icons,
-      pageTitle,
       handleUnfollowClick: this.handleUnfollowClick,
       handleFollowClick: this.handleFollowClick,
       handleEnableNotifyClick: this.handleEnableNotifyClick,
@@ -135,6 +117,13 @@ export class AppAnnounceConfig {
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const docTitle = announce
+        ? this.app.msgs.announceConfig.pageTitle(announce.name)
+        : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -142,12 +131,7 @@ export class AppAnnounceConfig {
 type RenderContext = ReturnType<AppAnnounceConfig['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host>
-      {renderContent(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
-    </Host>
-  );
+  return <Host>{renderContent(ctx)}</Host>;
 };
 
 const renderContent = (ctx: RenderContext) => {

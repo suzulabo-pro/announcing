@@ -9,7 +9,6 @@ import { Announce, AnnounceAndMeta, PostJSON } from "../shared";
 import { ApNaviLink, PromiseState, RouteMatch } from "../shared-web";
 import { Icons } from "../shared-web/components/ap-icon/ap-icon";
 import { App } from "./app/app";
-import { PageVisible } from "./shared";
 export namespace Components {
     interface ApAnnounce {
         "announce": AnnounceAndMeta;
@@ -92,24 +91,26 @@ export namespace Components {
         "youtubeID"?: string;
     }
     interface AppAbout {
+        "activePage": boolean;
         "app": App;
     }
     interface AppAnnounce {
+        "activePage": boolean;
         "announceID": string;
         "app": App;
-        "pageVisible": PageVisible;
     }
     interface AppAnnounceConfig {
+        "activePage": boolean;
         "announceID": string;
         "app": App;
-        "pageVisible": PageVisible;
     }
     interface AppConfig {
+        "activePage": boolean;
         "app": App;
     }
     interface AppHome {
+        "activePage": boolean;
         "app": App;
-        "pageVisible": PageVisible;
     }
     interface AppImage {
         "announceID": string;
@@ -119,9 +120,9 @@ export namespace Components {
         "postID": string;
     }
     interface AppPost {
+        "activePage": boolean;
         "announceID": string;
         "app": App;
-        "pageVisible": PageVisible;
         "postID": string;
     }
     interface AppRoot {
@@ -371,7 +372,6 @@ declare namespace LocalJSX {
     interface ApRoot {
         "componentProps"?: { [k: string]: any };
         "defaultPath"?: string;
-        "onBeforePageRender"?: (event: CustomEvent<any>) => void;
         "redirect"?: (p: string) => string | undefined;
         "routeMatches": RouteMatch[];
     }
@@ -389,24 +389,26 @@ declare namespace LocalJSX {
         "youtubeID"?: string;
     }
     interface AppAbout {
+        "activePage": boolean;
         "app": App;
     }
     interface AppAnnounce {
+        "activePage": boolean;
         "announceID": string;
         "app": App;
-        "pageVisible": PageVisible;
     }
     interface AppAnnounceConfig {
+        "activePage": boolean;
         "announceID": string;
         "app": App;
-        "pageVisible": PageVisible;
     }
     interface AppConfig {
+        "activePage": boolean;
         "app": App;
     }
     interface AppHome {
+        "activePage": boolean;
         "app": App;
-        "pageVisible": PageVisible;
     }
     interface AppImage {
         "announceID": string;
@@ -416,9 +418,9 @@ declare namespace LocalJSX {
         "postID": string;
     }
     interface AppPost {
+        "activePage": boolean;
         "announceID": string;
         "app": App;
-        "pageVisible": PageVisible;
         "postID": string;
     }
     interface AppRoot {

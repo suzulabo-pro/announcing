@@ -1,13 +1,8 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
-import {
-  assertIsDefined,
-  FirestoreUpdatedEvent,
-  href,
-  PageVisible,
-  PromiseState,
-} from '../../shared';
+import { assertIsDefined, FirestoreUpdatedEvent, href, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-home',
@@ -15,20 +10,11 @@ import {
 })
 export class AppHome {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
-
-  @Listen('PageActivated')
-  listenPageActivated() {
-    this.rerender = {};
-  }
+  activePage!: boolean;
 
   @Listen('AppBackButton', { target: 'window' })
   handleAppBackButton() {
-    if (this.pageVisible.isVisible()) {
+    if (this.activePage) {
       this.app.exitApp();
     }
   }
@@ -114,13 +100,28 @@ export class AppHome {
 
     return {
       msgs: this.app.msgs,
-      pageTitle: this.app.msgs.home.pageTitle,
       announces,
       handleUnfollowClick: this.handleUnfollowClick,
     };
   }
 
+  private headerButtons = [
+    {
+      label: this.app.msgs.home.config,
+      href: '/config',
+    },
+    {
+      label: this.app.msgs.home.about,
+      href: '/about',
+    },
+  ];
+
   render() {
+    if (this.activePage) {
+      setDocumentTitle(this.app.msgs.home.pageTitle);
+      setHeaderButtons(this.headerButtons);
+    }
+
     return render(this.renderContext());
   }
 }
@@ -128,12 +129,7 @@ export class AppHome {
 type RenderContext = ReturnType<AppHome['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host>
-      {renderContent(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
-    </Host>
-  );
+  return <Host>{renderContent(ctx)}</Host>;
 };
 
 const renderContent = (ctx: RenderContext) => {

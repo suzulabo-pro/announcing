@@ -1,8 +1,8 @@
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { href } from '../../../shared-web';
+import { href, setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
-import { assertIsDefined, FirestoreUpdatedEvent, PageVisible, PromiseState } from '../../shared';
+import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-announce',
@@ -10,11 +10,7 @@ import { assertIsDefined, FirestoreUpdatedEvent, PageVisible, PromiseState } fro
 })
 export class AppAnnounce {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -81,20 +77,22 @@ export class AppAnnounce {
       follow: this.app.getFollow(this.announceID) != null,
       notification: this.app.getNotification(this.announceID) != null,
     };
-    const { announce } = this.announceState?.result() || {};
-    const pageTitle = announce
-      ? this.app.msgs.announce.pageTitle(announce.name)
-      : this.app.msgs.common.pageTitle;
     return {
       msgs: this.app.msgs,
       announceID: this.announceID,
       announceStatus,
       icons,
-      pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const docTitle = announce
+        ? this.app.msgs.announce.pageTitle(announce.name)
+        : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -102,12 +100,7 @@ export class AppAnnounce {
 type RenderContext = ReturnType<AppAnnounce['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host>
-      {renderContent(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
-    </Host>
-  );
+  return <Host>{renderContent(ctx)}</Host>;
 };
 
 const renderContent = (ctx: RenderContext) => {

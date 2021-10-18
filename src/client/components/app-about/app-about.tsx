@@ -1,4 +1,5 @@
 import { Component, Fragment, h, Host, Prop } from '@stencil/core';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 
 @Component({
@@ -7,6 +8,9 @@ import { App } from '../../app/app';
 })
 export class AppAbout {
   @Prop()
+  activePage!: boolean;
+
+  @Prop()
   app!: App;
 
   private renderContext() {
@@ -14,11 +18,13 @@ export class AppAbout {
       msgs: this.app.msgs,
       manualSite: this.app.manualSite,
       buildInfo: this.app.buildInfo,
-      pageTitle: this.app.msgs.about.pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      setDocumentTitle(this.app.msgs.about.pageTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -26,12 +32,7 @@ export class AppAbout {
 type RenderContext = ReturnType<AppAbout['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host>
-      {renderForm(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
-    </Host>
-  );
+  return <Host>{renderForm(ctx)}</Host>;
 };
 
 const renderForm = (ctx: RenderContext) => {

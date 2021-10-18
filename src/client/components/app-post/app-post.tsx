@@ -1,12 +1,11 @@
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { setHeaderButtons } from '../../../shared-web';
+import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
   bs62,
   FirestoreUpdatedEvent,
-  PageVisible,
   PromiseState,
   redirectRoute,
 } from '../../shared';
@@ -17,27 +16,7 @@ import {
 })
 export class AppPost {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
-
-  @Listen('PageActivated')
-  PageDeactivated() {
-    this.rerender = {};
-    if (this.app.checkShareSupport()) {
-      setHeaderButtons([{ label: this.app.msgs.post.share, handler: this.shareClick }]);
-    }
-  }
-
-  @Listen('PageDeactivated')
-  listenPageActivated() {
-    this.rerender = {};
-  }
-
-  @State()
-  rerender = {};
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -142,15 +121,6 @@ export class AppPost {
       follow: this.app.getFollow(this.announceID) != null,
       notification: this.app.getNotification(this.announceID) != null,
     };
-    const { announce } = this.announceState?.result() || {};
-    const { post } = this.postState?.result() || {};
-    const pageTitle =
-      announce && post
-        ? this.app.msgs.post.pageTitle(
-            announce.name,
-            post?.title || post?.body?.substr(0, 20) || '',
-          )
-        : this.app.msgs.common.pageTitle;
     return {
       msgs: this.app.msgs,
       announceID: this.announceID,
@@ -158,12 +128,28 @@ export class AppPost {
       postStatus,
       icons,
       config: this.app.getConfig() || {},
-      pageTitle,
-      pageVisible: this.pageVisible,
+      activePage: this.activePage,
     };
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const { post } = this.postState?.result() || {};
+      const docTitle =
+        announce && post
+          ? this.app.msgs.post.pageTitle(
+              announce.name,
+              post?.title || post?.body?.substr(0, 20) || '',
+            )
+          : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+
+      if (this.app.checkShareSupport()) {
+        setHeaderButtons([{ label: this.app.msgs.post.share, handler: this.shareClick }]);
+      }
+    }
+
     return render(this.renderContext());
   }
 }
@@ -175,7 +161,6 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderAnnounce(ctx)}
       {renderPost(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
 };
@@ -217,8 +202,8 @@ const renderPost = (ctx: RenderContext) => {
           imgHref={imgHref}
           imgs={imgs}
           msgs={{ datetime: ctx.msgs.common.datetime }}
-          showTweet={ctx.pageVisible.isVisible() && ctx.config.embedTwitter}
-          showYoutube={ctx.pageVisible.isVisible() && ctx.config.embedYoutube}
+          showTweet={ctx.activePage && ctx.config.embedTwitter}
+          showYoutube={ctx.activePage && ctx.config.embedYoutube}
         />
       );
     }

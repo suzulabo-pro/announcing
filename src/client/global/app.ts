@@ -2,7 +2,6 @@ import 'pinch-zoom-element';
 import '../../shared-web/components/ap-announce/ap-announce';
 import '../../shared-web/components/ap-checkbox/ap-checkbox';
 import '../../shared-web/components/ap-error/ap-error';
-import '../../shared-web/components/ap-head/ap-head';
 import '../../shared-web/components/ap-icon/ap-icon';
 import '../../shared-web/components/ap-image/ap-image';
 import '../../shared-web/components/ap-loading/ap-loading';
