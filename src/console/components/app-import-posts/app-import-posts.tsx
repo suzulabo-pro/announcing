@@ -1,6 +1,7 @@
-import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
+import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
@@ -21,10 +22,8 @@ const generateKeys = () => {
   styleUrl: 'app-import-posts.scss',
 })
 export class AppImportPosts {
-  @Listen('PageActivated')
-  listenPageActivated() {
-    this.announceState = undefined;
-  }
+  @Prop()
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -32,6 +31,7 @@ export class AppImportPosts {
   @Prop()
   announceID!: string;
 
+  @Watch('activePage')
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
@@ -107,7 +107,7 @@ export class AppImportPosts {
     const announceStatus = this.announceState?.status();
     assertIsDefined(announceStatus);
 
-    const { announce, importPosts } = this.announceState?.result() || {};
+    const { importPosts } = this.announceState?.result() || {};
 
     const values = this.values || {};
     const modified = values.url != importPosts?.url;
@@ -121,13 +121,17 @@ export class AppImportPosts {
       announceStatus,
       handlers: this.handlers,
       canSubmit,
-      pageTitle: announce
-        ? this.app.msgs.announceEdit.pageTitle(announce.name)
-        : this.app.msgs.common.pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const docTitle = announce
+        ? this.app.msgs.announceEdit.pageTitle(announce.name)
+        : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -135,12 +139,7 @@ export class AppImportPosts {
 type RenderContext = ReturnType<AppImportPosts['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host>
-      {renderForm(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
-    </Host>
-  );
+  return <Host>{renderForm(ctx)}</Host>;
 };
 
 const renderForm = (ctx: RenderContext) => {

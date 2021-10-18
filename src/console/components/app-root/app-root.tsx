@@ -1,5 +1,4 @@
 import { Component, h, Host } from '@stencil/core';
-import { BeforePageRenderEvent, pushRoute, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import { AppFirebase } from '../../app/firebase';
 import { AppMsg } from '../../app/msg';
@@ -100,24 +99,6 @@ export class AppRoot {
     return;
   };
 
-  private handleBeforePageRender = (event: BeforePageRenderEvent) => {
-    if (event.detail.tag == 'app-home') {
-      setHeaderButtons([
-        {
-          label: this.app.msgs.home.about,
-          href: '/about',
-        },
-        {
-          label: this.app.msgs.home.signOut,
-          handler: async () => {
-            await this.app.signOut();
-            pushRoute('/signin');
-          },
-        },
-      ]);
-    }
-  };
-
   render() {
     return (
       <Host>
@@ -125,7 +106,6 @@ export class AppRoot {
           routeMatches={matches}
           redirect={this.handleRedirect}
           componentProps={{ app: this.app }}
-          onBeforePageRender={this.handleBeforePageRender}
         />
       </Host>
     );

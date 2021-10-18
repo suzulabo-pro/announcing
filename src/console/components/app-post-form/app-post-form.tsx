@@ -1,5 +1,6 @@
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
@@ -17,6 +18,9 @@ import { isURL } from '../../utils/isurl';
   styleUrl: 'app-post-form.scss',
 })
 export class AppPostForm {
+  @Prop()
+  activePage!: boolean;
+
   @Prop()
   app!: App;
 
@@ -142,7 +146,6 @@ export class AppPostForm {
     const announceStatus = this.announceState?.status();
     assertIsDefined(announceStatus);
     const postStatus = this.postState?.status();
-    const { announce } = this.announceState?.result() || {};
 
     const values = this.values || {};
 
@@ -161,9 +164,6 @@ export class AppPostForm {
     }
 
     const backPath = `/${this.announceID}` + (this.postID ? `/${this.postID}` : '');
-    const pageTitle = announce
-      ? this.app.msgs.postForm.pageTitle(announce.name)
-      : this.app.msgs.common.pageTitle;
     return {
       msgs: this.app.msgs,
       announceID: this.announceID,
@@ -173,11 +173,17 @@ export class AppPostForm {
       canSubmit,
       handlers: this.handlers,
       backPath,
-      pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const docTitle = announce
+        ? this.app.msgs.postForm.pageTitle(announce.name)
+        : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -189,7 +195,6 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderAnnounce(ctx)}
       {renderForm(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
 };

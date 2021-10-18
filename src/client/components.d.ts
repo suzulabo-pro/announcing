@@ -6,7 +6,7 @@
  */
 import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 import { Announce, AnnounceAndMeta, PostJSON } from "../shared";
-import { ApNaviLink, PromiseState, RouteMatch } from "../shared-web";
+import { PromiseState, RouteMatch } from "../shared-web";
 import { Icons } from "../shared-web/components/ap-icon/ap-icon";
 import { App } from "./app/app";
 export namespace Components {
@@ -32,10 +32,6 @@ export namespace Components {
     datetime: (d: number) => string;
   };
     }
-    interface ApHead {
-        "pageTitle"?: string;
-        "writeHead": () => Promise<void>;
-    }
     interface ApIcon {
         "icon"?: Icons;
     }
@@ -46,10 +42,6 @@ export namespace Components {
     interface ApLoading {
     }
     interface ApModal {
-    }
-    interface ApNavi {
-        "links": ApNaviLink[];
-        "position": 'fixed' | 'sticky';
     }
     interface ApPost {
         "imgHref"?: string;
@@ -147,12 +139,6 @@ declare global {
         prototype: HTMLApErrorElement;
         new (): HTMLApErrorElement;
     };
-    interface HTMLApHeadElement extends Components.ApHead, HTMLStencilElement {
-    }
-    var HTMLApHeadElement: {
-        prototype: HTMLApHeadElement;
-        new (): HTMLApHeadElement;
-    };
     interface HTMLApIconElement extends Components.ApIcon, HTMLStencilElement {
     }
     var HTMLApIconElement: {
@@ -176,12 +162,6 @@ declare global {
     var HTMLApModalElement: {
         prototype: HTMLApModalElement;
         new (): HTMLApModalElement;
-    };
-    interface HTMLApNaviElement extends Components.ApNavi, HTMLStencilElement {
-    }
-    var HTMLApNaviElement: {
-        prototype: HTMLApNaviElement;
-        new (): HTMLApNaviElement;
     };
     interface HTMLApPostElement extends Components.ApPost, HTMLStencilElement {
     }
@@ -283,12 +263,10 @@ declare global {
         "ap-announce": HTMLApAnnounceElement;
         "ap-checkbox": HTMLApCheckboxElement;
         "ap-error": HTMLApErrorElement;
-        "ap-head": HTMLApHeadElement;
         "ap-icon": HTMLApIconElement;
         "ap-image": HTMLApImageElement;
         "ap-loading": HTMLApLoadingElement;
         "ap-modal": HTMLApModalElement;
-        "ap-navi": HTMLApNaviElement;
         "ap-post": HTMLApPostElement;
         "ap-posts": HTMLApPostsElement;
         "ap-root": HTMLApRootElement;
@@ -330,9 +308,6 @@ declare namespace LocalJSX {
     datetime: (d: number) => string;
   };
     }
-    interface ApHead {
-        "pageTitle"?: string;
-    }
     interface ApIcon {
         "icon"?: Icons;
     }
@@ -344,10 +319,6 @@ declare namespace LocalJSX {
     }
     interface ApModal {
         "onClose"?: (event: CustomEvent<any>) => void;
-    }
-    interface ApNavi {
-        "links": ApNaviLink[];
-        "position"?: 'fixed' | 'sticky';
     }
     interface ApPost {
         "imgHref"?: string;
@@ -429,12 +400,10 @@ declare namespace LocalJSX {
         "ap-announce": ApAnnounce;
         "ap-checkbox": ApCheckbox;
         "ap-error": ApError;
-        "ap-head": ApHead;
         "ap-icon": ApIcon;
         "ap-image": ApImage;
         "ap-loading": ApLoading;
         "ap-modal": ApModal;
-        "ap-navi": ApNavi;
         "ap-post": ApPost;
         "ap-posts": ApPosts;
         "ap-root": ApRoot;
@@ -460,12 +429,10 @@ declare module "@stencil/core" {
             "ap-announce": LocalJSX.ApAnnounce & JSXBase.HTMLAttributes<HTMLApAnnounceElement>;
             "ap-checkbox": LocalJSX.ApCheckbox & JSXBase.HTMLAttributes<HTMLApCheckboxElement>;
             "ap-error": LocalJSX.ApError & JSXBase.HTMLAttributes<HTMLApErrorElement>;
-            "ap-head": LocalJSX.ApHead & JSXBase.HTMLAttributes<HTMLApHeadElement>;
             "ap-icon": LocalJSX.ApIcon & JSXBase.HTMLAttributes<HTMLApIconElement>;
             "ap-image": LocalJSX.ApImage & JSXBase.HTMLAttributes<HTMLApImageElement>;
             "ap-loading": LocalJSX.ApLoading & JSXBase.HTMLAttributes<HTMLApLoadingElement>;
             "ap-modal": LocalJSX.ApModal & JSXBase.HTMLAttributes<HTMLApModalElement>;
-            "ap-navi": LocalJSX.ApNavi & JSXBase.HTMLAttributes<HTMLApNaviElement>;
             "ap-post": LocalJSX.ApPost & JSXBase.HTMLAttributes<HTMLApPostElement>;
             "ap-posts": LocalJSX.ApPosts & JSXBase.HTMLAttributes<HTMLApPostsElement>;
             "ap-root": LocalJSX.ApRoot & JSXBase.HTMLAttributes<HTMLApRootElement>;

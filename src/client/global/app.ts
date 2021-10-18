@@ -6,7 +6,6 @@ import '../../shared-web/components/ap-icon/ap-icon';
 import '../../shared-web/components/ap-image/ap-image';
 import '../../shared-web/components/ap-loading/ap-loading';
 import '../../shared-web/components/ap-modal/ap-modal';
-import '../../shared-web/components/ap-navi/ap-navi';
 import '../../shared-web/components/ap-post/ap-post';
 import '../../shared-web/components/ap-posts/ap-posts';
 import '../../shared-web/components/ap-root/ap-root';

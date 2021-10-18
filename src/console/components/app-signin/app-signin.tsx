@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 
 @Component({
@@ -6,6 +7,9 @@ import { App } from '../../app/app';
   styleUrl: 'app-signin.scss',
 })
 export class AppSignIn {
+  @Prop()
+  activePage!: boolean;
+
   @Prop()
   app!: App;
 
@@ -19,6 +23,10 @@ export class AppSignIn {
 
   render() {
     const msgs = this.app.msgs;
+
+    if (this.activePage) {
+      setDocumentTitle(this.app.msgs.signIn.pageTitle);
+    }
 
     return (
       <Host>

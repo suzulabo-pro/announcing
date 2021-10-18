@@ -1,11 +1,10 @@
 import { Component, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { setHeaderButtons } from '../../../shared-web';
+import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
   FirestoreUpdatedEvent,
-  PageVisible,
   PromiseState,
   pushRoute,
   redirectRoute,
@@ -17,25 +16,7 @@ import {
 })
 export class AppPost {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
-
-  @Listen('PageActivated')
-  listenPageActivated() {
-    setHeaderButtons([
-      {
-        label: this.app.msgs.post.edit,
-        href: `/${this.announceID}/${this.postID}/edit`,
-      },
-      {
-        label: this.app.msgs.post.delete,
-        handler: this.handlers.deletion.show,
-      },
-    ]);
-  }
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -143,13 +124,6 @@ export class AppPost {
     assertIsDefined(announceStatus);
     const postStatus = this.postState?.status();
     assertIsDefined(postStatus);
-
-    const { announce } = this.announceState?.result() || {};
-    const { post } = this.postState?.result() || {};
-    const pageTitle =
-      announce && post
-        ? this.app.msgs.post.pageTitle(post?.title || post?.body?.substr(0, 20) || '')
-        : this.app.msgs.common.pageTitle;
     return {
       msgs: this.app.msgs,
       announceID: this.announceID,
@@ -158,11 +132,30 @@ export class AppPost {
       postStatus,
       showDelete: this.showDelete,
       handlers: this.handlers,
-      pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      setHeaderButtons([
+        {
+          label: this.app.msgs.post.edit,
+          href: `/${this.announceID}/${this.postID}/edit`,
+        },
+        {
+          label: this.app.msgs.post.delete,
+          handler: this.handlers.deletion.show,
+        },
+      ]);
+
+      const { announce } = this.announceState?.result() || {};
+      const { post } = this.postState?.result() || {};
+      const docTitle =
+        announce && post
+          ? this.app.msgs.post.pageTitle(post?.title || post?.body?.substr(0, 20) || '')
+          : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -175,7 +168,6 @@ const render = (ctx: RenderContext) => {
       {renderAnnounce(ctx)}
       {renderPost(ctx)}
       {renderDeleteModal(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
 };

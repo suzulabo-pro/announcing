@@ -1,11 +1,11 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
   FirestoreUpdatedEvent,
   href,
-  PageVisible,
   PromiseState,
   pushRoute,
   User,
@@ -17,11 +17,7 @@ import {
 })
 export class AppHome {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
+  activePage!: boolean;
 
   @State()
   rerender = {};
@@ -110,14 +106,31 @@ export class AppHome {
 
     return {
       msgs: this.app.msgs,
-      pageTitle: this.app.msgs.home.pageTitle,
       userStatus,
       announces,
       handleSignOutClick: this.handleSignOutClick,
     };
   }
 
+  private headerButtons = [
+    {
+      label: this.app.msgs.home.about,
+      href: '/about',
+    },
+    {
+      label: this.app.msgs.home.signOut,
+      handler: async () => {
+        await this.app.signOut();
+        pushRoute('/signin');
+      },
+    },
+  ];
+
   render() {
+    if (this.activePage) {
+      setHeaderButtons(this.headerButtons);
+      setDocumentTitle(this.app.msgs.home.pageTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -131,7 +144,6 @@ const render = (ctx: RenderContext) => {
       <a class="create button" {...href('/create')}>
         {ctx.msgs.home.createAnnounceBtn}
       </a>
-      <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
 };
