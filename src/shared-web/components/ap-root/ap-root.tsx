@@ -94,7 +94,7 @@ export class ApRoot {
         <div class="header">
           {back && (
             <a class="back" {...href(back, true)}>
-              ←
+              <ap-icon icon="arrowReturnLeft" />
             </a>
           )}
           {headerTitle && <span class="title">{headerTitle}</span>}
