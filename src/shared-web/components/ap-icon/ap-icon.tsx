@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
+import arrowReturnLeft from 'bootstrap-icons/icons/arrow-return-left.svg';
 import bellSlash from 'bootstrap-icons/icons/bell-slash.svg';
 import bell from 'bootstrap-icons/icons/bell.svg';
 import squareChecked from 'bootstrap-icons/icons/check2-square.svg';
@@ -33,6 +34,7 @@ const svgMap = {
   heart: toHTML(heart),
   bell: toHTML(bell),
   bellSlash: toHTML(bellSlash),
+  arrowReturnLeft: toHTML(arrowReturnLeft),
 };
 export type Icons = keyof typeof svgMap;
 

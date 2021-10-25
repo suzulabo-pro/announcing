@@ -1,5 +1,4 @@
 import { Component, h, Host, Listen } from '@stencil/core';
-import { BeforePageRenderEvent, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 import { PostNotificationRecievedEvent } from '../../app/datatypes';
 import { AppFirebase } from '../../app/firebase';
@@ -98,21 +97,6 @@ export class AppRoot {
     }
   }
 
-  private handleBeforePageRender = (event: BeforePageRenderEvent) => {
-    if (event.detail.tag == 'app-home') {
-      setHeaderButtons([
-        {
-          label: this.app.msgs.home.config,
-          href: '/config',
-        },
-        {
-          label: this.app.msgs.home.about,
-          href: '/about',
-        },
-      ]);
-    }
-  };
-
   async componentWillLoad() {
     await this.app.init();
   }
@@ -120,11 +104,7 @@ export class AppRoot {
   render() {
     return (
       <Host>
-        <ap-root
-          routeMatches={matches}
-          componentProps={{ app: this.app }}
-          onBeforePageRender={this.handleBeforePageRender}
-        />
+        <ap-root routeMatches={matches} componentProps={{ app: this.app }} />
       </Host>
     );
   }

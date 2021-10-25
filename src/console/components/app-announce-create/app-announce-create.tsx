@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   ANNOUNCE_META_DESC_MAX_LENGTH,
@@ -12,18 +13,13 @@ import {
 })
 export class AppAnnounceCreate {
   @Prop()
+  activePage!: boolean;
+
+  @Prop()
   app!: App;
 
   @State()
   values = { name: '', desc: '' };
-
-  private naviLinks = [
-    {
-      label: this.app.msgs.common.back,
-      href: '/',
-      back: true,
-    },
-  ];
 
   private handlers = {
     input: {
@@ -47,12 +43,13 @@ export class AppAnnounceCreate {
       msgs: this.app.msgs,
       values: this.values,
       handlers: this.handlers,
-      naviLinks: this.naviLinks,
-      pageTitle: this.app.msgs.announceCreate.pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      setDocumentTitle(this.app.msgs.announceCreate.pageTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -80,8 +77,6 @@ const render = (ctx: RenderContext) => {
           {ctx.msgs.announceCreate.form.btn}
         </button>
       </div>
-      <ap-navi links={ctx.naviLinks} />
-      <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
 };

@@ -18,7 +18,14 @@ ap-root {
 
     a.back {
       text-decoration: none;
-      padding: 10px;
+      font-size: 20px;
+      align-self: stretch;
+
+      display: flex;
+      align-items: center;
+
+      padding-left: 10px;
+      padding-right: 40px;
     }
     a.button,
     button {

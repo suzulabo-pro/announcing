@@ -1,4 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
+import { setDocumentTitle, setHeaderButtons, setHeaderTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 
 @Component({
@@ -6,6 +7,9 @@ import { App } from '../../app/app';
   styleUrl: 'app-signin.scss',
 })
 export class AppSignIn {
+  @Prop()
+  activePage!: boolean;
+
   @Prop()
   app!: App;
 
@@ -17,8 +21,21 @@ export class AppSignIn {
     return this.app.signInTwitter();
   };
 
+  private headerButtons = [
+    {
+      label: this.app.msgs.common.about,
+      href: '/about',
+    },
+  ];
+
   render() {
     const msgs = this.app.msgs;
+
+    if (this.activePage) {
+      setHeaderButtons(this.headerButtons);
+      setHeaderTitle(this.app.msgs.common.pageTitle);
+      setDocumentTitle(this.app.msgs.signIn.pageTitle);
+    }
 
     return (
       <Host>

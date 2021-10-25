@@ -1,5 +1,6 @@
-import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
+import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   ANNOUNCE_META_DESC_MAX_LENGTH,
@@ -18,12 +19,8 @@ import { isURL } from '../../utils/isurl';
   styleUrl: 'app-announce-edit.scss',
 })
 export class AppAnnounceEdit {
-  @Listen('PageActivated')
-  listenPageActivated() {
-    this.announceState = undefined;
-    this.showDeletion = false;
-    this.showDeleteConfirm = false;
-  }
+  @Prop()
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -31,9 +28,12 @@ export class AppAnnounceEdit {
   @Prop()
   announceID!: string;
 
+  @Watch('activePage')
   @Watch('announceID')
   watchAnnounceID() {
     this.announceState = undefined;
+    this.showDeletion = false;
+    this.showDeleteConfirm = false;
   }
 
   @State()
@@ -169,13 +169,18 @@ export class AppAnnounceEdit {
       showDeletion: this.showDeletion,
       showDeleteConfirm: this.showDeleteConfirm,
       handlers: this.handlers,
-      pageTitle: announce
-        ? this.app.msgs.announceEdit.pageTitle(announce.name)
-        : this.app.msgs.common.pageTitle,
     };
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const docTitle = announce
+        ? this.app.msgs.announceEdit.pageTitle(announce.name)
+        : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
+
     return render(this.renderContext());
   }
 }
@@ -183,12 +188,7 @@ export class AppAnnounceEdit {
 type RenderContext = ReturnType<AppAnnounceEdit['renderContext']>;
 
 const render = (ctx: RenderContext) => {
-  return (
-    <Host>
-      {renderForm(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
-    </Host>
-  );
+  return <Host>{renderForm(ctx)}</Host>;
 };
 
 const renderForm = (ctx: RenderContext) => {

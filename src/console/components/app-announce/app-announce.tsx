@@ -1,12 +1,12 @@
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import QRCodeStyling from 'qr-code-styling';
 import { AsyncReturnType } from 'type-fest';
+import { setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
 import {
   assertIsDefined,
   FirestoreUpdatedEvent,
   href,
-  PageVisible,
   PromiseState,
   redirectRoute,
 } from '../../shared';
@@ -17,11 +17,7 @@ import {
 })
 export class AppAnnounce {
   @Prop()
-  pageVisible!: PageVisible;
-
-  componentShouldUpdate() {
-    return this.pageVisible.shouldUpdate();
-  }
+  activePage!: boolean;
 
   @Prop()
   app!: App;
@@ -151,15 +147,10 @@ export class AppAnnounce {
   private renderContext() {
     const announceStatus = this.announceState?.status();
     assertIsDefined(announceStatus);
-    const { announce } = this.announceState?.result() || {};
-    const pageTitle = announce
-      ? this.app.msgs.announce.pageTitle(announce.name)
-      : this.app.msgs.common.pageTitle;
     return {
       msgs: this.app.msgs,
       announceID: this.announceID,
       announceStatus,
-      pageTitle,
       showURL: this.showURL,
       showQRCode: this.showQRCode,
       clientURL: this.clientURL,
@@ -168,6 +159,13 @@ export class AppAnnounce {
   }
 
   render() {
+    if (this.activePage) {
+      const { announce } = this.announceState?.result() || {};
+      const docTitle = announce
+        ? this.app.msgs.announce.pageTitle(announce.name)
+        : this.app.msgs.common.pageTitle;
+      setDocumentTitle(docTitle);
+    }
     return render(this.renderContext());
   }
 }
@@ -179,7 +177,6 @@ const render = (ctx: RenderContext) => {
     <Host>
       {renderContent(ctx)}
       {renderURLModal(ctx)}
-      <ap-head pageTitle={ctx.pageTitle} />
     </Host>
   );
 };
