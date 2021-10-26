@@ -13,7 +13,18 @@ ap-root {
 
     min-height: 48px;
     background-color: var(--header-bk-color);
-    color: var(--header-color);
+
+    z-index: 9999;
+    position: sticky;
+    top: 0;
+
+    @media (orientation: portrait) {
+      position: fixed;
+      top: unset;
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
 
     .spacer {
       flex-grow: 1;
@@ -32,7 +43,7 @@ ap-root {
     }
     a.button,
     button {
-      margin: 5px;
+      margin-right: 10px;
     }
   }
 
