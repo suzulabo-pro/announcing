@@ -25,9 +25,7 @@ export const pushRoute = (path: string, back?: boolean) => {
 
 export const restoreScroll = () => {
   const scrollY = history.state?.scrollY;
-  if (scrollY != null) {
-    window.scroll(0, scrollY);
-  }
+  window.scroll(0, scrollY || 0);
 };
 
 const hrefCache = new Map<string, { href: string; onClick: (ev: MouseEvent) => void }>();
