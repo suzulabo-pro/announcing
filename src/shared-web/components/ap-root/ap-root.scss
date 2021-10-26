@@ -17,6 +17,8 @@ ap-root {
     z-index: 9999;
     position: sticky;
     top: 0;
+    padding-top: env(safe-area-inset-top);
+    padding-right: max(10px, env(safe-area-inset-right));
 
     @media (orientation: portrait) {
       position: fixed;
@@ -24,6 +26,8 @@ ap-root {
       bottom: 0;
       left: 0;
       right: 0;
+
+      padding-top: unset;
     }
 
     .spacer {
@@ -38,12 +42,18 @@ ap-root {
       display: flex;
       align-items: center;
 
-      padding-left: 10px;
-      padding-right: 40px;
+      padding: 10px 40px 10px max(20px, env(safe-area-inset-left));
+
+      @media (orientation: portrait) {
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
     }
     a.button,
     button {
-      margin-right: 10px;
+      margin: 10px 0 10px 10px;
+      @media (orientation: portrait) {
+        margin-bottom: max(10px, env(safe-area-inset-bottom));
+      }
     }
   }
 
