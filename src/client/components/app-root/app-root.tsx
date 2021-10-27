@@ -11,6 +11,7 @@ const matches: RouteMatch[] = [
   {
     pattern: '',
     tag: 'app-home',
+    reload: true,
   },
   {
     pattern: 'config',

@@ -57,6 +57,10 @@ export class ApRoot {
   private shouldRestoreScroll = false;
   private tags = new Map<string, { params: Record<string, any> }>();
 
+  private handleReloadClick = () => {
+    location.reload();
+  };
+
   render() {
     const p = this.path;
     if (!p) {
@@ -98,6 +102,11 @@ export class ApRoot {
             <a class="back" {...href(back, true)}>
               <ap-icon icon="arrowReturnLeft" />
             </a>
+          )}
+          {m.match.reload && (
+            <button class="reload clear" onClick={this.handleReloadClick}>
+              <ap-icon icon="reload" />
+            </button>
           )}
           {headerTitle && <span class="title">{headerTitle}</span>}
           <span class="spacer" />
