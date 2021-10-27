@@ -43,6 +43,7 @@ export class ApRoot {
 
     if (this.path != p) {
       this.path = p;
+      this.shouldRestoreScroll = true;
       setHeaderButtons([]);
       setHeaderTitle('');
       setDocumentTitle('');
@@ -53,6 +54,7 @@ export class ApRoot {
     this.handlePopState();
   }
 
+  private shouldRestoreScroll = false;
   private tags = new Map<string, { params: Record<string, any> }>();
 
   render() {
@@ -132,6 +134,9 @@ export class ApRoot {
   }
 
   componentDidRender() {
-    restoreScroll();
+    if (this.shouldRestoreScroll) {
+      restoreScroll();
+      this.shouldRestoreScroll = false;
+    }
   }
 }
