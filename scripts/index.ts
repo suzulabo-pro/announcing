@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
 import { Cmd, RunP, RunS, runScript, ScriptEntries } from './scripts';
@@ -93,6 +94,8 @@ const main = async () => {
   }
 
   const args = process.argv.slice(3);
+
+  console.log(`## ${format(Date.now(), 'HH:mm:ss')} ##`, '\n');
 
   await runScript(entries, name, args);
 };
