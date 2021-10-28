@@ -1,4 +1,25 @@
-import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
+import { Component, h, Host, Method, Prop, State } from '@stencil/core';
+import { fromError, get as getStack } from 'stacktrace-js';
+
+const genErrorReport = async (error: any) => {
+  const errorTraces = await fromError(error);
+  const curTraces = await getStack({});
+
+  const reports = [];
+  reports.push(new Date().toISOString(), '', error['message'] || '(No Message)', '');
+  if (Object.keys(error).length > 0) {
+    reports.push(JSON.stringify(error), '');
+  }
+  reports.push(
+    '## Stack',
+    ...errorTraces.map(v => v.toString()),
+    '',
+    '## Current Stack',
+    ...curTraces.map(v => v.toString()),
+  );
+
+  return reports.join('\r\n');
+};
 
 @Component({
   tag: 'ap-error',
@@ -26,30 +47,14 @@ export class ApError {
   @State()
   showErrors = false;
 
-  private errors = [] as { time: Date; msg: string }[];
-
-  private addError(msg: string) {
-    this.errors.push({ time: new Date(), msg: msg });
+  @Method()
+  async showError(error: any) {
+    this.errorDetail = await genErrorReport(error);
     this.show = true;
     this.showErrors = false;
   }
 
-  @Listen('error', { target: 'window' })
-  handleError(event: ErrorEvent) {
-    console.error('handleError', event);
-    event.preventDefault();
-
-    this.addError(event.error.stack);
-  }
-
-  @Listen('unhandledrejection', { target: 'window' })
-  handleUnhandledRejection(event: PromiseRejectionEvent) {
-    console.error('handleUnhandledRejection', event);
-    event.preventDefault();
-
-    const reason = event.reason;
-    this.addError(reason?.toString() || reason?.message);
-  }
+  private errorDetail?: string;
 
   private handleClose = () => {
     this.show = false;
@@ -75,16 +80,7 @@ export class ApError {
                   {this.msgs.showErrors}
                 </button>
               )}
-              {this.showErrors && (
-                <div class="errors">
-                  {[...this.errors]
-                    .reverse()
-                    .map(v => {
-                      return `${this.msgs.datetime(v.time.getTime())}\n${v.msg}\n`;
-                    })
-                    .join('\n')}
-                </div>
-              )}
+              {this.showErrors && <div class="errors">{this.errorDetail}</div>}
             </div>
           </ap-modal>
         )}

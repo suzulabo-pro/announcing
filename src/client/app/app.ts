@@ -72,12 +72,30 @@ export class App {
 
   async processLoading(f: () => Promise<void>) {
     const loading = document.querySelector('ap-loading');
-    loading?.classList.add('show');
+    if (!loading) {
+      alert('missing ap-loading');
+      return;
+    }
+    loading.classList.add('show');
     try {
       await f();
+    } catch (err) {
+      await this.showError(err);
+      throw err;
     } finally {
-      loading?.classList.remove('show');
+      loading.classList.remove('show');
     }
+  }
+
+  showError(error: Error) {
+    const apError = document.querySelector('ap-error');
+    if (!apError) {
+      alert('missing ap-error');
+      return;
+    }
+
+    apError.msgs = this.appMsg.msgs.error;
+    return apError.showError(error);
   }
 
   get msgs() {

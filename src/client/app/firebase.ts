@@ -282,7 +282,7 @@ export class AppFirebase {
     const params: RegisterNotificationParams = {
       method: 'RegisterNotification',
       reqTime,
-      token,
+      token: token,
       signKey,
       sign,
       lang,

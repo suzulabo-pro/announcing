@@ -31,6 +31,7 @@ export namespace Components {
     showErrors: string;
     datetime: (d: number) => string;
   };
+        "showError": (error: any) => Promise<void>;
     }
     interface ApIcon {
         "icon"?: Icons;
