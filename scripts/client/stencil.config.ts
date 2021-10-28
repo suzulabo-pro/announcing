@@ -68,6 +68,7 @@ const outputTargetWww: OutputTargetWww = isCapacitor
 export const config: Config = {
   globalScript: `${ROOT_DIR}/src/client/global/app.ts`,
   srcDir: `${ROOT_DIR}/src/client`,
+  sourceMap: isDev,
   taskQueue: 'async',
   outputTargets: [outputTargetWww],
   plugins: [
