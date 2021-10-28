@@ -94,6 +94,7 @@ export class App {
       return;
     }
 
+    apError.repo = this.buildInfo.repo;
     apError.msgs = this.appMsg.msgs.error;
     return apError.showError(error);
   }

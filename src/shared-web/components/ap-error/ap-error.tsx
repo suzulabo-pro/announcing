@@ -1,12 +1,12 @@
 import { Component, h, Host, Method, Prop, State } from '@stencil/core';
 import { fromError, get as getStack } from 'stacktrace-js';
 
-const genErrorReport = async (error: any) => {
+const genErrorReport = async (repo: string, error: any) => {
   const errorTraces = await fromError(error);
   const curTraces = await getStack({});
 
   const reports = [];
-  reports.push(new Date().toISOString(), '', error['message'] || '(No Message)', '');
+  reports.push(new Date().toISOString(), repo, '', error['message'] || '(No Message)', '');
   if (Object.keys(error).length > 0) {
     reports.push(JSON.stringify(error), '');
   }
@@ -41,6 +41,9 @@ export class ApError {
     },
   };
 
+  @Prop()
+  repo!: string;
+
   @State()
   show = false;
 
@@ -49,7 +52,7 @@ export class ApError {
 
   @Method()
   async showError(error: any) {
-    this.errorDetail = await genErrorReport(error);
+    this.errorDetail = await genErrorReport(this.repo, error);
     this.show = true;
     this.showErrors = false;
   }
