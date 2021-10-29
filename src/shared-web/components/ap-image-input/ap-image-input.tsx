@@ -71,7 +71,11 @@ export class ApImageInput {
         return (
           <Fragment>
             <div class="image">
-              <img class={{ border: !!this.border }} src={imageData} />
+              <img
+                class={{ border: !!this.border }}
+                src={imageData}
+                onClick={this.handlers.click}
+              />
               <button class="delete clear" onClick={this.handlers.delete}>
                 <ap-icon icon="trash" />
               </button>
