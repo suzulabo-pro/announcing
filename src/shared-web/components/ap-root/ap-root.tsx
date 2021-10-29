@@ -2,7 +2,7 @@ import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { href, redirectRoute, restoreScroll, RouteMatch } from '../../';
 import { pathMatcher } from '../../../shared';
 import { setDocumentTitle } from '../../document-title';
-import { getHeaderButtons, getHeaderTitle, setHeaderButtons, setHeaderTitle } from '../../header';
+import { getHeaderButtons, setHeaderButtons } from '../../header';
 
 @Component({
   tag: 'ap-root',
@@ -45,7 +45,6 @@ export class ApRoot {
       this.path = p;
       this.shouldRestoreScroll = true;
       setHeaderButtons([]);
-      setHeaderTitle('');
       setDocumentTitle('');
     }
   }
@@ -93,8 +92,6 @@ export class ApRoot {
       return bk(m.params);
     })();
 
-    const headerTitle = getHeaderTitle();
-
     return (
       <Host>
         <div class="header">
@@ -108,7 +105,6 @@ export class ApRoot {
               <ap-icon icon="reload" />
             </button>
           )}
-          {headerTitle && <span class="title">{headerTitle}</span>}
           <span class="spacer" />
           {getHeaderButtons().map(v => {
             if (v.href) {

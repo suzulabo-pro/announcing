@@ -1,5 +1,5 @@
 import { Component, h, Host, Prop } from '@stencil/core';
-import { setDocumentTitle, setHeaderButtons, setHeaderTitle } from '../../../shared-web';
+import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
 import { App } from '../../app/app';
 
 @Component({
@@ -33,7 +33,6 @@ export class AppSignIn {
 
     if (this.activePage) {
       setHeaderButtons(this.headerButtons);
-      setHeaderTitle(this.app.msgs.common.pageTitle);
       setDocumentTitle(this.app.msgs.signIn.pageTitle);
     }
 
