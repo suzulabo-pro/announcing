@@ -34,6 +34,7 @@ export const msgs: Msgs = {
   },
   signIn: {
     pageTitle: `ログイン - ${titleSuffix}`,
+    title: 'Announcing♪ 管理コンソール',
     googleBtn: 'Googleでログイン',
     twitterBtn: 'Twitterでログイン',
     keepSignedIn: 'ログイン状態を保存',

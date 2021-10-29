@@ -73,9 +73,6 @@ export class AppAnnounceEdit {
       },
     },
     image: {
-      resize: (ev: CustomEvent<boolean>) => {
-        this.app.loading = ev.detail;
-      },
       change: (ev: CustomEvent<string>) => {
         this.values = { ...this.values, icon: undefined, iconData: ev.detail };
       },
@@ -94,21 +91,17 @@ export class AppAnnounceEdit {
       },
       deleteClick: async () => {
         this.showDeleteConfirm = false;
-        this.app.loading = true;
-        try {
+        await this.app.processLoading(async () => {
           await this.app.deleteAnnounce(this.announceID);
           pushRoute('/');
-        } finally {
-          this.app.loading = false;
-        }
+        });
       },
     },
     submit: async () => {
-      if (!this.values?.name) {
-        return;
-      }
-      this.app.loading = true;
-      try {
+      await this.app.processLoading(async () => {
+        if (!this.values?.name) {
+          return;
+        }
         await this.app.editAnnounce(
           this.announceID,
           this.values.name,
@@ -118,9 +111,7 @@ export class AppAnnounceEdit {
           this.values.icon ? undefined : this.values.iconData?.split(',')[1],
         );
         pushRoute(`/${this.announceID}`);
-      } finally {
-        this.app.loading = false;
-      }
+      });
     },
   };
 
@@ -211,7 +202,6 @@ const renderForm = (ctx: RenderContext) => {
           data={ctx.values.iconData}
           resizeRect={{ width: 200, height: 200 }}
           border={true}
-          onImageResizing={ctx.handlers.image.resize}
           onImageChange={ctx.handlers.image.change}
         />
         <ap-input

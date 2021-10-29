@@ -1,4 +1,6 @@
 ap-error {
+  --modal-z-index: var(--error-z-index);
+
   .error-modal {
     background-color: var(--bk-color);
     border-radius: 5px;
@@ -28,6 +30,7 @@ ap-error {
     .errors {
       align-self: stretch;
       white-space: pre-line;
+      overflow-wrap: break-word;
       font-size: 0.9rem;
       max-height: 300px;
       border: 1px solid var(--border-color);

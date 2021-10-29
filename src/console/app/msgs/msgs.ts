@@ -19,6 +19,7 @@ export interface Msgs {
   };
   signIn: {
     pageTitle: string;
+    title: string;
     googleBtn: string;
     twitterBtn: string;
     keepSignedIn: string;

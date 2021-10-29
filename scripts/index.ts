@@ -1,3 +1,4 @@
+import { format } from 'date-fns';
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
 import { Cmd, RunP, RunS, runScript, ScriptEntries } from './scripts';
@@ -86,10 +87,15 @@ const entries: ScriptEntries = [
 const main = async () => {
   const name = process.argv[2];
   if (!name) {
-    throw 'no script';
+    const scripts = entries.map(v => v[0]);
+    scripts.sort();
+    console.log(scripts.join('\r\n'));
+    return;
   }
 
   const args = process.argv.slice(3);
+
+  console.log(`## ${format(Date.now(), 'HH:mm:ss')} ##`, '\n');
 
   await runScript(entries, name, args);
 };

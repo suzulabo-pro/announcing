@@ -93,16 +93,12 @@ export class AppPostForm {
       img: (ev: CustomEvent<string>) => {
         this.values = { ...this.values, imgData: ev.detail };
       },
-      resizing: (ev: CustomEvent<boolean>) => {
-        this.app.loading = ev.detail;
-      },
     },
     submit: async () => {
-      if (!this.values) {
-        return;
-      }
-      this.app.loading = true;
-      try {
+      await this.app.processLoading(async () => {
+        if (!this.values) {
+          return;
+        }
         await this.app.putPost(
           this.announceID,
           this.values.title,
@@ -113,9 +109,7 @@ export class AppPostForm {
         );
         this.values = undefined;
         pushRoute(`/${this.announceID}`);
-      } finally {
-        this.app.loading = false;
-      }
+      });
     },
   };
 
@@ -224,7 +218,6 @@ const renderForm = (ctx: RenderContext) => {
           label={ctx.msgs.postForm.img}
           resizeRect={{ width: 800, height: 800 }}
           data={ctx.values.imgData}
-          onImageResizing={ctx.handlers.input.resizing}
           onImageChange={ctx.handlers.input.img}
         />
         <ap-input

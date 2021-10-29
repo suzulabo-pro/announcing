@@ -35,7 +35,7 @@
     "@capacitor/storage": "1.2.0",
     "@google-cloud/pubsub": "2.18.1",
     "@rollup/plugin-replace": "3.0.0",
-    "@stencil/core": "2.8.1",
+    "@stencil/core": "2.9.0",
     "@stencil/sass": "1.5.0",
     "@stencil/store": "1.5.0",
     "ajv": "8.6.3",
@@ -61,6 +61,7 @@
     "qr-code-styling": "1.6.0-rc.1",
     "rollup-plugin-node-polyfills": "0.2.1",
     "source-map-support": "0.5.20",
+    "stacktrace-js": "2.0.2",
     "tweetnacl": "1.0.3",
     "workbox-build": "4.3.1"
   }

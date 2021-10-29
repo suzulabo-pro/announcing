@@ -1,4 +1,4 @@
-import { Component, Event, EventEmitter, Fragment, h, Host, Prop } from '@stencil/core';
+import { Component, Event, EventEmitter, Fragment, h, Host, Prop, State } from '@stencil/core';
 import pica from 'pica';
 
 @Component({
@@ -19,10 +19,10 @@ export class ApImageInput {
   border?: boolean;
 
   @Event()
-  imageResizing!: EventEmitter<boolean>;
-
-  @Event()
   imageChange!: EventEmitter<string>;
+
+  @State()
+  resizing = false;
 
   private handlers = {
     fileInput: null as HTMLInputElement | null,
@@ -33,19 +33,20 @@ export class ApImageInput {
       this.handlers.fileInput?.click();
     },
     change: async () => {
-      this.imageResizing.emit(true);
+      if (!this.handlers.fileInput?.files) {
+        return;
+      }
+      const file = this.handlers.fileInput.files[0];
+      if (!file) {
+        return;
+      }
+
+      this.resizing = true;
       try {
-        if (!this.handlers.fileInput?.files) {
-          return;
-        }
-        const file = this.handlers.fileInput.files[0];
-        if (!file) {
-          return;
-        }
         const newData = await resizeImage(file, this.resizeRect.width, this.resizeRect.height);
         this.imageChange.emit(newData);
       } finally {
-        this.imageResizing.emit(false);
+        this.resizing = false;
       }
       this.handlers.fileInput.value = '';
     },
@@ -70,7 +71,11 @@ export class ApImageInput {
         return (
           <Fragment>
             <div class="image">
-              <img class={{ border: !!this.border }} src={imageData} />
+              <img
+                class={{ border: !!this.border }}
+                src={imageData}
+                onClick={this.handlers.click}
+              />
               <button class="delete clear" onClick={this.handlers.delete}>
                 <ap-icon icon="trash" />
               </button>
@@ -89,6 +94,7 @@ export class ApImageInput {
           ref={this.handlers.ref}
           onChange={this.handlers.change}
         />
+        {this.resizing && <ap-loading class="show" />}
       </Host>
     );
   }

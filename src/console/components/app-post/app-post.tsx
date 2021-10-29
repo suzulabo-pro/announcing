@@ -94,13 +94,11 @@ export class AppPost {
 
       deleteClick: async () => {
         this.showDelete = false;
-        this.app.loading = true;
-        try {
+
+        await this.app.processLoading(async () => {
           await this.app.deletePost(this.announceID, this.postID);
           pushRoute(`/${this.announceID}`, true);
-        } finally {
-          this.app.loading = false;
-        }
+        });
       },
     },
   };

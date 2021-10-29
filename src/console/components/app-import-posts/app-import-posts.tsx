@@ -75,13 +75,10 @@ export class AppImportPosts {
       }
       const keys = values.url ? generateKeys() : undefined;
 
-      this.app.loading = true;
-      try {
+      await this.app.processLoading(async () => {
         await this.app.editImportPosts(this.announceID, values.url, keys?.pubKey);
         this.values = { ...values, secKey: keys?.secKey };
-      } finally {
-        this.app.loading = false;
-      }
+      });
     },
   };
 

@@ -7,7 +7,7 @@ ap-modal {
   margin: 0;
   background-color: var(--modal-bk-color);
   backdrop-filter: blur(1px);
-  z-index: 999;
+  z-index: var(--modal-z-index);
 
   padding: 10px;
   display: flex;
@@ -16,7 +16,7 @@ ap-modal {
     background-color: var(--bk-color);
     border-radius: 5px;
     flex-grow: 1;
-    max-width: var(--modal-max-width, 400px);
+    max-width: min(var(--modal-max-width, 400px), 100%);
     margin: auto;
   }
 }

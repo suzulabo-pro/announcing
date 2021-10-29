@@ -3,6 +3,9 @@ ap-root {
   display: flex;
   flex-direction: column;
 
+  padding-top: env(safe-area-inset-top);
+  padding-bottom: env(safe-area-inset-bottom);
+
   div.header {
     display: flex;
     flex-direction: row;
@@ -10,7 +13,22 @@ ap-root {
 
     min-height: 48px;
     background-color: var(--header-bk-color);
-    color: var(--header-color);
+
+    z-index: var(--header-z-index);
+    position: sticky;
+    top: 0;
+    padding-top: env(safe-area-inset-top);
+    padding-right: max(10px, env(safe-area-inset-right));
+
+    @media (orientation: portrait) {
+      position: fixed;
+      top: unset;
+      bottom: 0;
+      left: 0;
+      right: 0;
+
+      padding-top: unset;
+    }
 
     .spacer {
       flex-grow: 1;
@@ -24,12 +42,18 @@ ap-root {
       display: flex;
       align-items: center;
 
-      padding-left: 10px;
-      padding-right: 40px;
+      padding: 10px 40px 10px max(20px, env(safe-area-inset-left));
+
+      @media (orientation: portrait) {
+        padding-bottom: max(10px, env(safe-area-inset-bottom));
+      }
     }
     a.button,
     button {
-      margin: 5px;
+      margin: 10px 0 10px 10px;
+      @media (orientation: portrait) {
+        margin-bottom: max(10px, env(safe-area-inset-bottom));
+      }
     }
   }
 
