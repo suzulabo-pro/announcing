@@ -38,6 +38,7 @@ export class AppSignIn {
 
     return (
       <Host>
+        <div class="title">{this.app.msgs.signIn.title}</div>
         <button onClick={this.handleGoogleClick}>
           <ap-icon icon="google"></ap-icon>
           {msgs.signIn.googleBtn}
