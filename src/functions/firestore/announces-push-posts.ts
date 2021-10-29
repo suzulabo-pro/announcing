@@ -4,6 +4,7 @@ import {
   EventContext,
   FirebaseAdminApp,
   Firestore,
+  getFirestore,
   MulticastMessage,
   Notification,
 } from '../firebase';
@@ -82,7 +83,7 @@ export const pushPosts = async (
     return;
   }
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const announceID = change.after.id;
 
   const devices = await getImmediateNotificationDevices(firestore, announceID);

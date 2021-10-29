@@ -1,5 +1,5 @@
 import { EditImportPostsParams, ImportPosts } from '../../shared';
-import { CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
+import { CallableContext, FirebaseAdminApp, getFirestore, serverTimestamp } from '../firebase';
 import { checkOwner } from '../utils/firestore';
 
 export const editImportPosts = async (
@@ -14,7 +14,7 @@ export const editImportPosts = async (
 
   const { id, url, pubKey } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   {
     const isOwner = await checkOwner(firestore, uid, id);

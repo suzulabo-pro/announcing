@@ -1,5 +1,5 @@
 import { Announce } from '../../shared';
-import { EventContext, FirebaseAdminApp, QueryDocumentSnapshot } from '../firebase';
+import { EventContext, FirebaseAdminApp, getFirestore, QueryDocumentSnapshot } from '../firebase';
 
 export const deleteAnnounce = async (
   qds: QueryDocumentSnapshot,
@@ -12,7 +12,7 @@ export const deleteAnnounce = async (
   const posts = Object.keys(announceData.posts).map(v => `announces/${id}/posts/${v}`);
   const pathes = [...posts, `announces/${id}/meta/${announceData.mid}`, `notif-imm/${id}`];
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   while (pathes.length > 0) {
     const c = pathes.splice(0, 500);

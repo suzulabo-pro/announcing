@@ -1,5 +1,11 @@
 import { DeleteAnnounceParams } from '../../shared';
-import { arrayRemove, CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
+import {
+  arrayRemove,
+  CallableContext,
+  FirebaseAdminApp,
+  getFirestore,
+  serverTimestamp,
+} from '../firebase';
 import { logger } from '../utils/logger';
 
 export const deleteAnnounce = async (
@@ -17,7 +23,7 @@ export const deleteAnnounce = async (
     throw new Error('missing id');
   }
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   const owners = await firestore.collection('users').where('announces', 'array-contains', id).get();
 

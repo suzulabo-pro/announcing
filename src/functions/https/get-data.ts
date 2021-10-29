@@ -1,5 +1,11 @@
 import { AnnounceMeta, Post } from '../../shared';
-import { DocumentReference, FirebaseAdminApp, HttpRequest, HttpResponse } from '../firebase';
+import {
+  DocumentReference,
+  FirebaseAdminApp,
+  getFirestore,
+  HttpRequest,
+  HttpResponse,
+} from '../firebase';
 import { Cache } from '../utils/cache';
 
 const cacheControl = 'public, max-age=31556952, s-maxage=86400, immutable';
@@ -28,7 +34,7 @@ export const getAnnounceMetaData = async (
 ) => {
   const { announceID, metaID } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const docRef = firestore.doc(`announces/${announceID}/meta/${metaID}`);
   const data = await getCacheFirst<AnnounceMeta>(docRef);
   if (!data) {
@@ -48,7 +54,7 @@ export const getAnnouncePostData = async (
 ) => {
   const { announceID, postID } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const docRef = firestore.doc(`announces/${announceID}/posts/${postID}`);
   const data = await getCacheFirst<Post>(docRef);
   if (!data) {
@@ -68,7 +74,7 @@ export const getImageData = async (
 ) => {
   const { imageID } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const docRef = firestore.doc(`images/${imageID}`);
   const data = await getCacheFirst<{ data: Buffer }>(docRef);
   if (!data) {

@@ -10,6 +10,9 @@ const packageAlias = new Map([
   ['crypto', undefined],
   ['firebase-functions/lib/logger/compat', 'firebase-functions'],
   ['source-map-support/register', 'source-map-support'],
+  ['firebase-admin/app', 'firebase-admin'],
+  ['firebase-admin/firestore', 'firebase-admin'],
+  ['firebase-admin/messaging', 'firebase-admin'],
 ]);
 const importedDefault = ['date-fns'];
 

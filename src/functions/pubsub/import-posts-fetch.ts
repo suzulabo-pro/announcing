@@ -1,11 +1,12 @@
-import { Announce, ImportPosts, Post } from '../../shared';
 import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { toDate } from 'date-fns-tz';
+import { Announce, ImportPosts, Post } from '../../shared';
 import {
   EventContext,
   FirebaseAdminApp,
   Firestore,
+  getFirestore,
   PubSubMessage,
   serverTimestamp,
   Timestamp,
@@ -39,7 +40,7 @@ export const pubsubImportPostsFetch = async (
 
   const { id, uT } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const docRef = firestore.doc(`import-posts/${id}`);
 
   await firestore.runTransaction(async t => {

@@ -3,6 +3,7 @@ import {
   CallableContext,
   fieldDelete,
   FirebaseAdminApp,
+  getFirestore,
   serverTimestamp,
   Timestamp,
 } from '../firebase';
@@ -22,7 +23,7 @@ export const putPost = async (
 
   const { id, title, body, link, imgData, editID } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   {
     const isOwner = await checkOwner(firestore, uid, id);

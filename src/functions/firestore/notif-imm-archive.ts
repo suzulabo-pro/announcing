@@ -1,5 +1,11 @@
 import { Lang } from '../../shared';
-import { DocumentSnapshot, EventContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
+import {
+  DocumentSnapshot,
+  EventContext,
+  FirebaseAdminApp,
+  getFirestore,
+  serverTimestamp,
+} from '../firebase';
 import { ImmediateNotification, ImmediateNotificationArchive } from '../utils/datatypes';
 import { incString } from '../utils/incstring';
 import { logger } from '../utils/logger';
@@ -28,7 +34,7 @@ export const archiveImmediateNotification = async (
 
   const { announceID } = imm;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   await firestore.runTransaction(async t => {
     const immediateRef = firestore.doc(`notif-imm/${announceID}`);

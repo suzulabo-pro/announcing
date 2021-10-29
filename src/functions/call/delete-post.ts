@@ -1,5 +1,11 @@
 import { Announce, DeletePostParams } from '../../shared';
-import { CallableContext, fieldDelete, FirebaseAdminApp, serverTimestamp } from '../firebase';
+import {
+  getFirestore,
+  CallableContext,
+  fieldDelete,
+  FirebaseAdminApp,
+  serverTimestamp,
+} from '../firebase';
 import { checkOwner } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
@@ -21,7 +27,7 @@ export const deletePost = async (
     throw new Error('missing postID');
   }
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   {
     const isOwner = await checkOwner(firestore, uid, id);
