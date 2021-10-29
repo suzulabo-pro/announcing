@@ -31,6 +31,11 @@ html {
 
   --page-margin-bottom: 70px;
   --page-max-width: 600px;
+
+  --error-z-index: 9999;
+  --loading-z-index: 9998;
+  --header-z-index: 9997;
+  --modal-z-index: 9996;
 }
 
 html,

@@ -11,7 +11,7 @@ ap-loading {
   right: 0;
   margin: 0;
   background-color: var(--loading-bk-color);
-  z-index: 998;
+  z-index: var(--error-z-index);
   cursor: wait;
 
   // https://codepen.io/dowding/pen/wJWpoY

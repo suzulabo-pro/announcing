@@ -14,7 +14,7 @@ ap-root {
     min-height: 48px;
     background-color: var(--header-bk-color);
 
-    z-index: 9999;
+    z-index: var(--header-z-index);
     position: sticky;
     top: 0;
     padding-top: env(safe-area-inset-top);

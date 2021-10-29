@@ -77,10 +77,6 @@ export class AppRoot {
 
   constructor() {
     const appMsg = new AppMsg();
-    const apError = document.querySelector('ap-error');
-    if (apError) {
-      //apError.msgs = appMsg.msgs.error;
-    }
     const appEnv = new AppEnv();
     const appFirebase = new AppFirebase(appEnv);
     const appStorage = new AppStorage();

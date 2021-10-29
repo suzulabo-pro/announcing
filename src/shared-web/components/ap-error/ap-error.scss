@@ -1,4 +1,6 @@
 ap-error {
+  --modal-z-index: var(--error-z-index);
+
   .error-modal {
     background-color: var(--bk-color);
     border-radius: 5px;

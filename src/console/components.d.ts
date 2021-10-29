@@ -31,6 +31,8 @@ export namespace Components {
     showErrors: string;
     datetime: (d: number) => string;
   };
+        "repo": string;
+        "showError": (error: any) => Promise<void>;
     }
     interface ApIcon {
         "icon"?: Icons;
@@ -335,6 +337,7 @@ declare namespace LocalJSX {
     showErrors: string;
     datetime: (d: number) => string;
   };
+        "repo": string;
     }
     interface ApIcon {
         "icon"?: Icons;
@@ -348,7 +351,6 @@ declare namespace LocalJSX {
         "data"?: string;
         "label"?: string;
         "onImageChange"?: (event: CustomEvent<string>) => void;
-        "onImageResizing"?: (event: CustomEvent<boolean>) => void;
         "resizeRect"?: { width: number; height: number };
     }
     interface ApInput {

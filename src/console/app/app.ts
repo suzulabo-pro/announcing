@@ -1,4 +1,4 @@
-import { Build, readTask } from '@stencil/core';
+import { Build } from '@stencil/core';
 import {
   Announce,
   AnnounceMetaBase,
@@ -45,32 +45,33 @@ export class App {
     document.title = v;
   }
 
-  private _loading = false;
-  set loading(v: boolean) {
-    this._loading = v;
-    this.setLoadingClass();
-  }
-
-  private setLoadingClass = () => {
-    readTask(() => {
-      const apLoading = document.querySelector('ap-loading');
-      if (apLoading) {
-        if (this._loading) {
-          apLoading.classList.add('show');
-        } else {
-          apLoading.classList.remove('show');
-        }
-      }
-    });
-  };
-
   async processLoading(f: () => Promise<void>) {
-    this.loading = true;
+    const loading = document.querySelector('ap-loading');
+    if (!loading) {
+      alert('missing ap-loading');
+      return;
+    }
+    loading.classList.add('show');
     try {
       await f();
+    } catch (err) {
+      await this.showError(err);
+      throw err;
     } finally {
-      this.loading = false;
+      loading.classList.remove('show');
     }
+  }
+
+  showError(error: Error) {
+    const apError = document.querySelector('ap-error');
+    if (!apError) {
+      alert('missing ap-error');
+      return;
+    }
+
+    apError.repo = this.buildInfo.repo;
+    apError.msgs = this.appMsg.msgs.error;
+    return apError.showError(error);
   }
 
   get msgs() {
