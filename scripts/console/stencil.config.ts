@@ -44,6 +44,7 @@ const isDev = process.argv.includes('--dev');
 export const config: Config = {
   globalScript: `${ROOT_DIR}/src/console/global/app.ts`,
   srcDir: `${ROOT_DIR}/src/console`,
+  sourceMap: isDev,
   taskQueue: 'async',
   outputTargets: [
     {
