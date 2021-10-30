@@ -5,7 +5,7 @@
     "-": "node -r esbuild-register scripts/index.ts"
   },
   "devDependencies": {
-    "@stencil/eslint-plugin": "github:suzulabo/stencil-eslint#0.3.1+",
+    "@stencil/eslint-plugin": "0.4.0",
     "@types/http-proxy": "1.17.7",
     "@types/jest": "27.0.2",
     "@types/node": "16.10.2",

@@ -17,11 +17,6 @@ module.exports = {
       parserOptions: {
         project: ['tsconfig.json', '*/**/tsconfig.json'],
       },
-      settings: {
-        react: {
-          version: '17.0.1',
-        },
-      },
       extends: [
         'eslint:recommended',
         'plugin:@typescript-eslint/recommended',
