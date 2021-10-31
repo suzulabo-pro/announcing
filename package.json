@@ -50,7 +50,7 @@
     "docsify-cli": "4.4.3",
     "esbuild": "0.13.4",
     "esbuild-register": "3.0.0",
-    "firebase": "9.1.1",
+    "firebase": "9.2.0",
     "firebase-admin": "10.0.0",
     "firebase-functions": "3.16.0",
     "firebase-tools": "9.20.0",
@@ -63,6 +63,7 @@
     "source-map-support": "0.5.20",
     "stacktrace-js": "2.0.2",
     "tweetnacl": "1.0.3",
+    "type-fest": "2.5.2",
     "workbox-build": "4.3.1"
   }
 }
