@@ -78,7 +78,9 @@ export class AppRoot {
   }
 
   async componentWillLoad() {
-    await this.app.init();
+    await this.app.processLoading(async () => {
+      await this.app.init();
+    });
   }
 
   private handleRedirect = (p: string) => {
