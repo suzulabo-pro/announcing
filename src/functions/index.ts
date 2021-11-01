@@ -1,9 +1,9 @@
-import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import 'firebase-functions/lib/logger/compat';
 import 'source-map-support/register';
 import { AppEnv } from '../shared';
 import { httpsCallHandler } from './call';
+import { getFirestore, initializeApp } from './firebase';
 import {
   announcesDeleteHandler,
   announcesUpdateHandler,
@@ -13,12 +13,12 @@ import { httpsRequestHandler } from './https';
 import { pubsubImportPostsFetch } from './pubsub/import-posts-fetch';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
-const adminApp = admin.initializeApp();
+const adminApp = initializeApp();
 const appEnv = new AppEnv().env;
 
 const region = functions.region(appEnv.functionsRegion);
 
-adminApp.firestore().settings({ ignoreUndefinedProperties: true });
+getFirestore(adminApp).settings({ ignoreUndefinedProperties: true });
 
 export const httpsCall = region.https.onCall((data, context) => {
   return httpsCallHandler(data, context, adminApp);

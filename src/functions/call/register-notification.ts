@@ -1,5 +1,5 @@
-import { bs62, Lang, RegisterNotificationParams } from '../../shared';
 import nacl from 'tweetnacl';
+import { bs62, Lang, RegisterNotificationParams } from '../../shared';
 import {
   arrayRemove,
   arrayUnion,
@@ -7,6 +7,7 @@ import {
   fieldDelete,
   FirebaseAdminApp,
   Firestore,
+  getFirestore,
   serverTimestamp,
   Transaction,
 } from '../firebase';
@@ -33,7 +34,7 @@ export const registerNotification = async (
     }
   }
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   const devicesRef = firestore.doc(`notif-devices/${token}`);
 
@@ -136,7 +137,7 @@ const updateNotification = (
   t: Transaction,
   adminApp: FirebaseAdminApp,
 ) => {
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   const updators = newDevice ? genUpdators(firestore, t, token, newDevice) : [];
   if (curDevice) {

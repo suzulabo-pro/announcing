@@ -1,6 +1,6 @@
-import { bs62, ImportPosts } from '../../shared';
 import nacl from 'tweetnacl';
-import { FirebaseAdminApp, HttpRequest, HttpResponse, Timestamp } from '../firebase';
+import { bs62, ImportPosts } from '../../shared';
+import { FirebaseAdminApp, getFirestore, HttpRequest, HttpResponse, Timestamp } from '../firebase';
 import { pubImportPostsFetch } from '../pubsub/import-posts-fetch';
 import { logger } from '../utils/logger';
 
@@ -35,7 +35,7 @@ export const pingImportPosts = async (
     return;
   }
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const docRef = firestore.doc(`import-posts/${announceID}`);
 
   await firestore.runTransaction(async t => {

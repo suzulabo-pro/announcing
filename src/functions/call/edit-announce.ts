@@ -1,5 +1,5 @@
 import { Announce, EditAnnounceParams } from '../../shared';
-import { CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
+import { CallableContext, FirebaseAdminApp, getFirestore, serverTimestamp } from '../firebase';
 import { announceMetaHash, checkOwner, storeImage } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
@@ -15,7 +15,7 @@ export const editAnnounce = async (
 
   const { id, name, desc, link, icon, newIcon } = params;
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
 
   {
     const isOwner = await checkOwner(firestore, uid, id);

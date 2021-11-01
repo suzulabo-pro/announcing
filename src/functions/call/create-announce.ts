@@ -1,5 +1,11 @@
 import { CreateAnnounceParams } from '../../shared';
-import { arrayUnion, CallableContext, FirebaseAdminApp, serverTimestamp } from '../firebase';
+import {
+  arrayUnion,
+  CallableContext,
+  FirebaseAdminApp,
+  getFirestore,
+  serverTimestamp,
+} from '../firebase';
 import { announceMetaHash, genAnnounceID } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
@@ -33,7 +39,7 @@ export const createAnnounce = async (
     uT: serverTimestamp(),
   };
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   const batch = firestore.batch();
   batch.create(firestore.doc(`announces/${id}`), announceData);
   batch.create(firestore.doc(`announces/${id}/meta/${mid}`), metaData);

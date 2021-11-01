@@ -25,7 +25,7 @@
     "jsxFactory": "h",
     "jsxFragmentFactory": "Fragment",
 
-    "lib": ["DOM", "ES2017"],
+    "lib": ["DOM", "ESNext"],
     "module": "ESNext",
     "target": "ESNext",
 

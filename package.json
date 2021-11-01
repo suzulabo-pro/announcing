@@ -1,21 +1,27 @@
 {
   "name": "announcing",
   "private": true,
+  "engines": {
+    "node": "14",
+    "npm": "7"
+  },
   "scripts": {
     "-": "node -r esbuild-register scripts/index.ts"
   },
   "devDependencies": {
-    "@stencil/eslint-plugin": "github:suzulabo/stencil-eslint#0.3.1+",
+    "@stencil/eslint-plugin": "0.4.0",
     "@types/http-proxy": "1.17.7",
     "@types/jest": "27.0.2",
     "@types/node": "16.10.2",
     "@types/pica": "5.1.3",
     "@typescript-eslint/eslint-plugin": "4.32.0",
     "@typescript-eslint/parser": "4.32.0",
+    "esbuild": "0.13.12",
     "esbuild-jest": "0.5.0",
     "eslint": "7.32.0",
     "eslint-config-prettier": "8.3.0",
     "eslint-plugin-react": "7.26.1",
+    "firebase-tools": "9.21.0",
     "jest": "27.2.4",
     "jszip": "3.7.1",
     "prettier": "2.4.1",
@@ -48,12 +54,10 @@
     "date-fns-tz": "1.1.6",
     "destyle.css": "3.0.0",
     "docsify-cli": "4.4.3",
-    "esbuild": "0.13.4",
     "esbuild-register": "3.0.0",
-    "firebase": "9.1.1",
-    "firebase-admin": "9.12.0",
-    "firebase-functions": "3.15.7",
-    "firebase-tools": "9.20.0",
+    "firebase": "9.2.0",
+    "firebase-admin": "10.0.0",
+    "firebase-functions": "3.16.0",
     "http-proxy": "1.18.1",
     "idb": "6.1.4",
     "pica": "7.1.0",
@@ -63,6 +67,7 @@
     "source-map-support": "0.5.20",
     "stacktrace-js": "2.0.2",
     "tweetnacl": "1.0.3",
+    "type-fest": "2.5.2",
     "workbox-build": "4.3.1"
   }
 }

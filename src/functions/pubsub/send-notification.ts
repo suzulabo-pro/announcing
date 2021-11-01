@@ -3,6 +3,8 @@ import {
   BatchResponse,
   EventContext,
   FirebaseAdminApp,
+  getFirestore,
+  getMessaging,
   MulticastMessage,
   PubSubMessage,
 } from '../firebase';
@@ -30,7 +32,7 @@ export const pubsubSendNotification = async (
       return;
     }
 
-    const firestore = adminApp.firestore();
+    const firestore = getFirestore(adminApp);
     const batch = firestore.batch();
     let update = false;
     bs.responses.forEach((res, i) => {
@@ -55,7 +57,7 @@ export const pubsubSendNotification = async (
     }
   };
 
-  const messaging = adminApp.messaging();
+  const messaging = getMessaging(adminApp);
   {
     const mmsg = msg.json.mmsg as MulticastMessage;
     if (mmsg) {

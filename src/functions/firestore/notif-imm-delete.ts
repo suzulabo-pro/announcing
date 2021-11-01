@@ -1,4 +1,4 @@
-import { DocumentSnapshot, EventContext, FirebaseAdminApp } from '../firebase';
+import { DocumentSnapshot, EventContext, FirebaseAdminApp, getFirestore } from '../firebase';
 import { ImmediateNotification } from '../utils/datatypes';
 
 export const deleteImmediateNotification = async (
@@ -12,7 +12,7 @@ export const deleteImmediateNotification = async (
     return;
   }
 
-  const firestore = adminApp.firestore();
+  const firestore = getFirestore(adminApp);
   while (archives.length > 0) {
     const ids = archives.splice(0, 500);
     const batch = firestore.batch();

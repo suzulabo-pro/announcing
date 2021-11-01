@@ -43,18 +43,23 @@ const entries: ScriptEntries = [
   // console
   [
     'console.start',
-    Cmd('stencil build --dev --watch --serve --config scripts/console/stencil.config.ts'),
+    Cmd(
+      'stencil build --dev --watch --serve --max-workers 1 --config scripts/console/stencil.config.ts',
+    ),
   ],
-  ['console.build', Cmd('stencil build --config scripts/console/stencil.config.ts')],
+  [
+    'console.build',
+    Cmd('stencil build --max-workers 1 --config scripts/console/stencil.config.ts'),
+  ],
 
   // client
   [
     'client.start',
     Cmd(
-      'stencil build --dev --watch --serve --service-worker --config scripts/client/stencil.config.ts',
+      'stencil build --dev --watch --serve --service-worker --max-workers 1 --config scripts/client/stencil.config.ts',
     ),
   ],
-  ['client.build', Cmd('stencil build --config scripts/client/stencil.config.ts')],
+  ['client.build', Cmd('stencil build --max-workers 1 --config scripts/client/stencil.config.ts')],
 
   // client capacitor
   ['client.cap.build', Cmd('CAP_BUILD=y stencil build --config scripts/client/stencil.config.ts')],
