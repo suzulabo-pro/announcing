@@ -1,6 +1,10 @@
 {
   "name": "announcing",
   "private": true,
+  "engines": {
+    "node": "14",
+    "npm": "7"
+  },
   "scripts": {
     "-": "node -r esbuild-register scripts/index.ts"
   },
