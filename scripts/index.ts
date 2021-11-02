@@ -80,7 +80,7 @@ const entries: ScriptEntries = [
   ['dev-proxy.start', startDevProxy],
 
   // test
-  ['test', Cmd('jest')],
+  ['test', Cmd('FIREBASE_CONFIG={} jest --maxWorkers=1')],
 
   // utilities
   ['android.open', Cmd('cap open android', 'capacitor/client')],
