@@ -1,4 +1,3 @@
-import { Timestamp } from '../../../src/functions/firebase';
 import { immediateNotificationWriteHandler } from '../../../src/functions/firestore';
 import { FakeFirestore } from '../fake-firestore';
 
@@ -55,7 +54,7 @@ describe('immediateNotificationWriteHandler', () => {
     expect(firestore.doc('notif-imm/111111111111').get().data()).toEqual({
       announceID: '111111111111',
       archives: ['1'],
-      uT: expect.any(Timestamp),
+      uT: expect.any(Object),
     });
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
@@ -98,7 +97,7 @@ describe('immediateNotificationWriteHandler', () => {
     expect(firestore.doc('notif-imm/111111111111').get().data()).toEqual({
       announceID: '111111111111',
       archives: [],
-      uT: expect.any(Timestamp),
+      uT: expect.any(Object),
     });
     expect(firestore.data['notif-imm']['111111111111']['_collections']['archives']).toEqual({});
   });
