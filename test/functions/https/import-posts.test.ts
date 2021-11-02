@@ -1,7 +1,7 @@
 import { httpsRequestHandler } from '../../../src/functions/https';
 import { FakeFirestore } from '../fake-firestore';
 
-jest.mock('../../src/pubsub/import-posts-fetch');
+jest.mock('../../../src/functions/pubsub/import-posts-fetch');
 
 describe('httpsPingImportPosts', () => {
   it('ok', async () => {

@@ -238,6 +238,9 @@ export class FakeFirestore {
       firestore: () => {
         return this;
       },
+      getOrInitService: () => {
+        return { client: this };
+      },
     };
   }
 
