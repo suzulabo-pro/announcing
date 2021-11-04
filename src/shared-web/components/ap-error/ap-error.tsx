@@ -2,11 +2,24 @@ import { Component, h, Host, Method, Prop, State } from '@stencil/core';
 import { fromError, get as getStack } from 'stacktrace-js';
 
 const genErrorReport = async (repo: string, error: any) => {
-  const errorTraces = await fromError(error);
+  const errorTraces = await (async () => {
+    try {
+      return await fromError(error);
+    } catch {
+      return [];
+    }
+  })();
+
   const curTraces = await getStack({});
 
   const reports = [];
-  reports.push(new Date().toISOString(), repo, '', error['message'] || '(No Message)', '');
+  reports.push(
+    new Date().toISOString(),
+    repo,
+    '',
+    error['message'] || error['error'] || '(No Message)',
+    '',
+  );
   if (Object.keys(error).length > 0) {
     reports.push(JSON.stringify(error), '');
   }
