@@ -95,9 +95,11 @@ export class AppRoot {
   }
 
   async componentWillLoad() {
-    await this.app.processLoading(async () => {
+    try {
       await this.app.init();
-    });
+    } catch (err) {
+      await this.app.showError(err);
+    }
   }
 
   render() {
