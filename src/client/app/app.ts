@@ -81,7 +81,7 @@ export class App {
         iconRefreshing: '<ap-icon icon="reload" />',
         refreshTimeout: 100,
         shouldPullToRefresh: () => {
-          return !location.href.includes('/image');
+          return !window.scrollY && !location.href.includes('/image');
         },
         getMarkup: () => {
           return `<div class="__PREFIX__box">
