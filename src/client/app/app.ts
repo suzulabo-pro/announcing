@@ -65,6 +65,7 @@ export class App {
       console.log('App opened with URL:', data);
       const url = new URL(data.url);
       pushRoute(url.pathname);
+      location.reload();
     });
     await CapApp.addListener('backButton', () => {
       window.history.back();

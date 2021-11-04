@@ -86,12 +86,13 @@ export class AppRoot {
 
   @Listen('PostNotificationRecieved', { target: 'window' })
   handlePostNotificationRecieved(event: PostNotificationRecievedEvent) {
-    const p = `/${event.detail.announceID}/${event.detail.postID}`;
+    const p = `/${event.detail.announceID}`;
     if (this.app) {
       pushRoute(p);
     } else {
       location.href = p;
     }
+    location.reload();
   }
 
   async componentWillLoad() {
