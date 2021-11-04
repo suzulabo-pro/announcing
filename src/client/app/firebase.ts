@@ -163,7 +163,7 @@ export class AppFirebase {
     this.firestore = getFirestore(this.firebaseApp);
     this.firestoreHelper = new FirestoreHelper(this.firestore);
 
-    if (Capacitor.getPlatform() != 'web') {
+    if (Capacitor.isNativePlatform()) {
       this.capNotification = new CapNotification();
     }
 
