@@ -2,6 +2,7 @@ import { Http } from '@capacitor-community/http';
 import { App as CapApp } from '@capacitor/app';
 import { Capacitor } from '@capacitor/core';
 import { Share } from '@capacitor/share';
+import { Build } from '@stencil/core';
 import PullToRefresh from 'pulltorefreshjs';
 import nacl from 'tweetnacl';
 import {
@@ -70,7 +71,7 @@ export class App {
       window.dispatchEvent(new CustomEvent<void>('AppBackButton'));
     });
 
-    if (Capacitor.isNativePlatform()) {
+    if (Capacitor.isNativePlatform() || Build.isDev) {
       PullToRefresh.init({
         mainElement: 'body',
         onRefresh() {
@@ -79,6 +80,9 @@ export class App {
         iconArrow: '<ap-icon icon="reload" />',
         iconRefreshing: '<ap-icon icon="reload" />',
         refreshTimeout: 100,
+        shouldPullToRefresh: () => {
+          return !location.href.includes('/image');
+        },
         getMarkup: () => {
           return `<div class="__PREFIX__box">
           <div class="__PREFIX__content">
