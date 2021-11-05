@@ -42,7 +42,13 @@ html,
 body {
   background-color: var(--bk-color);
   font-size: 16px;
-  height: 100vh;
+  height: 100%;
+}
+
+@supports (-webkit-touch-callout: none) {
+  body {
+    height: 100vh;
+  }
 }
 
 html,
