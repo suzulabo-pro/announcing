@@ -16,11 +16,6 @@ export class ApStyle {
     requestAnimationFrame(handleResize);
   }
 
-  @Listen('scroll', { target: 'window' })
-  listenScroll() {
-    requestAnimationFrame(handleResize);
-  }
-
   componentWillLoad() {
     requestAnimationFrame(handleResize);
   }
