@@ -93,7 +93,7 @@ export class ApRoot {
     })();
 
     return (
-      <Host>
+      <Host class={{ 'fit-page': !!m.match.fitPage }}>
         <div class="header">
           {back && (
             <a class="back" {...href(back, true)}>

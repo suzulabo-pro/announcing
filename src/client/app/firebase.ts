@@ -72,13 +72,9 @@ class CapNotification {
     if (!announceID || typeof announceID != 'string') {
       return;
     }
-    const postID = data?.postID;
-    if (!postID || typeof postID != 'string') {
-      return;
-    }
 
-    const event = new PostNotificationRecievedEvent({ announceID, postID });
-    dispatchEvent(event);
+    const event = new PostNotificationRecievedEvent({ announceID });
+    window.dispatchEvent(event);
   }
 
   async checkNotifyPermission(ask: boolean) {
@@ -163,7 +159,7 @@ export class AppFirebase {
     this.firestore = getFirestore(this.firebaseApp);
     this.firestoreHelper = new FirestoreHelper(this.firestore);
 
-    if (Capacitor.getPlatform() != 'web') {
+    if (Capacitor.isNativePlatform()) {
       this.capNotification = new CapNotification();
     }
 

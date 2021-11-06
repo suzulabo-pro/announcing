@@ -11,9 +11,8 @@ export interface AnnounceState extends Announce, AnnounceMetaBase {
 
 export class PostNotificationRecievedEvent extends CustomEvent<{
   announceID: string;
-  postID: string;
 }> {
-  constructor(detail: { announceID: string; postID: string }) {
+  constructor(detail: { announceID: string }) {
     super('PostNotificationRecieved', { detail });
   }
 }

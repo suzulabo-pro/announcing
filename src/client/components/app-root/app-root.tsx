@@ -48,6 +48,7 @@ const matches: RouteMatch[] = [
                 name: 'imageID',
                 tag: 'app-image',
                 back: p => `/${p['announceID']}/${p['postID']}`,
+                fitPage: true,
               },
             ],
           },
@@ -59,6 +60,7 @@ const matches: RouteMatch[] = [
                 name: 'image62',
                 tag: 'app-image',
                 back: p => `/${p['announceID']}/${p['postID']}`,
+                fitPage: true,
               },
             ],
           },
@@ -86,18 +88,21 @@ export class AppRoot {
 
   @Listen('PostNotificationRecieved', { target: 'window' })
   handlePostNotificationRecieved(event: PostNotificationRecievedEvent) {
-    const p = `/${event.detail.announceID}/${event.detail.postID}`;
+    const p = `/${event.detail.announceID}`;
     if (this.app) {
       pushRoute(p);
     } else {
       location.href = p;
     }
+    location.reload();
   }
 
   async componentWillLoad() {
-    await this.app.processLoading(async () => {
+    try {
       await this.app.init();
-    });
+    } catch (err) {
+      await this.app.showError(err);
+    }
   }
 
   render() {
