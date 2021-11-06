@@ -3,7 +3,6 @@ import { Component, h, Host, Listen } from '@stencil/core';
 const handleResize = () => {
   const wh = window.innerHeight;
   document.documentElement.style.setProperty('--wh', `${wh}px`);
-  console.log('wh', wh);
 };
 
 @Component({
