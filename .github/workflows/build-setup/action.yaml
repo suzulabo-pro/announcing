@@ -20,9 +20,6 @@ runs:
   using: 'composite'
 
   steps:
-    - run: npm i -g npm@7
-      shell: bash
-
     - run: npm ci
       shell: bash
 

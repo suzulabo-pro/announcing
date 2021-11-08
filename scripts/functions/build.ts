@@ -53,7 +53,7 @@ const _buildFunctions = async (watch: boolean) => {
         }
       : false,
     platform: 'node',
-    target: ['node14'],
+    target: ['node16'],
     sourcemap: 'inline',
     plugins: [externalPackagesPlugin],
   });
@@ -70,7 +70,7 @@ const _buildFunctions = async (watch: boolean) => {
   const packageJSON = {
     name: 'announcing-functions',
     engines: {
-      node: '14',
+      node: '16',
     },
     main: 'dist/bundle.js',
 
