@@ -27,6 +27,8 @@ jobs:
       - run: npm run - client.cap.build
       - run: npm run - client.cap.sync
 
+      - run: cat capacitor/client/ios-export-adhoc.plist
+
       - run: >-
           xcodebuild 
           CODE_SIGN_STYLE=Manual
