@@ -34,8 +34,6 @@ jobs:
       - run: npm run - client.cap.build
       - run: npm run - client.cap.sync
 
-      - run: cat capacitor/client/ios-export-adhoc.plist
-
       - run: >-
           xcodebuild 
           CODE_SIGN_STYLE=Manual
@@ -50,6 +48,13 @@ jobs:
           -scheme App
           -archivePath $RUNNER_TEMP/announcing.xcarchive 
           archive
+          &&
+          xcodebuild
+          -quiet
+          -exportArchive
+          -archivePath $RUNNER_TEMP/announcing.xcarchive
+          -exportPath $RUNNER_TEMP/announcing.ipa
+          -exportOptionsPlist ../../ios-export-adhoc.plist
         working-directory: ./capacitor/client/ios/App
         env:
           PP_SPECIFIER: 'announcing client Ad Hoc'
@@ -57,23 +62,10 @@ jobs:
           BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
-          # &&
-          # xcodebuild
-          # -quiet
-          # -exportArchive
-          # -archivePath $RUNNER_TEMP/announcing.xcarchive
-          # -exportPath $RUNNER_TEMP/announcing.ipa
-          # -exportOptionsPlist ../../ios-export-adhoc.plist
-
       - uses: actions/upload-artifact@v2
         with:
-          name: announcing.xcarchive
-          path: ${{ runner.temp }}/announcing.xcarchive
-
-      #- uses: actions/upload-artifact@v2
-      #  with:
-      #    name: announcing-adhoc.ipa
-      #    path: ${{ runner.temp }}/announcing.ipa
+          name: announcing-adhoc.ipa
+          path: ${{ runner.temp }}/announcing.ipa
 
       #- run: >-
       #    npm_config_yes=true npx firebase-tools
