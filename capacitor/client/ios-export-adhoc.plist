@@ -9,6 +9,10 @@
 	<key>method</key>
 	<string>ad-hoc</string>
 	<key>provisioningProfiles</key>
+	<dict>
+		<key>app.announcing.client.adhoc</key>
+		<string>announcing client Ad Hoc</string>
+	</dict>
 	<key>signingCertificate</key>
 	<string>Apple Distribution</string>
 	<key>signingStyle</key>
