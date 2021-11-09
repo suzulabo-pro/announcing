@@ -16,7 +16,7 @@ jobs:
 
       - uses: ./.github/workflows/build-setup
         with:
-          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+          SECRET_VALUES: ${{ secrets.SECRET_VALUES }}
         id: build_setup
 
       - uses: ./.github/workflows/provisioning-profile-setup
@@ -24,8 +24,8 @@ jobs:
           APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
           PP_PATH: 'tools/secrets/Ad_Hoc.mobileprovision'
 
-      - run: npm run build.ios
-        working-directory: ./packages/client
+      - run: npm run - client.cap.build
+      - run: npm run - client.cap.sync
 
       - run: >-
           xcodebuild 
