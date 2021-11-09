@@ -50,13 +50,6 @@ jobs:
           -scheme App
           -archivePath $RUNNER_TEMP/announcing.xcarchive 
           archive
-          &&
-          xcodebuild
-          -quiet
-          -exportArchive
-          -archivePath $RUNNER_TEMP/announcing.xcarchive
-          -exportPath $RUNNER_TEMP/announcing.ipa 
-          -exportOptionsPlist ../../ios-export-adhoc.plist
         working-directory: ./capacitor/client/ios/App
         env:
           PP_SPECIFIER: 'announcing client Ad Hoc'
@@ -64,20 +57,33 @@ jobs:
           BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
+          # &&
+          # xcodebuild
+          # -quiet
+          # -exportArchive
+          # -archivePath $RUNNER_TEMP/announcing.xcarchive
+          # -exportPath $RUNNER_TEMP/announcing.ipa
+          # -exportOptionsPlist ../../ios-export-adhoc.plist
+
       - uses: actions/upload-artifact@v2
         with:
-          name: announcing-adhoc.ipa
-          path: ${{ runner.temp }}/announcing.ipa
+          name: announcing.xcarchive
+          path: ${{ runner.temp }}/announcing.xcarchive
 
-      - run: >-
-          npm_config_yes=true npx firebase-tools
-          appdistribution:distribute
-          $RUNNER_TEMP/announcing.ipa/App.ipa
-          --app ${APP_ID}
-          --groups testers
-        env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          APP_ID: ${{ secrets.FIREBASE_APP_ID_IOS }}
+      #- uses: actions/upload-artifact@v2
+      #  with:
+      #    name: announcing-adhoc.ipa
+      #    path: ${{ runner.temp }}/announcing.ipa
+
+      #- run: >-
+      #    npm_config_yes=true npx firebase-tools
+      #    appdistribution:distribute
+      #    $RUNNER_TEMP/announcing.ipa/App.ipa
+      #    --app ${APP_ID}
+      #    --groups testers
+      #  env:
+      #    FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+      #    APP_ID: ${{ secrets.FIREBASE_APP_ID_IOS }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
