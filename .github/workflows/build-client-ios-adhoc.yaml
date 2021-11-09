@@ -58,7 +58,7 @@ jobs:
         working-directory: ./capacitor/client/ios/App
         env:
           PP_SPECIFIER: 'announcing client Ad Hoc'
-          BUNDLE_IDENTIFIER: 'app.announcing.adhoc'
+          BUNDLE_IDENTIFIER: 'app.announcing.client.adhoc'
           BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
