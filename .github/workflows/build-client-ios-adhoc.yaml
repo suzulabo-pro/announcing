@@ -46,10 +46,10 @@ jobs:
           -archivePath $RUNNER_TEMP/announcing.xcarchive
           -exportPath $RUNNER_TEMP/announcing.ipa 
           -exportOptionsPlist ../../ios-export-adhoc.plist
-        working-directory: ./packages/client/ios/App
+        working-directory: ./capacitor/client/ios/App
         env:
-          PP_SPECIFIER: ${{ steps.build_setup.outputs.AD_HOC_PROVISION_NAME }}
-          BUNDLE_IDENTIFIER: ${{ steps.build_setup.outputs.AD_HOC_APPID }}
+          PP_SPECIFIER: 'announcing client Ad Hoc'
+          BUNDLE_IDENTIFIER: 'app.announcing.adhoc'
           BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
@@ -66,7 +66,7 @@ jobs:
           --groups testers
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          APP_ID: ${{ steps.build_setup.outputs.FIREBASE_APP_ID_IOS }}
+          APP_ID: ${{ secrets.FIREBASE_APP_ID_IOS }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}

@@ -7,14 +7,6 @@ outputs:
     value: ${{ steps.build_version.outputs.BUILD_NUMBER }}
   APP_VERSION:
     value: ${{ steps.build_version.outputs.APP_VERSION }}
-  FIREBASE_APP_ID_ANDROID:
-    value: ${{ steps.extract_secrets.outputs.FIREBASE_APP_ID_ANDROID }}
-  FIREBASE_APP_ID_IOS:
-    value: ${{ steps.extract_secrets.outputs.FIREBASE_APP_ID_IOS }}
-  AD_HOC_PROVISION_NAME:
-    value: ${{ steps.extract_secrets.outputs.AD_HOC_PROVISION_NAME }}
-  AD_HOC_APPID:
-    value: ${{ steps.extract_secrets.outputs.AD_HOC_APPID }}
 
 runs:
   using: 'composite'
@@ -23,8 +15,7 @@ runs:
     - run: npm ci
       shell: bash
 
-    - id: unpack_secrets
-      run: npm run - secrets.unpack
+    - run: npm run - secrets.unpack
       shell: bash
       env:
         SECRET_VALUES: ${{ inputs.SECRET_VALUES }}
