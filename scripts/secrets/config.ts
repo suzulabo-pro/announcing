@@ -20,4 +20,7 @@ export const SECRET_FILES: SecretFile[] = [
   Sec('android.custom.properties'),
   Sec('apple-app-site-association'),
   Sec('assetlinks.json'),
+
+  Sec('AppleDistribution.p12'),
+  Sec('Ad_Hoc.mobileprovision'),
 ];
