@@ -4,7 +4,7 @@ on: workflow_dispatch
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macOS-11
 
     steps:
       - uses: actions/checkout@v2
