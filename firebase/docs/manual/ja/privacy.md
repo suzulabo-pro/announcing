@@ -8,7 +8,7 @@
 システムの運用には Google Firebase サービスを利用しています。  
 https://firebase.google.com/support/privacy
 
-サポートの掲示板には Cusdis を利用しています。
+サポートの掲示板には Cusdis を利用しています。  
 https://cusdis.com/privacy-policy
 
 第三者に個人を特定できる情報を提供することはありません。
