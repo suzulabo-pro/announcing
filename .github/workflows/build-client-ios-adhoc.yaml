@@ -9,22 +9,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: 'npm'
-
-      - uses: actions/cache@v2
-        with:
-          path: ./capacitor/client/ios/App/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('./capacitor/client/ios/App/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
-
       - uses: ./.github/workflows/build-setup
         with:
           SECRET_VALUES: ${{ secrets.SECRET_VALUES }}
         id: build_setup
+
+      - uses: ./.github/workflows/build-setup/ios
 
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
@@ -38,7 +28,7 @@ jobs:
           xcodebuild 
           CODE_SIGN_STYLE=Manual
           CODE_SIGN_IDENTITY="Apple Distribution"
-          BUNDLE_DISPLAY_NAME="AH-Announcing♪"
+          BUNDLE_DISPLAY_NAME=${BUNDLE_DISPLAY_NAME}
           PROVISIONING_PROFILE_SPECIFIER="${PP_SPECIFIER}"
           BUNDLE_IDENTIFIER="${BUNDLE_IDENTIFIER}"
           BUNDLE_VERSION="${BUNDLE_VERSION}"
@@ -58,7 +48,8 @@ jobs:
         working-directory: ./capacitor/client/ios/App
         env:
           PP_SPECIFIER: 'announcing client Ad Hoc'
-          BUNDLE_IDENTIFIER: 'app.announcing.client.adhoc'
+          BUNDLE_IDENTIFIER: 'app.announcing.client'
+          BUNDLE_DISPLAY_NAME: ${{ secrets.IOS_ADHOC_NAME_PREFIX }}AH-Announcing♪
           BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
@@ -67,15 +58,15 @@ jobs:
           name: announcing-adhoc.ipa
           path: ${{ runner.temp }}/announcing.ipa
 
-      #- run: >-
-      #    npm_config_yes=true npx firebase-tools
-      #    appdistribution:distribute
-      #    $RUNNER_TEMP/announcing.ipa/App.ipa
-      #    --app ${APP_ID}
-      #    --groups testers
-      #  env:
-      #    FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-      #    APP_ID: ${{ secrets.FIREBASE_APP_ID_IOS }}
+      - run: >-
+          npm_config_yes=true npx firebase-tools
+          appdistribution:distribute
+          $RUNNER_TEMP/announcing.ipa/App.ipa
+          --app ${APP_ID}
+          --groups testers
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+          APP_ID: ${{ secrets.FIREBASE_APP_ID_IOS }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}

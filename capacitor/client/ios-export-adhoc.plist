@@ -10,7 +10,7 @@
 	<string>ad-hoc</string>
 	<key>provisioningProfiles</key>
 	<dict>
-		<key>app.announcing.client.adhoc</key>
+		<key>app.announcing.client</key>
 		<string>announcing client Ad Hoc</string>
 	</dict>
 	<key>signingCertificate</key>
