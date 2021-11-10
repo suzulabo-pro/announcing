@@ -10,6 +10,7 @@ www-dist/
 appenv.env.ts
 
 .firebaserc
+docs-vars.json
 
 android.custom.properties
 assetlinks.json

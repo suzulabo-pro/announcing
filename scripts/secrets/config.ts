@@ -16,6 +16,7 @@ export const SECRET_FILES: SecretFile[] = [
   Sec('GoogleService-Info.plist', 'capacitor/client/ios/App/App'),
   Sec('google-services.json', 'capacitor/client/android/app'),
   Sec('.firebaserc', 'firebase'),
+  Sec('docs-vars.json', 'firebase/docs'),
   Sec('appenv.env.ts'),
   Sec('android.custom.properties'),
   Sec('apple-app-site-association'),

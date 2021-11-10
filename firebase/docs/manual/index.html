@@ -16,6 +16,8 @@
         --base-font-family: -apple-system, BlinkMacSystemFont, sans-serif;
       }
     </style>
+    <script defer src="https://cusdis.com/js/widget/lang/ja.js"></script>
+    <script async defer src="https://cusdis.com/js/cusdis.es.js"></script>
   </head>
   <body>
     <div id="app"></div>
@@ -25,9 +27,21 @@
         repo: 'suzulabo-pro/announcing',
         loadSidebar: true,
         subMaxLevel: 2,
+        mustache: {
+          data: ['/docs-vars.json'],
+          noPackage: true,
+        },
+        plugins: [
+          function (hook) {
+            hook.doneEach(function () {
+              window.CUSDIS.renderTo(document.getElementById('cusdis_thread'));
+            });
+          },
+        ],
       };
     </script>
     <!-- Docsify v4 -->
     <script src="//cdn.jsdelivr.net/npm/docsify@4"></script>
+    <script src="//cdn.jsdelivr.net/npm/docsify-mustache"></script>
   </body>
 </html>
