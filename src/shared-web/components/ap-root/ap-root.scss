@@ -20,7 +20,7 @@ ap-root {
     padding-top: env(safe-area-inset-top);
     padding-right: max(10px, env(safe-area-inset-right));
 
-    @media (orientation: portrait) {
+    @include media-mobile-mode() {
       position: fixed;
       top: unset;
       bottom: 0;
@@ -44,14 +44,14 @@ ap-root {
 
       padding: 10px 40px 10px max(20px, env(safe-area-inset-left));
 
-      @media (orientation: portrait) {
+      @include media-mobile-mode() {
         padding-bottom: max(10px, env(safe-area-inset-bottom));
       }
     }
     a.button,
     button {
       margin: 10px 0 10px 10px;
-      @media (orientation: portrait) {
+      @include media-mobile-mode() {
         margin-bottom: max(10px, env(safe-area-inset-bottom));
       }
     }

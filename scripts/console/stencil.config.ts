@@ -58,7 +58,9 @@ export const config: Config = {
     },
   ],
   plugins: [
-    sass({}),
+    sass({
+      injectGlobalPaths: [`${ROOT_DIR}/src/global.scss`],
+    }),
     replace({
       __BUILD_SRC__: buildSrc(),
       __BUILD_REPO__: buildRepo(),

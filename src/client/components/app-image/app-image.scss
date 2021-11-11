@@ -13,7 +13,7 @@ app-image {
     display: flex;
     align-items: center;
     justify-content: center;
-    @media (orientation: portrait) {
+    @include media-mobile-mode() {
       margin-bottom: 48px;
     }
 

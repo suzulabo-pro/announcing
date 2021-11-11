@@ -45,7 +45,7 @@
     "@google-cloud/pubsub": "2.18.1",
     "@rollup/plugin-replace": "3.0.0",
     "@stencil/core": "2.9.0",
-    "@stencil/sass": "1.5.0",
+    "@stencil/sass": "1.5.2",
     "@stencil/store": "1.5.0",
     "ajv": "8.6.3",
     "ajv-formats": "2.1.1",
