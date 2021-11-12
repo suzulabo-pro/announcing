@@ -27,8 +27,6 @@ Ad_Hoc.mobileprovision
 Release.mobileprovision
 AppleDistribution.p12
 
-app-store-key.p8
-
 SECRET_VALUES.txt
 
 
