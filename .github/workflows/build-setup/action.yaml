@@ -7,6 +7,10 @@ outputs:
     value: ${{ steps.build_version.outputs.BUILD_NUMBER }}
   APP_VERSION:
     value: ${{ steps.build_version.outputs.APP_VERSION }}
+  APPSTORE_API_KEY:
+    value: ${{ steps.unpack_secrets.outputs.APPSTORE_API_KEY }}
+  APPSTORE_API_ISSUER:
+    value: ${{ steps.unpack_secrets.outputs.APPSTORE_API_ISSUER }}
 
 runs:
   using: 'composite'
@@ -24,6 +28,7 @@ runs:
       shell: bash
       env:
         SECRET_VALUES: ${{ inputs.SECRET_VALUES }}
+      id: unpack_secrets
 
     - run: npm run - secrets.copy
       shell: bash

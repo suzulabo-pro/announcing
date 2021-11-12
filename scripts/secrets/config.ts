@@ -1,5 +1,7 @@
 import * as path from 'path';
 
+export const SECRETS_KEYS = ['APPSTORE_API_KEY', 'APPSTORE_API_ISSUER'] as const;
+
 export const ROOT_DIR = path.resolve(path.join(__dirname, '../..'));
 export const SECRET_DIR = path.join(ROOT_DIR, 'secrets');
 
@@ -12,6 +14,8 @@ const Sec = (name: string, locaction?: string) => {
 };
 
 export const SECRET_FILES: SecretFile[] = [
+  Sec('secrets.json'),
+
   Sec('App.entitlements', 'capacitor/client/ios/App/App'),
   Sec('GoogleService-Info.plist', 'capacitor/client/ios/App/App'),
   Sec('google-services.json', 'capacitor/client/android/app'),
@@ -25,4 +29,6 @@ export const SECRET_FILES: SecretFile[] = [
   Sec('AppleDistribution.p12'),
   Sec('Ad_Hoc.mobileprovision'),
   Sec('Release.mobileprovision'),
+
+  Sec('app-store-key.p8', 'private_keys'),
 ];

@@ -7,6 +7,8 @@ www-dist/
 
 
 # secrets
+secrets.json
+
 appenv.env.ts
 
 .firebaserc
@@ -25,7 +27,8 @@ Ad_Hoc.mobileprovision
 Release.mobileprovision
 AppleDistribution.p12
 
-.secrets.json
+app-store-key.p8
+
 SECRET_VALUES.txt
 
 

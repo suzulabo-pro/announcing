@@ -59,6 +59,13 @@ jobs:
           name: announcing-release.ipa
           path: ${{ runner.temp }}/announcing.ipa
 
+      - run: >-
+          xcrun altool --upload-app -f $RUNNER_TEMP/announcing.ipa/App.ipa -t ios
+          --apiKey ${API_KEY} --apiIssuer ${API_ISSUER}
+        env:
+          API_KEY: ${{ steps.build_setup.outputs.APPSTORE_API_KEY }}
+          API_ISSUER: ${{ steps.build_setup.outputs.APPSTORE_API_ISSUER }}
+
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |
