@@ -7,7 +7,7 @@
 	<key>destination</key>
 	<string>export</string>
 	<key>method</key>
-	<string>ad-hoc</string>
+	<string>app-store</string>
 	<key>provisioningProfiles</key>
 	<dict>
 		<key>app.announcing.client</key>
