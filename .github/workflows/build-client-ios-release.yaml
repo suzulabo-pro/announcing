@@ -56,7 +56,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: announcing-release.ipa
+          name: announcing-release-${{ steps.build_setup.outputs.BUILD_NUMBER }}-${{ steps.build_setup.outputs.APP_VERSION }}.ipa
           path: ${{ runner.temp }}/announcing.ipa
 
       - run: mkdir private_keys
