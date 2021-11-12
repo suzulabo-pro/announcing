@@ -22,6 +22,7 @@ apple-app-site-association
 App.entitlements
 GoogleService-Info.plist
 Ad_Hoc.mobileprovision
+Release.mobileprovision
 AppleDistribution.p12
 
 .secrets.json

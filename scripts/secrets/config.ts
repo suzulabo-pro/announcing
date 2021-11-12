@@ -24,4 +24,5 @@ export const SECRET_FILES: SecretFile[] = [
 
   Sec('AppleDistribution.p12'),
   Sec('Ad_Hoc.mobileprovision'),
+  Sec('Release.mobileprovision'),
 ];
