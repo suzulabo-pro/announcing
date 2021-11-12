@@ -1,6 +1,8 @@
+import * as fs from 'fs';
 import * as path from 'path';
 
 export const SECRETS_KEYS = ['APPSTORE_API_KEY', 'APPSTORE_API_ISSUER'] as const;
+type SECRETS_KEYS_UNION = typeof SECRETS_KEYS[number];
 
 export const ROOT_DIR = path.resolve(path.join(__dirname, '../..'));
 export const SECRET_DIR = path.join(ROOT_DIR, 'secrets');
@@ -32,3 +34,11 @@ export const SECRET_FILES: SecretFile[] = [
 
   Sec('app-store-key.p8', 'private_keys'),
 ];
+
+export const loadSecretJSON = () => {
+  const secretsJson: Record<SECRETS_KEYS_UNION, string> = JSON.parse(
+    fs.readFileSync(path.join(SECRET_DIR, 'secrets.json'), 'utf-8'),
+  );
+
+  return secretsJson;
+};

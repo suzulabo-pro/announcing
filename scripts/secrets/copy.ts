@@ -1,18 +1,32 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { ROOT_DIR, SECRET_DIR, SECRET_FILES } from './config';
+import { loadSecretJSON, ROOT_DIR, SECRET_DIR, SECRET_FILES } from './config';
 
 export const copySecrets = () => {
+  const secretsJson = loadSecretJSON();
+
   for (const sec of SECRET_FILES) {
     if (!sec.location) {
       continue;
     }
     console.info(`${sec.name} -> ${sec.location}/${sec.name}`);
 
+    const destFile = (() => {
+      if (sec.name == 'app-store-key.p8') {
+        return path.join(ROOT_DIR, sec.location, `Auth_${secretsJson.APPSTORE_API_KEY}.p8`);
+      }
+      return path.join(ROOT_DIR, sec.location, sec.name);
+    })();
+
+    if (fs.existsSync(destFile)) {
+      console.info('skip');
+      continue;
+    }
+
     if (!fs.existsSync(sec.location)) {
       fs.mkdirSync(sec.location);
     }
 
-    fs.copyFileSync(path.join(SECRET_DIR, sec.name), path.join(ROOT_DIR, sec.location, sec.name));
+    fs.copyFileSync(path.join(SECRET_DIR, sec.name), destFile);
   }
 };

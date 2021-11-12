@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import JSZip from 'jszip';
 import * as path from 'path';
-import { SECRETS_KEYS, SECRET_DIR, SECRET_FILES } from './config';
+import { loadSecretJSON, SECRETS_KEYS, SECRET_DIR, SECRET_FILES } from './config';
 
 export const unpackSecrets = async () => {
   const secretValues = process.env['SECRET_VALUES'];
@@ -34,9 +34,7 @@ export const unpackSecrets = async () => {
     fs.writeFileSync(filename, data);
   }
 
-  const secretsJson: { [k: string]: string } = JSON.parse(
-    fs.readFileSync(path.join(SECRET_DIR, 'secrets.json'), 'utf-8'),
-  );
+  const secretsJson = loadSecretJSON();
 
   for (const key of SECRETS_KEYS) {
     const v = secretsJson[key];
