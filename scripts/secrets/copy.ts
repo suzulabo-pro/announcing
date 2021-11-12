@@ -9,14 +9,15 @@ export const copySecrets = () => {
     if (!sec.location) {
       continue;
     }
-    console.info(`${sec.name} -> ${sec.location}/${sec.name}`);
 
     const destFile = (() => {
       if (sec.name == 'app-store-key.p8') {
-        return path.join(ROOT_DIR, sec.location, `Auth_${secretsJson.APPSTORE_API_KEY}.p8`);
+        return path.join(ROOT_DIR, sec.location, `AuthKey_${secretsJson.APPSTORE_API_KEY}.p8`);
       }
       return path.join(ROOT_DIR, sec.location, sec.name);
     })();
+
+    console.info(`${sec.name} -> ${destFile}`);
 
     if (fs.existsSync(destFile)) {
       console.info('skip');
