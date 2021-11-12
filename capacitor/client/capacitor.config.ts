@@ -14,6 +14,12 @@ const config: CapacitorConfig = {
     '@capacitor/share',
     '@capacitor/storage',
   ],
+  plugins: {
+    LocalNotifications: {
+      smallIcon: 'ic_notification',
+      iconColor: '#000000',
+    },
+  },
 };
 
 export default config;

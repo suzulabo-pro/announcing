@@ -7,9 +7,12 @@ www-dist/
 
 
 # secrets
+secrets.json
+
 appenv.env.ts
 
 .firebaserc
+docs-vars.json
 
 android.custom.properties
 assetlinks.json
@@ -21,9 +24,9 @@ apple-app-site-association
 App.entitlements
 GoogleService-Info.plist
 Ad_Hoc.mobileprovision
+Release.mobileprovision
 AppleDistribution.p12
 
-.secrets.json
 SECRET_VALUES.txt
 
 

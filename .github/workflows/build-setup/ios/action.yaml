@@ -1,0 +1,10 @@
+runs:
+  using: 'composite'
+
+  steps:
+    - uses: actions/cache@v2
+      with:
+        path: ./capacitor/client/ios/App/Pods
+        key: ${{ runner.os }}-pods-${{ hashFiles('./capacitor/client/ios/App/Podfile.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-pods-

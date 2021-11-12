@@ -1,4 +1,4 @@
-name: build-client-ios-adhoc
+name: build-client-ios-release
 
 on: workflow_dispatch
 
@@ -19,7 +19,7 @@ jobs:
       - uses: ./.github/workflows/provisioning-profile-setup
         with:
           APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD: ${{ secrets.APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD }}
-          PP_PATH: 'secrets/Ad_Hoc.mobileprovision'
+          PP_PATH: 'secrets/Release.mobileprovision'
 
       - run: npm run - client.cap.build
       - run: npm run - client.cap.sync
@@ -36,6 +36,7 @@ jobs:
           -quiet
           -workspace App.xcworkspace
           -scheme App
+          -configuration Release
           -archivePath $RUNNER_TEMP/announcing.xcarchive 
           archive
           &&
@@ -44,32 +45,36 @@ jobs:
           -exportArchive
           -archivePath $RUNNER_TEMP/announcing.xcarchive
           -exportPath $RUNNER_TEMP/announcing.ipa
-          -exportOptionsPlist ../../ios-export-adhoc.plist
+          -exportOptionsPlist ../../ios-export-release.plist
         working-directory: ./capacitor/client/ios/App
         env:
-          PP_SPECIFIER: 'announcing client Ad Hoc'
+          PP_SPECIFIER: 'announcing client Release'
           BUNDLE_IDENTIFIER: 'app.announcing.client'
-          BUNDLE_DISPLAY_NAME: ${{ secrets.IOS_ADHOC_NAME_PREFIX }}AH-Announcing♪
+          BUNDLE_DISPLAY_NAME: Announcing♪
           BUNDLE_VERSION: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           BUNDLE_VERSION_STRING: ${{ steps.build_setup.outputs.APP_VERSION }}
 
       - uses: actions/upload-artifact@v2
         with:
-          name: announcing-adhoc-${{ steps.build_setup.outputs.BUILD_NUMBER }}-${{ steps.build_setup.outputs.APP_VERSION }}.ipa
+          name: announcing-release-${{ steps.build_setup.outputs.BUILD_NUMBER }}-${{ steps.build_setup.outputs.APP_VERSION }}.ipa
           path: ${{ runner.temp }}/announcing.ipa
 
-      - run: >-
-          npm_config_yes=true npx firebase-tools
-          appdistribution:distribute
-          $RUNNER_TEMP/announcing.ipa/App.ipa
-          --app ${APP_ID}
-          --groups testers
+      - run: mkdir private_keys
+
+      - run: echo "${KEY}" > private_keys/AuthKey_${API_KEY}.p8
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
-          APP_ID: ${{ secrets.FIREBASE_APP_ID_IOS }}
+          KEY: ${{ secrets.APPSTORE_KEY }}
+          API_KEY: ${{ steps.build_setup.outputs.APPSTORE_API_KEY }}
+
+      - run: >-
+          xcrun altool --upload-app -f $RUNNER_TEMP/announcing.ipa/App.ipa -t ios
+          --apiKey ${API_KEY} --apiIssuer ${API_ISSUER}
+        env:
+          API_KEY: ${{ steps.build_setup.outputs.APPSTORE_API_KEY }}
+          API_ISSUER: ${{ steps.build_setup.outputs.APPSTORE_API_ISSUER }}
 
       - name: Clean up keychain and provisioning profile
         if: ${{ always() }}
         run: |
           security delete-keychain $RUNNER_TEMP/app-signing.keychain-db
-          rm ~/Library/MobileDevice/Provisioning\ Profiles/Ad_Hoc.mobileprovision
+          rm ~/Library/MobileDevice/Provisioning\ Profiles/Release.mobileprovision

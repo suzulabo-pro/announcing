@@ -106,3 +106,10 @@ Download from Apple Developer Console.
 ## SECRET_VALUES.txt
 
 See [scripts/secrets/pack.ts](../scripts/secrets/pack.ts)
+
+# Other Secrets
+
+- FIREBASE_TOKEN
+- FIREBASE_APP_ID_ANDROID
+- FIREBASE_APP_ID_IOS
+- APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD

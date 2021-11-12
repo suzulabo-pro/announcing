@@ -7,7 +7,11 @@ export const packSecrets = async () => {
   const zip = new JSZip();
 
   for (const sec of SECRET_FILES) {
-    zip.file(sec.name, fs.createReadStream(path.join(SECRET_DIR, sec.name)));
+    const p = path.join(SECRET_DIR, sec.name);
+    if (!fs.existsSync(p)) {
+      throw `missing ${p}`;
+    }
+    zip.file(sec.name, fs.createReadStream(p));
   }
 
   const packed = await zip.generateAsync({

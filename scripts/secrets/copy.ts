@@ -7,7 +7,20 @@ export const copySecrets = () => {
     if (!sec.location) {
       continue;
     }
-    console.info(`${sec.name} -> ${sec.location}/${sec.name}`);
-    fs.copyFileSync(path.join(SECRET_DIR, sec.name), path.join(ROOT_DIR, sec.location, sec.name));
+
+    const destFile = path.join(ROOT_DIR, sec.location, sec.name);
+
+    console.info(`${sec.name} -> ${destFile}`);
+
+    if (fs.existsSync(destFile)) {
+      console.info('skip');
+      continue;
+    }
+
+    if (!fs.existsSync(sec.location)) {
+      fs.mkdirSync(sec.location);
+    }
+
+    fs.copyFileSync(path.join(SECRET_DIR, sec.name), destFile);
   }
 };

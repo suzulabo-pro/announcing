@@ -7,30 +7,28 @@ outputs:
     value: ${{ steps.build_version.outputs.BUILD_NUMBER }}
   APP_VERSION:
     value: ${{ steps.build_version.outputs.APP_VERSION }}
-  FIREBASE_APP_ID_ANDROID:
-    value: ${{ steps.extract_secrets.outputs.FIREBASE_APP_ID_ANDROID }}
-  FIREBASE_APP_ID_IOS:
-    value: ${{ steps.extract_secrets.outputs.FIREBASE_APP_ID_IOS }}
-  AD_HOC_PROVISION_NAME:
-    value: ${{ steps.extract_secrets.outputs.AD_HOC_PROVISION_NAME }}
-  AD_HOC_APPID:
-    value: ${{ steps.extract_secrets.outputs.AD_HOC_APPID }}
+  APPSTORE_API_KEY:
+    value: ${{ steps.unpack_secrets.outputs.APPSTORE_API_KEY }}
+  APPSTORE_API_ISSUER:
+    value: ${{ steps.unpack_secrets.outputs.APPSTORE_API_ISSUER }}
 
 runs:
   using: 'composite'
 
   steps:
-    - run: npm i -g npm@7
-      shell: bash
+    - uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+        cache: 'npm'
 
     - run: npm ci
       shell: bash
 
-    - id: unpack_secrets
-      run: npm run - secrets.unpack
+    - run: npm run - secrets.unpack
       shell: bash
       env:
         SECRET_VALUES: ${{ inputs.SECRET_VALUES }}
+      id: unpack_secrets
 
     - run: npm run - secrets.copy
       shell: bash
