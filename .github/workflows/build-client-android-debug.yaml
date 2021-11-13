@@ -19,7 +19,7 @@ jobs:
       - run: npm run - client.cap.build
       - run: npm run - client.cap.sync
 
-      - run: ./gradlew assembleDebug
+      - run: ./gradlew --quiet assembleDebug
         working-directory: ./capacitor/client/android
         env:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
@@ -30,12 +30,12 @@ jobs:
       - uses: actions/upload-artifact@v2
         with:
           name: announcing-debug.apk
-          path: ./packages/client/android/app/build/outputs/apk/debug/app-debug.apk
+          path: ./capacitor/client/android/app/build/outputs/apk/debug/app-debug.apk
 
       - run: >-
           npm_config_yes=true npx firebase-tools
           appdistribution:distribute
-          ./packages/client/android/app/build/outputs/apk/debug/app-debug.apk
+          ./capacitor/client/android/app/build/outputs/apk/debug/app-debug.apk
           --app ${APP_ID}
           --groups testers
         env:
