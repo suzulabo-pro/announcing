@@ -19,7 +19,7 @@ jobs:
       - run: npm run - client.cap.build
       - run: npm run - client.cap.sync
 
-      - run: ./gradlew --silent bundleRelease
+      - run: ./gradlew --quiet bundleRelease
         working-directory: ./capacitor/client/android
         env:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
