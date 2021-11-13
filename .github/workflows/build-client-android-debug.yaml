@@ -9,32 +9,20 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
+      - uses: ./.github/workflows/build-setup
         with:
-          node-version: '16'
-          cache: 'npm'
+          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+        id: build_setup
 
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-
-      # https://github.com/actions/cache/blob/main/examples.md#java---gradle
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
+      - uses: ./.github/workflows/build-setup/android
 
       - uses: ./.github/workflows/build-setup
         with:
           BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
         id: build_setup
 
-      - run: npm run build.android -w packages/client
+      - run: npm run - client.cap.build
+      - run: npm run - client.cap.sync
 
       - run: ./gradlew assembleDebug
         working-directory: ./packages/client/android
@@ -42,7 +30,7 @@ jobs:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           VERSION_NAME: ${{ steps.build_setup.outputs.APP_VERSION }}
           APP_NAME: 'CI-Announcing♪'
-          APPLICATION_ID: 'app.announcing.client1'
+          APPLICATION_ID: 'app.announcing.client'
 
       - uses: actions/upload-artifact@v2
         with:
