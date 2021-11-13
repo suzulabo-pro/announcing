@@ -57,7 +57,8 @@ Download from Play Console.
 
 ## upload-keystore.jks
 
-See https://developer.android.com/studio/publish/app-signing
+See https://developer.android.com/studio/build/building-cmdline?hl=ja#sign_cmdline  
+https://developer.android.com/studio/publish/app-signing
 
 ## apple-app-site-association
 
