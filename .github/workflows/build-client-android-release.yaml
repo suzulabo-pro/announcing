@@ -19,7 +19,7 @@ jobs:
       - run: npm run - client.cap.build
       - run: npm run - client.cap.sync
 
-      - run: ./gradlew --quiet bundleRelease
+      - run: ./gradlew --quiet publishReleaseBundle
         working-directory: ./capacitor/client/android
         env:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
@@ -27,6 +27,7 @@ jobs:
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
           APP_LABEL: 'Announcing♪'
           APPLICATION_ID: 'app.announcing.client'
+          ANDROID_PUBLISHER_CREDENTIALS: ${{ secrets.ANDROID_PUBLISHER_CREDENTIALS }}
 
       - uses: actions/upload-artifact@v2
         with:

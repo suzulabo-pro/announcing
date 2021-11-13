@@ -51,10 +51,6 @@ Download from Firebase Console.
 
 See https://firebase.google.com/docs/projects/multiprojects
 
-## play-console-account.json
-
-Download from Play Console.
-
 ## upload-keystore.jks
 
 See https://developer.android.com/studio/build/building-cmdline?hl=ja#sign_cmdline  
@@ -114,3 +110,10 @@ See [scripts/secrets/pack.ts](../scripts/secrets/pack.ts)
 - FIREBASE_APP_ID_ANDROID
 - FIREBASE_APP_ID_IOS
 - APPLE_DISTRIBUTION_CERTIFICATE_PASSWORD
+
+## ANDROID_PUBLISHER_CREDENTIALS
+
+JSON which is download from Play Console.
+
+See https://developers.google.com/android-publisher/getting_started  
+https://github.com/Triple-T/gradle-play-publisher

@@ -3,10 +3,6 @@ plugins {
     id 'com.github.triplet.play' version '3.6.0'
 }
 
-play {
-    serviceAccountCredentials.set(file("../../play-console-account.json"))
-}
-
 android {
     compileSdkVersion rootProject.ext.compileSdkVersion
     defaultConfig {
