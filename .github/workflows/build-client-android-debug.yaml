@@ -20,7 +20,7 @@ jobs:
       - run: npm run - client.cap.sync
 
       - run: ./gradlew assembleDebug
-        working-directory: ./packages/client/android
+        working-directory: ./capacitor/client/android
         env:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           VERSION_NAME: ${{ steps.build_setup.outputs.APP_VERSION }}
