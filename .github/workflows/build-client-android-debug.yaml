@@ -11,7 +11,7 @@ jobs:
 
       - uses: ./.github/workflows/build-setup
         with:
-          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+          SECRET_VALUES: ${{ secrets.SECRET_VALUES }}
         id: build_setup
 
       - uses: ./.github/workflows/build-setup/android
