@@ -1,7 +1,12 @@
 import * as fs from 'fs';
 import * as path from 'path';
 
-export const SECRETS_KEYS = ['APPSTORE_API_KEY', 'APPSTORE_API_ISSUER'] as const;
+export const SECRETS_KEYS = [
+  'APPSTORE_API_KEY',
+  'APPSTORE_API_ISSUER',
+  'FIREBASE_APP_ID_IOS',
+  'FIREBASE_APP_ID_ANDROID',
+] as const;
 type SECRETS_KEYS_UNION = typeof SECRETS_KEYS[number];
 
 export const ROOT_DIR = path.resolve(path.join(__dirname, '../..'));
@@ -31,6 +36,8 @@ export const SECRET_FILES: SecretFile[] = [
   Sec('AppleDistribution.p12'),
   Sec('Ad_Hoc.mobileprovision'),
   Sec('Release.mobileprovision'),
+
+  Sec('release.keystore'),
 ];
 
 export const loadSecretJSON = () => {

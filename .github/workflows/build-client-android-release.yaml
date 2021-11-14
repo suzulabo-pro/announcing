@@ -9,44 +9,27 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v2
-        with:
-          node-version: '16'
-          cache: 'npm'
-
-      - uses: actions/setup-java@v2
-        with:
-          distribution: 'adopt'
-          java-version: '11'
-
-      # https://github.com/actions/cache/blob/main/examples.md#java---gradle
-      - uses: actions/cache@v2
-        with:
-          path: |
-            ~/.gradle/caches
-            ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
-          restore-keys: |
-            ${{ runner.os }}-gradle-
-
       - uses: ./.github/workflows/build-setup
         with:
-          BUILD_VALUES: ${{ secrets.BUILD_VALUES }}
+          SECRET_VALUES: ${{ secrets.SECRET_VALUES }}
         id: build_setup
 
-      - run: npm run build.android -w packages/client
+      - uses: ./.github/workflows/build-setup/android
 
-      - run: ./gradlew publishReleaseBundle
-        working-directory: ./packages/client/android
+      - run: npm run - client.cap.build
+      - run: npm run - client.cap.sync
+
+      - run: ./gradlew --quiet publishReleaseBundle
+        working-directory: ./capacitor/client/android
         env:
           VERSION_CODE: ${{ steps.build_setup.outputs.BUILD_NUMBER }}
           VERSION_NAME: ${{ steps.build_setup.outputs.APP_VERSION }}
           KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
-          KEYSTORE_UPLOAD_KEY_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_UPLOAD_KEY_PASSWORD }}
-          APP_NAME: 'Announcing♪'
-          APPLICATION_ID: 'app.announcing.client.prod'
+          APP_LABEL: 'Announcing♪'
+          APPLICATION_ID: 'app.announcing.client'
+          ANDROID_PUBLISHER_CREDENTIALS: ${{ secrets.ANDROID_PUBLISHER_CREDENTIALS }}
 
       - uses: actions/upload-artifact@v2
         with:
           name: announcing-release.aab
-          path: ./packages/client/android/app/build/outputs/bundle/release/app-release.aab
+          path: ./capacitor/client/android/app/build/outputs/bundle/release/app-release.aab

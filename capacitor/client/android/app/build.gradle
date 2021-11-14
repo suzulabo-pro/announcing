@@ -1,10 +1,6 @@
 plugins {
     id 'com.android.application'
-    id 'com.github.triplet.play' version '3.5.0'
-}
-
-play {
-    serviceAccountCredentials.set(file("../../play-console-account.json"))
+    id 'com.github.triplet.play' version '3.6.0'
 }
 
 android {
@@ -22,16 +18,16 @@ android {
             ignoreAssetsPattern '!.svn:!.git:!.ds_store:!*.scc:.*:!CVS:!thumbs.db:!picasa.ini:!*~'
         }
 
-        resValue "string", "app_name", System.getenv("APP_NAME") ?: "L-Announcing♪"
-        resValue "string", "title_activity_main", System.getenv("APP_NAME") ?: "L-Announcing♪"
+        resValue "string", "app_label", System.getenv("APP_LABEL") ?: "L-Announcing♪"
+        resValue "string", "title_activity_main", System.getenv("APP_LABEL") ?: "L-Announcing♪"
     }
 
     signingConfigs {
         release {
-            storeFile file("../../upload-keystore.jks")
+            storeFile file("../../../../secrets/release.keystore")
             storePassword System.getenv("KEYSTORE_PASSWORD")
+            keyPassword System.getenv("KEYSTORE_PASSWORD")
             keyAlias "upload"
-            keyPassword System.getenv("KEYSTORE_UPLOAD_KEY_PASSWORD")
         }
      }
 
