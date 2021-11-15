@@ -52,7 +52,10 @@ export class AppFirebase {
     firebaseApp?: FirebaseApp,
   ) {
     if (!firebaseApp) {
-      firebaseApp = initializeApp(this.appEnv.env.firebaseConfig);
+      firebaseApp = initializeApp({
+        ...this.appEnv.env.firebaseConfig,
+        authDomain: location.hostname,
+      });
     }
 
     this.functions = getFunctions(firebaseApp, this.appEnv.env.functionsRegion);
