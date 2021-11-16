@@ -19,3 +19,10 @@ export interface ImmediateNotification {
 export interface ImmediateNotificationArchive {
   devices: { [token: string]: [lang: Lang] };
 }
+
+export interface ExternalAnnounces {
+  urlPrefix: string;
+  pubKey: string;
+  announces: string[];
+  uT: Timestamp;
+}

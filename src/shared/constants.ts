@@ -3,6 +3,7 @@ export const ANNOUNCE_META_ID_LENGTH = 8;
 export const POST_ID_LENGTH = 8;
 export const NOTIFICATION_TOKEN_MAX_LENGTH = 300;
 export const LANG_LENGTH = 2;
+export const EXTERNAL_ANNOUNCES_ID_LENGTH = 5;
 
 export const NACL_KEY_MIN_LENGTH = 30; // actually 32
 export const NACL_KEY_MAX_LENGTH = 45; // actually 43
@@ -25,3 +26,5 @@ export const IMAGE_ID_MAX_LENGTH = MD5_MAX_LENGTH;
 export const IMAGE_DATA_MAX_LENGTH = 1000 * 1000;
 
 export const IMPORT_POSTS_URL_MAX_LENGTH = 1000;
+
+export const EXTERNAL_ANNOUNCES_URL_PREFIX_MAX_LENGTH = 1000;

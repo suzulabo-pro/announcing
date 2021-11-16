@@ -48,6 +48,7 @@ export interface AnnounceMetaJSON extends AnnounceMetaBase {
 
 export interface User {
   announces?: string[];
+  externalAnnounces?: string[];
   uT: Timestamp;
 }
 
@@ -141,4 +142,21 @@ export interface RegisterNotificationParams {
   sign: string;
   lang: Lang;
   announces: string[];
+}
+
+export interface RegisterExternalAnnouncesParams {
+  method: 'RegisterExternalAnnounces';
+  urlPrefix: string;
+  pubKey: string;
+}
+
+export interface UpdateExternalAnnouncesKeyParams {
+  method: 'UpdateExternalAnnouncesKey';
+  id: string;
+  pubKey: string;
+}
+
+export interface DeleteExternalAnnouncesParams {
+  method: 'DeleteExternalAnnounces';
+  id: string;
 }
