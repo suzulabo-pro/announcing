@@ -1,5 +1,6 @@
 import { JSONSchemaType } from 'ajv';
 import {
+  DeleteExternalAnnouncesParams,
   EXTERNAL_ANNOUNCES_ID_LENGTH,
   EXTERNAL_ANNOUNCES_URL_PREFIX_MAX_LENGTH,
   NACL_KEY_MAX_LENGTH,
@@ -54,3 +55,20 @@ export const UpdateExternalAnnouncesKeyParamsSchema: JSONSchemaType<UpdateExtern
       },
     },
   };
+
+export const DeleteExternalAnnouncesParamsSchema: JSONSchemaType<DeleteExternalAnnouncesParams> = {
+  type: 'object',
+  additionalProperties: false,
+  required: ['id'],
+  properties: {
+    method: {
+      type: 'string',
+      const: 'DeleteExternalAnnounces',
+    },
+    id: {
+      type: 'string',
+      minLength: 1,
+      maxLength: EXTERNAL_ANNOUNCES_ID_LENGTH,
+    },
+  },
+};

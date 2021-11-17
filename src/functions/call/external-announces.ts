@@ -1,9 +1,11 @@
 import {
+  DeleteExternalAnnouncesParams,
   RegisterExternalAnnouncesParams,
   UpdateExternalAnnouncesKeyParams,
   User,
 } from '../../shared';
 import {
+  arrayRemove,
   arrayUnion,
   CallableContext,
   FirebaseAdminApp,
@@ -68,6 +70,38 @@ export const updateExternalAnnouncesKey = async (
     pubKey,
     uT: serverTimestamp() as any,
   });
+};
+
+export const deleteExternalAnnounces = async (
+  params: DeleteExternalAnnouncesParams,
+  context: CallableContext,
+  adminApp: FirebaseAdminApp,
+): Promise<void> => {
+  const uid = context.auth?.uid;
+  if (!uid) {
+    throw new Error('missing uid');
+  }
+
+  const { id } = params;
+  const firestore = getFirestore(adminApp);
+
+  {
+    const isOwner = await checkExternalAnnouncesOwner(firestore, uid, id);
+    if (!isOwner) {
+      throw new Error('not Owner');
+    }
+  }
+
+  await firestore.doc(`external_announces/${id}`).delete();
+
+  const batch = firestore.batch();
+  batch.delete(firestore.doc(`external_announces/${id}`));
+  batch.set(
+    firestore.doc(`users/${uid}`),
+    { externalAnnounces: arrayRemove(id), uT: serverTimestamp() as any },
+    { merge: true },
+  );
+  await batch.commit();
 };
 
 export const checkExternalAnnouncesOwner = async (

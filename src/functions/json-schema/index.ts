@@ -3,6 +3,7 @@ import addFormats from 'ajv-formats';
 import {
   CreateAnnounceParams,
   DeleteAnnounceParams,
+  DeleteExternalAnnouncesParams,
   DeletePostParams,
   EditAnnounceParams,
   EditImportPostsParams,
@@ -18,6 +19,7 @@ import { DeletePostParamsSchema } from './delete-post-params';
 import { EditAnnounceParamsSchema } from './edit-announce-params';
 import { EditImportPostsParamsSchema } from './edit-import-posts-params';
 import {
+  DeleteExternalAnnouncesParamsSchema,
   RegisterExternalAnnouncesParamsSchema,
   UpdateExternalAnnouncesKeyParamsSchema,
 } from './external-announces-params';
@@ -38,6 +40,7 @@ ajv.addSchema(PutPostParamsSchema, 'PutPostParams');
 ajv.addSchema(RegisterNotificationParamsSchema, 'RegisterNotificationParams');
 ajv.addSchema(RegisterExternalAnnouncesParamsSchema, 'RegisterExternalAnnouncesParams');
 ajv.addSchema(UpdateExternalAnnouncesKeyParamsSchema, 'UpdateExternalAnnouncesKeyParams');
+ajv.addSchema(DeleteExternalAnnouncesParamsSchema, 'DeleteExternalAnnouncesParams');
 
 ajv.addSchema(ImportPostsFetchMessageSchema, 'ImportPostsFetchMessage');
 ajv.addSchema(ImportPostsJSONSchema, 'ImportPostsJSON');
@@ -68,8 +71,11 @@ export const validators = {
   registerExternalAnnouncesParams: genValidator<RegisterExternalAnnouncesParams>(
     'RegisterExternalAnnouncesParams',
   ),
-  updateExternalAnnouncesKeyParamsParams: genValidator<UpdateExternalAnnouncesKeyParams>(
+  updateExternalAnnouncesKeyParams: genValidator<UpdateExternalAnnouncesKeyParams>(
     'UpdateExternalAnnouncesKeyParams',
+  ),
+  deleteExternalAnnouncesParams: genValidator<DeleteExternalAnnouncesParams>(
+    'DeleteExternalAnnouncesParams',
   ),
 
   importPostsFetchMessage: genValidator<ImportPostsFetchMessage>('ImportPostsFetchMessage'),
