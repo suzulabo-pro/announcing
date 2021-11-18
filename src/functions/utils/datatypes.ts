@@ -21,8 +21,8 @@ export interface ImmediateNotificationArchive {
 }
 
 export interface ExternalAnnounces {
-  urlPrefix: string;
-  pubKey: string;
+  urlPrefixes: string[];
+  pubKeys: string[];
   announces: string[];
   uT: Timestamp;
 }

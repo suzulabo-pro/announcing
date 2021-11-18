@@ -1,9 +1,4 @@
-import {
-  DeleteExternalAnnouncesParams,
-  RegisterExternalAnnouncesParams,
-  UpdateExternalAnnouncesKeyParams,
-  User,
-} from '../../shared';
+import { DeleteExternalAnnouncesParams, PutExternalAnnouncesParams, User } from '../../shared';
 import {
   arrayRemove,
   arrayUnion,
@@ -17,8 +12,8 @@ import { ExternalAnnounces } from '../utils/datatypes';
 import { genExternalAnnouncesID } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
-export const registerExternalAnnounces = async (
-  params: RegisterExternalAnnouncesParams,
+export const putExternalAnnounces = async (
+  params: PutExternalAnnouncesParams,
   context: CallableContext,
   adminApp: FirebaseAdminApp,
 ): Promise<void> => {
@@ -27,49 +22,33 @@ export const registerExternalAnnounces = async (
     throw new Error('missing uid');
   }
 
-  const { urlPrefix, pubKey } = params;
-  const id = genExternalAnnouncesID();
+  const { urlPrefixes, pubKeys, id } = params;
 
   const firestore = getFirestore(adminApp);
+
+  if (id) {
+    await firestore.doc(`external-announces/${id}`).update({
+      urlPrefixes,
+      pubKeys,
+      uT: serverTimestamp(),
+    } as ExternalAnnounces);
+    return;
+  }
+
+  const newID = genExternalAnnouncesID();
+
   const batch = firestore.batch();
-  batch.create(firestore.doc(`external_announces/${id}`), {
-    urlPrefix,
-    pubKey,
-    announces: [],
-    uT: serverTimestamp() as any,
+  batch.create(firestore.doc(`external-announces/${newID}`), {
+    urlPrefixes,
+    pubKeys,
+    uT: serverTimestamp(),
   } as ExternalAnnounces);
   batch.set(
     firestore.doc(`users/${uid}`),
-    { externalAnnounces: arrayUnion(id), uT: serverTimestamp() as any },
+    { externalAnnounces: arrayUnion(newID), uT: serverTimestamp() as any },
     { merge: true },
   );
   await batch.commit();
-};
-
-export const updateExternalAnnouncesKey = async (
-  params: UpdateExternalAnnouncesKeyParams,
-  context: CallableContext,
-  adminApp: FirebaseAdminApp,
-): Promise<void> => {
-  const uid = context.auth?.uid;
-  if (!uid) {
-    throw new Error('missing uid');
-  }
-
-  const { id, pubKey } = params;
-  const firestore = getFirestore(adminApp);
-
-  {
-    const isOwner = await checkExternalAnnouncesOwner(firestore, uid, id);
-    if (!isOwner) {
-      throw new Error('not Owner');
-    }
-  }
-
-  await firestore.doc(`external_announces/${id}`).update({
-    pubKey,
-    uT: serverTimestamp() as any,
-  });
 };
 
 export const deleteExternalAnnounces = async (
@@ -92,10 +71,10 @@ export const deleteExternalAnnounces = async (
     }
   }
 
-  await firestore.doc(`external_announces/${id}`).delete();
+  await firestore.doc(`external-announces/${id}`).delete();
 
   const batch = firestore.batch();
-  batch.delete(firestore.doc(`external_announces/${id}`));
+  batch.delete(firestore.doc(`external-announces/${id}`));
   batch.set(
     firestore.doc(`users/${uid}`),
     { externalAnnounces: arrayRemove(id), uT: serverTimestamp() as any },

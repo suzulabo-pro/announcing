@@ -144,16 +144,12 @@ export interface RegisterNotificationParams {
   announces: string[];
 }
 
-export interface RegisterExternalAnnouncesParams {
-  method: 'RegisterExternalAnnounces';
-  urlPrefix: string;
-  pubKey: string;
-}
-
-export interface UpdateExternalAnnouncesKeyParams {
-  method: 'UpdateExternalAnnouncesKey';
-  id: string;
-  pubKey: string;
+export interface PutExternalAnnouncesParams {
+  method: 'PutExternalAnnounces';
+  urlPrefixes: string[];
+  pubKeys: string[];
+  desc?: string;
+  id?: string;
 }
 
 export interface DeleteExternalAnnouncesParams {

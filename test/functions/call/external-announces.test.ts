@@ -1,16 +1,16 @@
 import { httpsCallHandler } from '../../../src/functions/call';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('registerExternalAnnounces', () => {
+describe('putExternalAnnounces', () => {
   it('basic', async () => {
     const data = {} as any;
     const firestore = new FakeFirestore(data);
 
     await httpsCallHandler(
       {
-        method: 'RegisterExternalAnnounces',
-        urlPrefix: 'https://announcing.test/announces/',
-        pubKey: '1234567890',
+        method: 'PutExternalAnnounces',
+        urlPrefixes: ['https://announcing.test/announces/'],
+        pubKeys: ['1234567890'],
       },
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
@@ -22,28 +22,25 @@ describe('registerExternalAnnounces', () => {
       uT: expect.any(Date),
     });
 
-    const externalAnnounces = data['external_announces'][user.externalAnnounces[0]];
+    const externalAnnounces = data['external-announces'][user.externalAnnounces[0]];
     expect(externalAnnounces).toEqual({
-      urlPrefix: 'https://announcing.test/announces/',
-      pubKey: '1234567890',
-      announces: [],
+      urlPrefixes: ['https://announcing.test/announces/'],
+      pubKeys: ['1234567890'],
       uT: expect.any(Date),
     });
   });
-});
 
-describe('updateExternalAnnouncesKey', () => {
-  it('basic', async () => {
+  it('update', async () => {
     const data = {
-      users: {
+      'users': {
         AAAAA: {
           externalAnnounces: ['ABCDE'],
         },
       },
-      external_announces: {
+      'external-announces': {
         ABCDE: {
-          urlPrefix: 'https://announcing.test/announces/',
-          pubKey: 'currentKey',
+          urlPrefixes: ['https://announcing.test/announces/'],
+          pubKeys: ['currentKey'],
           announces: ['1'],
         },
       },
@@ -52,18 +49,19 @@ describe('updateExternalAnnouncesKey', () => {
 
     await httpsCallHandler(
       {
-        method: 'UpdateExternalAnnouncesKey',
+        method: 'PutExternalAnnounces',
         id: 'ABCDE',
-        pubKey: 'updatedKey',
+        urlPrefixes: ['https://announcing.test/announces/updated'],
+        pubKeys: ['updatedKey'],
       },
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
     );
 
-    const externalAnnounces = data['external_announces']['ABCDE'];
+    const externalAnnounces = data['external-announces']['ABCDE'];
     expect(externalAnnounces).toEqual({
-      urlPrefix: 'https://announcing.test/announces/',
-      pubKey: 'updatedKey',
+      urlPrefixes: ['https://announcing.test/announces/updated'],
+      pubKeys: ['updatedKey'],
       announces: ['1'],
       uT: expect.any(Date),
     });
@@ -73,12 +71,12 @@ describe('updateExternalAnnouncesKey', () => {
 describe('deleteExternalAnnounces', () => {
   it('basic', async () => {
     const data = {
-      users: {
+      'users': {
         AAAAA: {
           externalAnnounces: ['ABCDE'],
         },
       },
-      external_announces: {
+      'external-announces': {
         ABCDE: {
           urlPrefix: 'https://announcing.test/announces/',
           pubKey: 'currentKey',
@@ -103,7 +101,7 @@ describe('deleteExternalAnnounces', () => {
       uT: expect.any(Date),
     });
 
-    const externalAnnounces = data['external_announces']['ABCDE'];
+    const externalAnnounces = data['external-announces']['ABCDE'];
     expect(externalAnnounces).toBeUndefined();
   });
 });

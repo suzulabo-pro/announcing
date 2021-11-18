@@ -7,11 +7,7 @@ import { deleteAnnounce } from './delete-announce';
 import { deletePost } from './delete-post';
 import { editAnnounce } from './edit-announce';
 import { editImportPosts } from './edit-import-posts';
-import {
-  deleteExternalAnnounces,
-  registerExternalAnnounces,
-  updateExternalAnnouncesKey,
-} from './external-announces';
+import { deleteExternalAnnounces, putExternalAnnounces } from './external-announces';
 import { putPost } from './put-post';
 import { registerNotification } from './register-notification';
 
@@ -74,14 +70,9 @@ export const httpsCallHandler = async (
           return registerNotification(data, context, adminApp);
         }
         break;
-      case 'RegisterExternalAnnounces':
-        if (validators.registerExternalAnnouncesParams(data)) {
-          return registerExternalAnnounces(data, context, adminApp);
-        }
-        break;
-      case 'UpdateExternalAnnouncesKey':
-        if (validators.updateExternalAnnouncesKeyParams(data)) {
-          return updateExternalAnnouncesKey(data, context, adminApp);
+      case 'PutExternalAnnounces':
+        if (validators.putExternalAnnouncesParams(data)) {
+          return putExternalAnnounces(data, context, adminApp);
         }
         break;
       case 'DeleteExternalAnnounces':

@@ -7,10 +7,9 @@ import {
   DeletePostParams,
   EditAnnounceParams,
   EditImportPostsParams,
+  PutExternalAnnouncesParams,
   PutPostParams,
-  RegisterExternalAnnouncesParams,
   RegisterNotificationParams,
-  UpdateExternalAnnouncesKeyParams,
 } from '../../shared';
 import { logger } from '../utils/logger';
 import { CreateAnnounceParamsSchema } from './create-announce-params';
@@ -20,8 +19,7 @@ import { EditAnnounceParamsSchema } from './edit-announce-params';
 import { EditImportPostsParamsSchema } from './edit-import-posts-params';
 import {
   DeleteExternalAnnouncesParamsSchema,
-  RegisterExternalAnnouncesParamsSchema,
-  UpdateExternalAnnouncesKeyParamsSchema,
+  PutExternalAnnouncesParamsSchema,
 } from './external-announces-params';
 import { ImportPostsFetchMessage, ImportPostsFetchMessageSchema } from './import-posts-fetch-msg';
 import { ImportPostsJSON, ImportPostsJSONSchema } from './import-posts-json';
@@ -38,8 +36,7 @@ ajv.addSchema(EditAnnounceParamsSchema, 'EditAnnounceParams');
 ajv.addSchema(EditImportPostsParamsSchema, 'EditImportPostsParams');
 ajv.addSchema(PutPostParamsSchema, 'PutPostParams');
 ajv.addSchema(RegisterNotificationParamsSchema, 'RegisterNotificationParams');
-ajv.addSchema(RegisterExternalAnnouncesParamsSchema, 'RegisterExternalAnnouncesParams');
-ajv.addSchema(UpdateExternalAnnouncesKeyParamsSchema, 'UpdateExternalAnnouncesKeyParams');
+ajv.addSchema(PutExternalAnnouncesParamsSchema, 'PutExternalAnnouncesParams');
 ajv.addSchema(DeleteExternalAnnouncesParamsSchema, 'DeleteExternalAnnouncesParams');
 
 ajv.addSchema(ImportPostsFetchMessageSchema, 'ImportPostsFetchMessage');
@@ -68,11 +65,8 @@ export const validators = {
   registerNotificationParams: genValidator<RegisterNotificationParams>(
     'RegisterNotificationParams',
   ),
-  registerExternalAnnouncesParams: genValidator<RegisterExternalAnnouncesParams>(
-    'RegisterExternalAnnouncesParams',
-  ),
-  updateExternalAnnouncesKeyParams: genValidator<UpdateExternalAnnouncesKeyParams>(
-    'UpdateExternalAnnouncesKeyParams',
+  putExternalAnnouncesParams: genValidator<PutExternalAnnouncesParams>(
+    'PutExternalAnnouncesParams',
   ),
   deleteExternalAnnouncesParams: genValidator<DeleteExternalAnnouncesParams>(
     'DeleteExternalAnnouncesParams',
