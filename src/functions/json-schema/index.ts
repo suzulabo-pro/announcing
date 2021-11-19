@@ -17,6 +17,7 @@ import { DeleteAnnounceParamsSchema } from './delete-announce-params';
 import { DeletePostParamsSchema } from './delete-post-params';
 import { EditAnnounceParamsSchema } from './edit-announce-params';
 import { EditImportPostsParamsSchema } from './edit-import-posts-params';
+import { ExternalAnnounceJSON, ExternalAnnounceJSONSchema } from './external-announce-json';
 import {
   DeleteExternalAnnouncesParamsSchema,
   PutExternalAnnouncesParamsSchema,
@@ -41,6 +42,8 @@ ajv.addSchema(DeleteExternalAnnouncesParamsSchema, 'DeleteExternalAnnouncesParam
 
 ajv.addSchema(ImportPostsFetchMessageSchema, 'ImportPostsFetchMessage');
 ajv.addSchema(ImportPostsJSONSchema, 'ImportPostsJSON');
+
+ajv.addSchema(ExternalAnnounceJSONSchema, 'ExternalAnnounceJSON');
 
 const genValidator = <T>(k: string) => {
   const validator = (data: any): data is T => {
@@ -74,6 +77,8 @@ export const validators = {
 
   importPostsFetchMessage: genValidator<ImportPostsFetchMessage>('ImportPostsFetchMessage'),
   importPostsJSON: genValidator<ImportPostsJSON>('ImportPostsJSON'),
+
+  externalAnnounceJSON: genValidator<ExternalAnnounceJSON>('ExternalAnnounceJSON'),
 };
 
 export const __schemas = ajv.schemas;

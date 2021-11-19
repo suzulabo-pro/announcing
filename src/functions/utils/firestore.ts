@@ -13,7 +13,7 @@ import {
 import { Firestore } from '../firebase';
 import { logger } from '../utils/logger';
 
-const toMD5Base62 = (v: Buffer | string) => {
+export const toMD5Base62 = (v: Buffer | string) => {
   const md5 = crypto.createHash('md5');
   return bs62.encode(md5.update(v).digest());
 };

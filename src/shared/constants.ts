@@ -4,6 +4,8 @@ export const POST_ID_LENGTH = 8;
 export const NOTIFICATION_TOKEN_MAX_LENGTH = 300;
 export const LANG_LENGTH = 2;
 export const EXTERNAL_ANNOUNCES_ID_LENGTH = 5;
+export const EXTERNAL_ANNOUNCES_ID_SUFFIX_MIN_LENGTH = 1;
+export const EXTERNAL_ANNOUNCES_ID_SUFFIX_MAX_LENGTH = 5;
 
 export const NACL_KEY_MIN_LENGTH = 30; // actually 32
 export const NACL_KEY_MAX_LENGTH = 45; // actually 43

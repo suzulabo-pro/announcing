@@ -26,3 +26,8 @@ export interface ExternalAnnounces {
   announces: string[];
   uT: Timestamp;
 }
+
+export interface ExternalAnnouncesPing {
+  url: string;
+  uT: Timestamp;
+}
