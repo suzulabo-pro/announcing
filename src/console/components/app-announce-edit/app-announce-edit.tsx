@@ -7,7 +7,6 @@ import {
   ANNOUNCE_META_LINK_MAX_LENGTH,
   ANNOUNCE_META_NAME_MAX_LENGTH,
   assertIsDefined,
-  href,
   PromiseState,
   pushRoute,
   redirectRoute,
@@ -227,9 +226,6 @@ const renderForm = (ctx: RenderContext) => {
           {ctx.msgs.announceEdit.form.btn}
         </button>
       </div>
-      <a class="button clear import-posts" {...href('import-posts')}>
-        {ctx.msgs.announceEdit.importPosts}
-      </a>
       <button class="clear deletion-toggle" onClick={ctx.handlers.deletion.toggle}>
         {ctx.msgs.announceEdit.deletion.guide}
       </button>
