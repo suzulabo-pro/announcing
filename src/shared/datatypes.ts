@@ -88,6 +88,19 @@ export interface ImportPosts {
   uT: Timestamp; // updated time
 }
 
+export interface ExternalAnnounce {
+  urlPrefixes: string[];
+  pubKeys: string[];
+  desc?: string;
+  announces: string[];
+  uT: Timestamp;
+}
+
+export interface ExternalAnnouncePing {
+  url: string;
+  uT: Timestamp;
+}
+
 export type AnnounceAndMeta = Announce & AnnounceMetaBase;
 
 export interface CreateAnnounceParams {

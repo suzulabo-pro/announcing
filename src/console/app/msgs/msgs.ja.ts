@@ -133,4 +133,9 @@ export const msgs: Msgs = {
     delete: '削除',
     deleteConfirm: 'お知らせを削除します。よろしいですか？',
   },
+  externalAnnounces: {
+    pageTitle: '外部連携',
+    dataError: 'データの読み込み中にエラーが発生しました。\nしばらくしてから再度お試しください。',
+    noData: '設定はありません',
+  },
 };

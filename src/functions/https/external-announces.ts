@@ -1,8 +1,7 @@
 import nacl from 'tweetnacl';
-import { bs62 } from '../../shared';
+import { bs62, ExternalAnnounce, ExternalAnnouncePing } from '../../shared';
 import { FirebaseAdminApp, getFirestore, HttpRequest, HttpResponse, Timestamp } from '../firebase';
 import { addExternalAnnounceFetchTask } from '../pubsub/external-announce-fetch';
-import { ExternalAnnounces, ExternalAnnouncesPing } from '../utils/datatypes';
 import { logger } from '../utils/logger';
 
 const cacheControl = 'public, max-age=30, s-maxage=30';
@@ -49,7 +48,7 @@ export const pingExternalAnnounce = async (
   const firestore = getFirestore(adminApp);
   const docRef = firestore.doc(`external-announces/${id}`);
 
-  const data = (await docRef.get()).data() as ExternalAnnounces;
+  const data = (await docRef.get()).data() as ExternalAnnounce;
   if (!data) {
     sendErr('data not found');
     return;
@@ -77,7 +76,7 @@ export const pingExternalAnnounce = async (
     await pingRef.set({
       url,
       uT,
-    } as ExternalAnnouncesPing);
+    } as ExternalAnnouncePing);
   }
 
   await addExternalAnnounceFetchTask(id, idSuffix, uT.toMillis());

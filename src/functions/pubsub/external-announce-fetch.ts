@@ -1,7 +1,7 @@
 import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { toDate } from 'date-fns-tz';
-import { Announce, AnnounceMeta, Post } from '../../shared';
+import { Announce, AnnounceMeta, ExternalAnnouncePing, Post } from '../../shared';
 import {
   DocumentReference,
   EventContext,
@@ -14,7 +14,6 @@ import {
   Transaction,
 } from '../firebase';
 import { validators } from '../json-schema';
-import { ExternalAnnouncesPing } from '../utils/datatypes';
 import { announceMetaHash, postHash, toMD5Base62 } from '../utils/firestore';
 import { logger } from '../utils/logger';
 import { RetryError } from './retry-error';
@@ -42,7 +41,7 @@ export const pubsubExternalAnnounceFetch = async (
   const docRef = firestore.doc(`external-announces/${id}/ping/${idSuffix}`);
 
   await firestore.runTransaction(async t => {
-    const data = (await t.get(docRef)).data() as ExternalAnnouncesPing;
+    const data = (await t.get(docRef)).data() as ExternalAnnouncePing;
 
     if (!data) {
       logger.warn('no data', { id, idSuffix });

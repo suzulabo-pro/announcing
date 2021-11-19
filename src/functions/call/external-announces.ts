@@ -1,4 +1,9 @@
-import { DeleteExternalAnnouncesParams, PutExternalAnnouncesParams, User } from '../../shared';
+import {
+  DeleteExternalAnnouncesParams,
+  ExternalAnnounce,
+  PutExternalAnnouncesParams,
+  User,
+} from '../../shared';
 import {
   arrayRemove,
   arrayUnion,
@@ -8,7 +13,6 @@ import {
   getFirestore,
   serverTimestamp,
 } from '../firebase';
-import { ExternalAnnounces } from '../utils/datatypes';
 import { genExternalAnnouncesID } from '../utils/firestore';
 import { logger } from '../utils/logger';
 
@@ -30,8 +34,8 @@ export const putExternalAnnounces = async (
     await firestore.doc(`external-announces/${id}`).update({
       urlPrefixes,
       pubKeys,
-      uT: serverTimestamp(),
-    } as ExternalAnnounces);
+      uT: serverTimestamp() as any,
+    } as ExternalAnnounce);
     return;
   }
 
@@ -41,8 +45,8 @@ export const putExternalAnnounces = async (
   batch.create(firestore.doc(`external-announces/${newID}`), {
     urlPrefixes,
     pubKeys,
-    uT: serverTimestamp(),
-  } as ExternalAnnounces);
+    uT: serverTimestamp() as any,
+  } as ExternalAnnounce);
   batch.set(
     firestore.doc(`users/${uid}`),
     { externalAnnounces: arrayUnion(newID), uT: serverTimestamp() as any },

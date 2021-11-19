@@ -29,6 +29,7 @@ import {
   DeletePostParams,
   EditAnnounceParams,
   EditImportPostsParams,
+  ExternalAnnounce,
   FirestoreHelper,
   Image,
   ImportPosts,
@@ -178,5 +179,9 @@ export class AppFirebase {
 
   getImage(id: string) {
     return this.firestoreHelper.getCacheFirst<Image>(`images/${id}`);
+  }
+
+  getExternalAnnounce(id: string) {
+    return this.firestoreHelper.get<ExternalAnnounce>(`external-announces/${id}`);
   }
 }

@@ -223,4 +223,8 @@ export class App {
     }
     return;
   }
+
+  async getExternalAnnounce(id: string) {
+    return this.appFirebase.getExternalAnnounce(id);
+  }
 }
