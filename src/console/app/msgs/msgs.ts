@@ -110,6 +110,7 @@ export interface Msgs {
     pageTitle: string;
     dataError: string;
     noData: string;
+    deleteConfirm: string;
     form: {
       urlPrefixes: string;
       requestKeys: string;

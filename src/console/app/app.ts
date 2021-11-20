@@ -237,4 +237,8 @@ export class App {
       id,
     });
   }
+
+  async deleteExternalAnnounce(id: string) {
+    return this.appFirebase.callDeleteExternalAnnounces({ method: 'DeleteExternalAnnounces', id });
+  }
 }

@@ -20,7 +20,7 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { PutExternalAnnouncesParams } from '../../shared';
+import { DeleteExternalAnnouncesParams, PutExternalAnnouncesParams } from '../../shared';
 import {
   Announce,
   AnnounceMeta,
@@ -156,6 +156,10 @@ export class AppFirebase {
 
   async callPutExternalAnnounces(params: PutExternalAnnouncesParams) {
     return this.callFunc<PutExternalAnnouncesParams, void>(params);
+  }
+
+  async callDeleteExternalAnnounces(params: DeleteExternalAnnouncesParams) {
+    return this.callFunc<DeleteExternalAnnouncesParams, void>(params);
   }
 
   getUser() {

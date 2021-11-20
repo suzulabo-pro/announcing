@@ -137,6 +137,7 @@ export const msgs: Msgs = {
     pageTitle: '外部連携',
     dataError: 'データの読み込み中にエラーが発生しました。\nしばらくしてから再度お試しください。',
     noData: '設定はありません',
+    deleteConfirm: '設定を削除します。\nこの操作は元に戻せません。',
     form: {
       urlPrefixes: 'URLプレフィックス',
       requestKeys: 'リクエスト鍵',

@@ -32,6 +32,9 @@ export class AppExternalAnnounces {
   @State()
   formValues?: { urlPrefixes: string; keys: { pubKey: string; secKey: string }[]; desc?: string };
 
+  @State()
+  deleteConfirmID?: string;
+
   private async loadData() {
     const user = await this.app.getUser();
     const ids = user?.externalAnnounces;
@@ -105,6 +108,27 @@ export class AppExternalAnnounces {
         this.formValues = undefined;
       });
     },
+    delBtnClick: (ev: Event) => {
+      const id = (ev.currentTarget as HTMLElement).getAttribute('data-id');
+      console.log(id, ev.target);
+      if (!id) {
+        return;
+      }
+      this.deleteConfirmID = id;
+    },
+    deleteConfirmClick: async () => {
+      const id = this.deleteConfirmID;
+      if (!id) {
+        return;
+      }
+      await this.app.processLoading(async () => {
+        await this.app.deleteExternalAnnounce(id);
+      });
+      this.deleteConfirmID = undefined;
+    },
+    deleteConfirmClose: () => {
+      this.deleteConfirmID = undefined;
+    },
   };
 
   private renderContext() {
@@ -115,6 +139,7 @@ export class AppExternalAnnounces {
       msgs: this.app.msgs,
       dataStatus,
       formValues: this.formValues,
+      deleteConfirmID: this.deleteConfirmID,
       handlers: this.handlers,
     };
   }
@@ -137,6 +162,7 @@ const render = (ctx: RenderContext) => {
         <ap-icon icon="plus" />
       </button>
       {renderForm(ctx)}
+      {renderDeleteConfirm(ctx)}
     </Host>
   );
 };
@@ -155,6 +181,9 @@ const renderAnnounces = (ctx: RenderContext) => {
             {id}
             {v?.urlPrefixes}
             {v?.desc}
+            <button class="icon" data-id={id} onClick={ctx.handlers.delBtnClick}>
+              <ap-icon icon="trash" />
+            </button>
           </div>
         );
       });
@@ -204,6 +233,24 @@ const renderForm = (ctx: RenderContext) => {
         />
         <div>
           <button onClick={ctx.handlers.submit}>{ctx.msgs.externalAnnounces.form.submit}</button>
+        </div>
+      </div>
+    </ap-modal>
+  );
+};
+
+const renderDeleteConfirm = (ctx: RenderContext) => {
+  if (!ctx.deleteConfirmID) {
+    return;
+  }
+
+  return (
+    <ap-modal onClose={ctx.handlers.deleteConfirmClose}>
+      <div class="delete-modal">
+        <div>{ctx.msgs.externalAnnounces.deleteConfirm}</div>
+        <div class="buttons">
+          <button onClick={ctx.handlers.deleteConfirmClose}>{ctx.msgs.common.cancel}</button>
+          <button onClick={ctx.handlers.deleteConfirmClick}>{ctx.msgs.common.ok}</button>
         </div>
       </div>
     </ap-modal>
