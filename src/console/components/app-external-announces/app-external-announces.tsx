@@ -1,4 +1,5 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
+import md5 from 'js-md5';
 import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
 import { bs62, ExternalAnnounce } from '../../../shared';
@@ -178,9 +179,7 @@ const renderAnnounces = (ctx: RenderContext) => {
       return value.externalAnnounces.map(([id, v]) => {
         return (
           <div>
-            {id}
-            {v?.urlPrefixes}
-            {v?.desc}
+            {id} -{getHash(id)} -{v?.urlPrefixes} -{v?.desc}
             <button class="icon" data-id={id} onClick={ctx.handlers.delBtnClick}>
               <ap-icon icon="trash" />
             </button>
@@ -255,4 +254,8 @@ const renderDeleteConfirm = (ctx: RenderContext) => {
       </div>
     </ap-modal>
   );
+};
+
+const getHash = (id: string) => {
+  return bs62.encode(md5.array(id));
 };
