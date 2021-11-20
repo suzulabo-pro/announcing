@@ -227,4 +227,14 @@ export class App {
   async getExternalAnnounce(id: string) {
     return this.appFirebase.getExternalAnnounce(id);
   }
+
+  async putExternalAnnounce(urlPrefixes: string[], pubKeys: string[], desc?: string, id?: string) {
+    return this.appFirebase.callPutExternalAnnounces({
+      method: 'PutExternalAnnounces',
+      urlPrefixes,
+      pubKeys,
+      desc,
+      id,
+    });
+  }
 }

@@ -11,6 +11,7 @@ import github from 'bootstrap-icons/icons/github.svg';
 import google from 'bootstrap-icons/icons/google.svg';
 import heart from 'bootstrap-icons/icons/heart.svg';
 import image from 'bootstrap-icons/icons/image.svg';
+import plus from 'bootstrap-icons/icons/plus.svg';
 import square from 'bootstrap-icons/icons/square.svg';
 import trash from 'bootstrap-icons/icons/trash.svg';
 import twitter from 'bootstrap-icons/icons/twitter.svg';
@@ -37,6 +38,7 @@ const svgMap = {
   bellSlash: toHTML(bellSlash),
   arrowReturnLeft: toHTML(arrowReturnLeft),
   reload: toHTML(reload),
+  plus: toHTML(plus),
 };
 export type Icons = keyof typeof svgMap;
 

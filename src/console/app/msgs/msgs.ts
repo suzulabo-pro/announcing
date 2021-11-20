@@ -110,5 +110,11 @@ export interface Msgs {
     pageTitle: string;
     dataError: string;
     noData: string;
+    form: {
+      urlPrefixes: string;
+      requestKeys: string;
+      desc: string;
+      submit: string;
+    };
   };
 }

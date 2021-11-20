@@ -1,9 +1,10 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
+import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
-import { ExternalAnnounce } from '../../../shared';
+import { bs62, ExternalAnnounce } from '../../../shared';
 import { FirestoreUpdatedEvent, setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
-import { assertIsDefined, href, PromiseState } from '../../shared';
+import { assertIsDefined, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-external-announces',
@@ -12,9 +13,6 @@ import { assertIsDefined, href, PromiseState } from '../../shared';
 export class AppExternalAnnounces {
   @Prop()
   activePage!: boolean;
-
-  @State()
-  rerender = {};
 
   @Prop()
   app!: App;
@@ -30,6 +28,9 @@ export class AppExternalAnnounces {
 
   @State()
   dataState?: PromiseState<AsyncReturnType<AppExternalAnnounces['loadData']>>;
+
+  @State()
+  formValues?: { urlPrefixes: string; keys: { pubKey: string; secKey: string }[]; desc?: string };
 
   private async loadData() {
     const user = await this.app.getUser();
@@ -56,6 +57,56 @@ export class AppExternalAnnounces {
     }
   }
 
+  private handlers = {
+    addBtnClick: () => {
+      this.formValues = {
+        urlPrefixes: '',
+        keys: [],
+      };
+    },
+    formClose: () => {
+      this.formValues = undefined;
+    },
+    addKeyBtnClick: () => {
+      if (!this.formValues) {
+        return;
+      }
+      const keyPair = nacl.box.keyPair();
+      const pubKey = bs62.encode(keyPair.publicKey);
+      const secKey = bs62.encode(keyPair.secretKey);
+
+      this.formValues.keys.push({ pubKey, secKey });
+      this.formValues = { ...this.formValues };
+    },
+    urlPrefixesInput: (ev: Event) => {
+      if (!this.formValues) {
+        return;
+      }
+      this.formValues.urlPrefixes = (ev.target as HTMLApInputElement).value || '';
+      this.formValues = { ...this.formValues };
+    },
+    descInput: (ev: Event) => {
+      if (!this.formValues) {
+        return;
+      }
+      this.formValues.desc = (ev.target as HTMLApInputElement).value || '';
+      this.formValues = { ...this.formValues };
+    },
+    submit: () => {
+      return this.app.processLoading(async () => {
+        if (!this.formValues) {
+          return;
+        }
+        await this.app.putExternalAnnounce(
+          this.formValues.urlPrefixes.split('¥r¥n'),
+          this.formValues.keys.map(v => v.pubKey),
+          this.formValues.desc,
+        );
+        this.formValues = undefined;
+      });
+    },
+  };
+
   private renderContext() {
     const dataStatus = this.dataState?.status();
     assertIsDefined(dataStatus);
@@ -63,6 +114,8 @@ export class AppExternalAnnounces {
     return {
       msgs: this.app.msgs,
       dataStatus,
+      formValues: this.formValues,
+      handlers: this.handlers,
     };
   }
 
@@ -80,9 +133,10 @@ const render = (ctx: RenderContext) => {
   return (
     <Host>
       <div class="announces-grid">{renderAnnounces(ctx)}</div>
-      <a class="create button" {...href('/create')}>
-        {ctx.msgs.home.createAnnounceBtn}
-      </a>
+      <button class="create" onClick={ctx.handlers.addBtnClick}>
+        <ap-icon icon="plus" />
+      </button>
+      {renderForm(ctx)}
     </Host>
   );
 };
@@ -108,4 +162,50 @@ const renderAnnounces = (ctx: RenderContext) => {
     default:
       return <ap-spinner />;
   }
+};
+
+const renderForm = (ctx: RenderContext) => {
+  const formValues = ctx.formValues;
+  if (!formValues) {
+    return;
+  }
+
+  return (
+    <ap-modal onClose={ctx.handlers.formClose}>
+      <div class="form-modal">
+        <ap-input
+          label={ctx.msgs.externalAnnounces.form.urlPrefixes}
+          textarea={true}
+          value={formValues.urlPrefixes}
+          onInput={ctx.handlers.urlPrefixesInput}
+        />
+        <div class="keys">
+          <div>{ctx.msgs.externalAnnounces.form.requestKeys}</div>
+          <div>
+            {ctx.formValues?.keys.map(v => {
+              return (
+                <div class="key">
+                  {v.pubKey}/{v.secKey}
+                </div>
+              );
+            })}
+          </div>
+          <div>
+            <button class="icon" onClick={ctx.handlers.addKeyBtnClick}>
+              <ap-icon icon="plus" />
+            </button>
+          </div>
+        </div>
+        <ap-input
+          label={ctx.msgs.externalAnnounces.form.desc}
+          textarea={true}
+          value={formValues.desc}
+          onInput={ctx.handlers.descInput}
+        />
+        <div>
+          <button onClick={ctx.handlers.submit}>{ctx.msgs.externalAnnounces.form.submit}</button>
+        </div>
+      </div>
+    </ap-modal>
+  );
 };

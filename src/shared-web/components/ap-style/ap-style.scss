@@ -116,10 +116,11 @@ button,
 
   &.icon {
     border: none;
-    border-radius: 2px;
     padding: 4px;
     margin: 0;
     font-size: 1.4rem;
+    width: 40px;
+    height: 40px;
     &:hover {
       background-color: inherit;
     }
