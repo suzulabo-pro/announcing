@@ -1,4 +1,5 @@
 import {
+  AppError,
   DeleteExternalAnnouncesParams,
   ExternalAnnounce,
   PutExternalAnnouncesParams,
@@ -23,7 +24,7 @@ export const putExternalAnnounces = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { urlPrefixes, pubKeys, id } = params;
@@ -62,7 +63,7 @@ export const deleteExternalAnnounces = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { id } = params;
@@ -71,7 +72,7 @@ export const deleteExternalAnnounces = async (
   {
     const isOwner = await checkExternalAnnouncesOwner(firestore, uid, id);
     if (!isOwner) {
-      throw new Error('not Owner');
+      throw new AppError('not Owner');
     }
   }
 

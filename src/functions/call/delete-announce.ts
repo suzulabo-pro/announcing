@@ -1,4 +1,4 @@
-import { DeleteAnnounceParams } from '../../shared';
+import { AppError, DeleteAnnounceParams } from '../../shared';
 import {
   arrayRemove,
   CallableContext,
@@ -15,12 +15,12 @@ export const deleteAnnounce = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { id } = params;
   if (!id) {
-    throw new Error('missing id');
+    throw new AppError('missing id');
   }
 
   const firestore = getFirestore(adminApp);
