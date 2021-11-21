@@ -1,18 +1,18 @@
 PODS:
-  - Capacitor (3.2.4):
+  - Capacitor (3.3.2):
     - CapacitorCordova
-  - CapacitorApp (1.0.3):
+  - CapacitorApp (1.0.6):
     - Capacitor
-  - CapacitorCommunityHttp (1.3.0):
+  - CapacitorCommunityHttp (1.4.1):
     - Capacitor
-  - CapacitorCordova (3.2.4)
-  - CapacitorLocalNotifications (1.0.6):
+  - CapacitorCordova (3.3.2)
+  - CapacitorLocalNotifications (1.0.9):
     - Capacitor
-  - CapacitorPushNotifications (1.0.4):
+  - CapacitorPushNotifications (1.0.7):
     - Capacitor
-  - CapacitorShare (1.0.4):
+  - CapacitorShare (1.0.7):
     - Capacitor
-  - CapacitorStorage (1.2.0):
+  - CapacitorStorage (1.2.3):
     - Capacitor
   - Firebase/CoreOnly (8.3.0):
     - FirebaseCore (= 8.3.0)
@@ -110,14 +110,14 @@ EXTERNAL SOURCES:
     :path: "../../../../node_modules/@capacitor/storage"
 
 SPEC CHECKSUMS:
-  Capacitor: 07f746722420584674243fe6bb2e02d243a02a08
-  CapacitorApp: 51b2b0e6cc3f25183932b823c9e30ebe73639438
-  CapacitorCommunityHttp: 380f7f1261cadcf7b6f996d4f4736e9e51d6d246
-  CapacitorCordova: 16f118e79d7c20eb659565b1ed9133e2b730f747
-  CapacitorLocalNotifications: 0c1bc1f845d9434b0b2ee0817f4d54e461d47d55
-  CapacitorPushNotifications: 65cf477d2bace6d1bfd86e1c62fee6a910669222
-  CapacitorShare: dcd838032be7ddd8586db17ff0653b791ad629ad
-  CapacitorStorage: efb9db39d073545a5dcac176dd2b05c0eabb1e2c
+  Capacitor: b8a7b81d33f3b7dcf934e2efc833feb6a1a8495f
+  CapacitorApp: ec2e26a50713d175fd1680053500b63bfdc2af5f
+  CapacitorCommunityHttp: 7be90668527ef14ee10d08135b0e00fac9cf8247
+  CapacitorCordova: a971c79c2186c6291c839c855ef2c31d0ca26ede
+  CapacitorLocalNotifications: 1e242276132fa6a5bfb25f96ed73cb2a908ee05b
+  CapacitorPushNotifications: f973b2dca19aef3dfbe13ca41b77b22c340d93b4
+  CapacitorShare: be9d87857694b2118e47fe0d7d1e050f6a2f48e9
+  CapacitorStorage: 229dbc333a93764ba0a1b99c4fa22bbb37b47e45
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
   FirebaseCore: a6dba751680d7033b9d3831e1cfc95ead0605118
   FirebaseCoreDiagnostics: 7e873baabcfaa9512f538554ae4fa0817aaafbdb

@@ -3,6 +3,7 @@ import {
   Announce,
   AnnounceMetaBase,
   AppEnv,
+  AppError,
   LazyPromiseState,
   PostJSON,
   PromiseState,
@@ -55,7 +56,11 @@ export class App {
     try {
       await f();
     } catch (err) {
-      await this.showError(err);
+      if (err instanceof Error) {
+        await this.showError(err);
+      } else {
+        await this.showError(new AppError(undefined, { err }));
+      }
       throw err;
     } finally {
       loading.classList.remove('show');
