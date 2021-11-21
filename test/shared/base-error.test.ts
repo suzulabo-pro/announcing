@@ -1,6 +1,10 @@
 import { BaseError } from '../../src/shared';
 
-class MyError extends BaseError {}
+class MyError extends BaseError {
+  constructor(msg: string) {
+    super(msg);
+  }
+}
 class CodeError extends BaseError {
   constructor(message: string, public code: string) {
     super(message);

@@ -2,7 +2,7 @@ import { Capacitor } from '@capacitor/core';
 import { LocalNotifications } from '@capacitor/local-notifications';
 import { PushNotifications } from '@capacitor/push-notifications';
 import { Build } from '@stencil/core';
-import { FirebaseApp, initializeApp } from 'firebase/app';
+import { FirebaseApp, FirebaseError, initializeApp } from 'firebase/app';
 import {
   connectFirestoreEmulator,
   enableMultiTabIndexedDbPersistence,
@@ -256,8 +256,10 @@ export class AppFirebase {
         return 'denied';
       }
     } catch (err) {
-      if (err.code == 'messaging/permission-blocked') {
-        return 'denied';
+      if (err instanceof FirebaseError) {
+        if (err.code == 'messaging/permission-blocked') {
+          return 'denied';
+        }
       }
       throw err;
     }
