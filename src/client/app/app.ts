@@ -20,6 +20,7 @@ import { AppFirebase } from './firebase';
 import { AppIdbCache } from './idbcache';
 import { AppMsg } from './msg';
 import { AppStorage } from './storage';
+import { AppError } from '../shared';
 
 const BUILD_INFO = {
   src: '__BUILD_SRC__',
@@ -148,7 +149,11 @@ export class App {
     try {
       await f();
     } catch (err) {
-      await this.showError(err);
+      if (err instanceof Error) {
+        await this.showError(err);
+      } else {
+        await this.showError(new AppError(undefined, { err }));
+      }
       throw err;
     } finally {
       loading.classList.remove('show');

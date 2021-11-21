@@ -5,7 +5,7 @@ import { AppFirebase } from '../../app/firebase';
 import { AppIdbCache } from '../../app/idbcache';
 import { AppMsg } from '../../app/msg';
 import { AppStorage } from '../../app/storage';
-import { AppEnv, pushRoute, RouteMatch } from '../../shared';
+import { AppEnv, AppError, pushRoute, RouteMatch } from '../../shared';
 
 const matches: RouteMatch[] = [
   {
@@ -101,7 +101,12 @@ export class AppRoot {
     try {
       await this.app.init();
     } catch (err) {
-      await this.app.showError(err);
+      if (err instanceof Error) {
+        await this.app.showError(err);
+      } else {
+        await this.app.showError(new AppError(undefined, { err }));
+      }
+      throw err;
     }
   }
 

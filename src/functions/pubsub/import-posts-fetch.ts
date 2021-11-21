@@ -70,7 +70,7 @@ export const pubsubImportPostsFetch = async (
       if (err instanceof RetryError) {
         throw err;
       }
-      logger.error(err);
+      logger.error('import error', { err });
     }
   });
 };
