@@ -10,6 +10,7 @@ import {
   immediateNotificationWriteHandler,
 } from './firestore';
 import { httpsRequestHandler } from './https';
+import { pubsubExternalAnnounceFetch } from './pubsub/external-announce-fetch';
 import { pubsubImportPostsFetch } from './pubsub/import-posts-fetch';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
@@ -55,4 +56,10 @@ export const pubsub = {
     await pubsubImportPostsFetch(msg, context, adminApp);
     return 0;
   }),
+  externalAnnounceFetch: pubsubBuilder
+    .topic('external-announce-fetch')
+    .onPublish(async (msg, context) => {
+      await pubsubExternalAnnounceFetch(msg, context, adminApp);
+      return 0;
+    }),
 };

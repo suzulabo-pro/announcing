@@ -44,9 +44,11 @@ export class ApInput {
         <label>
           <div class="label-box">
             <span class="label">{this.label}</span>
-            <span class="count">
-              ({this.value?.length || 0}/{this.maxLength})
-            </span>
+            {typeof this.maxLength == 'number' && (
+              <span class="count">
+                ({this.value?.length || 0}/{this.maxLength})
+              </span>
+            )}
           </div>
           {!this.textarea && <input value={this.value} maxLength={this.maxLength} />}
           {this.textarea && (

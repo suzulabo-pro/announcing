@@ -1,4 +1,4 @@
-import { Timestamp } from 'firebase/firestore';
+import { Timestamp } from 'firebase-admin/firestore';
 
 interface SetOptions {
   merge: boolean;
@@ -37,6 +37,9 @@ const copyData = (src: DocData, dst: DocData) => {
       }
 
       switch (v.constructor?.name) {
+        case 'Timestamp':
+          dst[k] = v.toDate();
+          return;
         case 'ServerTimestampTransform':
           dst[k] = new Date();
           return;

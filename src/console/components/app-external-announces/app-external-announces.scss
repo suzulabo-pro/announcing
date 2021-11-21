@@ -1,0 +1,13 @@
+app-external-announces {
+  --modal-max-width: 100%;
+
+  .form-modal {
+    padding: 20px;
+
+    .keys {
+      .key {
+        overflow-wrap: anywhere;
+      }
+    }
+  }
+}

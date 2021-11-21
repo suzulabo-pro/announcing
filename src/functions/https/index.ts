@@ -1,6 +1,9 @@
 import {
   ANNOUNCE_ID_LENGTH,
   ANNOUNCE_META_ID_LENGTH,
+  EXTERNAL_ANNOUNCES_ID_LENGTH,
+  EXTERNAL_ANNOUNCES_ID_SUFFIX_MAX_LENGTH,
+  EXTERNAL_ANNOUNCES_ID_SUFFIX_MIN_LENGTH,
   IMAGE_ID_MAX_LENGTH,
   IMAGE_ID_MIN_LENGTH,
   Match,
@@ -11,6 +14,7 @@ import {
 } from '../../shared';
 import { FirebaseAdminApp, HttpRequest, HttpResponse } from '../firebase';
 import { logger } from '../utils/logger';
+import { pingExternalAnnounce } from './external-announces';
 import { getAnnounceMetaData, getAnnouncePostData, getImageData } from './get-data';
 import { pingImportPosts } from './import-posts';
 
@@ -31,7 +35,7 @@ const matches: FunctionMatch[] = [
         pattern: 'announces',
         nexts: [
           {
-            pattern: new RegExp(`^[A-Z0-9]{${ANNOUNCE_ID_LENGTH}}$`),
+            pattern: new RegExp(`^([0-9A-Z]{12}|[0-9A-Z]{5}-[0-9a-zA-Z]{1,5})$`),
             name: 'announceID',
             nexts: [
               {
@@ -81,6 +85,24 @@ const matches: FunctionMatch[] = [
             pattern: new RegExp(`[a-zA-Z0-9]{${NACL_KEY_MIN_LENGTH},${NACL_KEY_MAX_LENGTH}}`),
             name: 'secKey',
             func: pingImportPosts,
+          },
+        ],
+      },
+    ],
+  },
+  {
+    pattern: 'external-announces',
+    nexts: [
+      {
+        pattern: new RegExp(`^[A-Z0-9]{${EXTERNAL_ANNOUNCES_ID_LENGTH}}$`),
+        name: 'id',
+        nexts: [
+          {
+            pattern: new RegExp(
+              `[a-zA-Z0-9]{${EXTERNAL_ANNOUNCES_ID_SUFFIX_MIN_LENGTH},${EXTERNAL_ANNOUNCES_ID_SUFFIX_MAX_LENGTH}}`,
+            ),
+            name: 'idSuffix',
+            func: pingExternalAnnounce,
           },
         ],
       },

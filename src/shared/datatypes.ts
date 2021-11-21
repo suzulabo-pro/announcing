@@ -48,6 +48,7 @@ export interface AnnounceMetaJSON extends AnnounceMetaBase {
 
 export interface User {
   announces?: string[];
+  externalAnnounces?: string[];
   uT: Timestamp;
 }
 
@@ -85,6 +86,19 @@ export interface ImportPosts {
   requestedURL?: string;
   logs: ImportPostsLog[];
   uT: Timestamp; // updated time
+}
+
+export interface ExternalAnnounce {
+  urlPrefixes: string[];
+  pubKeys: string[];
+  desc?: string;
+  announces: string[];
+  uT: Timestamp;
+}
+
+export interface ExternalAnnouncePing {
+  url: string;
+  uT: Timestamp;
 }
 
 export type AnnounceAndMeta = Announce & AnnounceMetaBase;
@@ -141,4 +155,17 @@ export interface RegisterNotificationParams {
   sign: string;
   lang: Lang;
   announces: string[];
+}
+
+export interface PutExternalAnnouncesParams {
+  method: 'PutExternalAnnounces';
+  urlPrefixes: string[];
+  pubKeys: string[];
+  desc?: string;
+  id?: string;
+}
+
+export interface DeleteExternalAnnouncesParams {
+  method: 'DeleteExternalAnnounces';
+  id: string;
 }

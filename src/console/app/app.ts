@@ -223,4 +223,22 @@ export class App {
     }
     return;
   }
+
+  async getExternalAnnounce(id: string) {
+    return this.appFirebase.getExternalAnnounce(id);
+  }
+
+  async putExternalAnnounce(urlPrefixes: string[], pubKeys: string[], desc?: string, id?: string) {
+    return this.appFirebase.callPutExternalAnnounces({
+      method: 'PutExternalAnnounces',
+      urlPrefixes,
+      pubKeys,
+      desc,
+      id,
+    });
+  }
+
+  async deleteExternalAnnounce(id: string) {
+    return this.appFirebase.callDeleteExternalAnnounces({ method: 'DeleteExternalAnnounces', id });
+  }
 }
