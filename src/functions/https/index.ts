@@ -35,7 +35,7 @@ const matches: FunctionMatch[] = [
         pattern: 'announces',
         nexts: [
           {
-            pattern: new RegExp(`^[A-Z0-9]{${ANNOUNCE_ID_LENGTH}}$`),
+            pattern: new RegExp(`^([0-9A-Z]{12}|[0-9A-Z]{5}-[0-9a-zA-Z]{1,5})$`),
             name: 'announceID',
             nexts: [
               {
