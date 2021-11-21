@@ -1,7 +1,7 @@
 import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { toDate } from 'date-fns-tz';
-import { Announce, AnnounceMeta, ExternalAnnouncePing, Post } from '../../shared';
+import { Announce, AnnounceMeta, AppError, ExternalAnnouncePing, Post } from '../../shared';
 import {
   DocumentReference,
   EventContext,
@@ -67,7 +67,7 @@ export const pubsubExternalAnnounceFetch = async (
       if (err instanceof RetryError) {
         throw err;
       }
-      logger.error(err);
+      logger.error('import error', { err });
     }
   });
 };
@@ -129,16 +129,16 @@ const importExternalAnnounceJSON = async (
 ) => {
   if (!validators.externalAnnounceJSON(data)) {
     // TODO: logging for user
-    throw new Error('Validate JSON Error');
+    throw new AppError('Validate JSON Error');
   }
 
   {
     if (data.id != idSuffix) {
-      throw new Error('Invalid id');
+      throw new AppError('Invalid id');
     }
     const idMD5 = toMD5Base62(id);
     if (data.key != idMD5) {
-      throw new Error('Invalid key');
+      throw new AppError('Invalid key', { key: data.key, id, idMD5 });
     }
   }
 
@@ -169,7 +169,7 @@ const importExternalAnnounceJSON = async (
     if (post.parentID) {
       const parent = cIDMap.get(post.parentID);
       if (!parent) {
-        throw new Error(`missing parentID: ${post.parentID}`);
+        throw new AppError(`missing parentID: ${post.parentID}`);
       }
       p.parent = parent;
     }
