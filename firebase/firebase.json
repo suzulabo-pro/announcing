@@ -78,6 +78,10 @@
           "function": "httpsRequest"
         },
         {
+          "regex": "^/external-announces/([A-Z0-9]{5})/([a-zA-Z0-9]{1,5})$",
+          "function": "httpsRequest"
+        },
+        {
           "source": "**",
           "destination": "/index.html"
         }
