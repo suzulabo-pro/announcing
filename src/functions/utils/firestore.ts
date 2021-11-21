@@ -1,18 +1,19 @@
+import * as crypto from 'crypto';
+import nacl from 'tweetnacl';
 import {
   AnnounceMetaBase,
   ANNOUNCE_ID_LENGTH,
   ANNOUNCE_META_ID_LENGTH,
   bs62,
+  EXTERNAL_ANNOUNCES_ID_LENGTH,
   Post,
   POST_ID_LENGTH,
   User,
 } from '../../shared';
-import * as crypto from 'crypto';
-import nacl from 'tweetnacl';
 import { Firestore } from '../firebase';
 import { logger } from '../utils/logger';
 
-const toMD5Base62 = (v: Buffer | string) => {
+export const toMD5Base62 = (v: Buffer | string) => {
   const md5 = crypto.createHash('md5');
   return bs62.encode(md5.update(v).digest());
 };
@@ -24,15 +25,23 @@ const serialize = (...args: (string | undefined)[]) => {
     .replace(/\0+$/, '');
 };
 
-export const genAnnounceID = () => {
+const genID = (len: number) => {
   const chars = '0123456789ABCDEFGHJKMNPQRSTVWXYZ';
 
-  const random = nacl.randomBytes(ANNOUNCE_ID_LENGTH);
+  const random = nacl.randomBytes(len);
   const l = [] as string[];
   random.forEach(v => {
     l.push(chars.charAt(v % 32));
   });
   return l.join('');
+};
+
+export const genAnnounceID = () => {
+  return genID(ANNOUNCE_ID_LENGTH);
+};
+
+export const genExternalAnnouncesID = () => {
+  return genID(EXTERNAL_ANNOUNCES_ID_LENGTH);
 };
 
 export const announceMetaHash = (v: AnnounceMetaBase) => {

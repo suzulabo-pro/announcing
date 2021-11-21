@@ -20,6 +20,7 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
+import { DeleteExternalAnnouncesParams, PutExternalAnnouncesParams } from '../../shared';
 import {
   Announce,
   AnnounceMeta,
@@ -29,6 +30,7 @@ import {
   DeletePostParams,
   EditAnnounceParams,
   EditImportPostsParams,
+  ExternalAnnounce,
   FirestoreHelper,
   Image,
   ImportPosts,
@@ -152,6 +154,14 @@ export class AppFirebase {
     return this.callFunc<DeletePostParams, void>(params);
   }
 
+  async callPutExternalAnnounces(params: PutExternalAnnouncesParams) {
+    return this.callFunc<PutExternalAnnouncesParams, void>(params);
+  }
+
+  async callDeleteExternalAnnounces(params: DeleteExternalAnnouncesParams) {
+    return this.callFunc<DeleteExternalAnnouncesParams, void>(params);
+  }
+
   getUser() {
     if (!this.user) {
       return;
@@ -178,5 +188,9 @@ export class AppFirebase {
 
   getImage(id: string) {
     return this.firestoreHelper.getCacheFirst<Image>(`images/${id}`);
+  }
+
+  getExternalAnnounce(id: string) {
+    return this.firestoreHelper.get<ExternalAnnounce>(`external-announces/${id}`);
   }
 }

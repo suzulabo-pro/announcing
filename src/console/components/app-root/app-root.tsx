@@ -20,6 +20,11 @@ const matches: RouteMatch[] = [
     back: '/',
   },
   {
+    pattern: 'external-announces',
+    tag: 'app-external-announces',
+    back: '/',
+  },
+  {
     pattern: 'create',
     tag: 'app-announce-create',
     back: '/',

@@ -1,7 +1,7 @@
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   transform: {
-    '^.+\\.tsx?$': 'esbuild-jest',
+    '^.+\\.tsx?$': ['esbuild-jest', { sourcemap: true }],
   },
   rootDir: 'test',
   testRegex: '.+\\.test\\.tsx?$',

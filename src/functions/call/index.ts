@@ -7,6 +7,7 @@ import { deleteAnnounce } from './delete-announce';
 import { deletePost } from './delete-post';
 import { editAnnounce } from './edit-announce';
 import { editImportPosts } from './edit-import-posts';
+import { deleteExternalAnnounces, putExternalAnnounces } from './external-announces';
 import { putPost } from './put-post';
 import { registerNotification } from './register-notification';
 
@@ -69,8 +70,19 @@ export const httpsCallHandler = async (
           return registerNotification(data, context, adminApp);
         }
         break;
+      case 'PutExternalAnnounces':
+        if (validators.putExternalAnnouncesParams(data)) {
+          return putExternalAnnounces(data, context, adminApp);
+        }
+        break;
+      case 'DeleteExternalAnnounces':
+        if (validators.deleteExternalAnnouncesParams(data)) {
+          return deleteExternalAnnounces(data, context, adminApp);
+        }
+        break;
     }
   } catch (err) {
+    console.log(err);
     throw new HttpsCallError(method, err, data);
   }
 

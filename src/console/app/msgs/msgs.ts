@@ -106,4 +106,16 @@ export interface Msgs {
     delete: string;
     deleteConfirm: string;
   };
+  externalAnnounces: {
+    pageTitle: string;
+    dataError: string;
+    noData: string;
+    deleteConfirm: string;
+    form: {
+      urlPrefixes: string;
+      requestKeys: string;
+      desc: string;
+      submit: string;
+    };
+  };
 }

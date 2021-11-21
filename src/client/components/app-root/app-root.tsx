@@ -24,7 +24,7 @@ const matches: RouteMatch[] = [
     back: '/',
   },
   {
-    pattern: /^[0-9A-Z]{12}$/,
+    pattern: /^([0-9A-Z]{12}|[0-9A-Z]{5}-[0-9a-zA-Z]{1,5})$/,
     name: 'announceID',
     tag: 'app-announce',
     back: '/',
