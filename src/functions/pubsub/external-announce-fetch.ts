@@ -188,7 +188,10 @@ const importExternalAnnounceJSON = async (
   const th = new TransactionHelper(t);
 
   if (curAnnounce?.mid != newMetaHash) {
-    th.create(announceRef.collection('meta').doc(id), newMeta);
+    th.create(announceRef.collection('meta').doc(newMetaHash), newMeta);
+    if (curAnnounce?.mid) {
+      th.delete(announceRef.collection('meta').doc(curAnnounce.mid));
+    }
   }
 
   for (const [id, v] of newPostsMap.entries()) {
@@ -221,7 +224,7 @@ const importExternalAnnounceJSON = async (
     posts,
     uT: serverTimestamp() as any,
   };
-  th.set(announceRef, announceUpdate, { merge: true });
+  th.update(announceRef, announceUpdate);
 
   th.flush();
 };
