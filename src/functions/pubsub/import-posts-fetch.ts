@@ -1,7 +1,7 @@
 import { PubSub } from '@google-cloud/pubsub';
 import axios from 'axios';
 import { toDate } from 'date-fns-tz';
-import { Announce, ImportPosts, Post } from '../../shared';
+import { Announce, AppError, ImportPosts, Post } from '../../shared';
 import {
   EventContext,
   FirebaseAdminApp,
@@ -131,7 +131,7 @@ const importPostsJSON = async (
 ) => {
   if (!validators.importPostsJSON(data)) {
     // TODO: logging for user
-    throw new Error('Validate JSON Error');
+    throw new AppError('Validate JSON Error');
   }
 
   const newPostsMap = new Map(
@@ -158,7 +158,7 @@ const importPostsJSON = async (
     if (post.parentID) {
       const parent = cIDMap.get(post.parentID);
       if (!parent) {
-        throw new Error(`missing parentID: ${post.parentID}`);
+        throw new AppError(`missing parentID: ${post.parentID}`);
       }
       p.parent = parent;
     }
@@ -170,7 +170,7 @@ const importPostsJSON = async (
   const announce = await t.get(announceRef);
   const curAnnounce = announce.data() as Announce;
   if (!curAnnounce) {
-    throw new Error(`missing announce: ${announceID}`);
+    throw new AppError(`missing announce: ${announceID}`);
   }
 
   const curPosts = curAnnounce.posts;

@@ -188,7 +188,7 @@ export class App {
     }
     const meta = await this.appFirebase.getAnnounceMeta(id, a.mid);
     if (!meta) {
-      throw new Error(`fetchAnnounceMeta: ${id}/${a.mid}`);
+      throw new AppError(`fetchAnnounceMeta: ${id}/${a.mid}`);
     }
 
     return { ...a, ...meta };

@@ -1,4 +1,4 @@
-import { Announce, EditAnnounceParams } from '../../shared';
+import { Announce, AppError, EditAnnounceParams } from '../../shared';
 import { CallableContext, FirebaseAdminApp, getFirestore, serverTimestamp } from '../firebase';
 import { announceMetaHash, checkOwner, storeImage } from '../utils/firestore';
 import { logger } from '../utils/logger';
@@ -10,7 +10,7 @@ export const editAnnounce = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { id, name, desc, link, icon, newIcon } = params;

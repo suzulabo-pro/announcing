@@ -1,9 +1,9 @@
-import { Announce, DeletePostParams } from '../../shared';
+import { Announce, AppError, DeletePostParams } from '../../shared';
 import {
-  getFirestore,
   CallableContext,
   fieldDelete,
   FirebaseAdminApp,
+  getFirestore,
   serverTimestamp,
 } from '../firebase';
 import { checkOwner } from '../utils/firestore';
@@ -16,15 +16,15 @@ export const deletePost = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { id, postID } = params;
   if (!id) {
-    throw new Error('missing id');
+    throw new AppError('missing id');
   }
   if (!postID) {
-    throw new Error('missing postID');
+    throw new AppError('missing postID');
   }
 
   const firestore = getFirestore(adminApp);

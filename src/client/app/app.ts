@@ -10,6 +10,7 @@ import {
   AnnounceMetaBase,
   AnnounceMetaJSON,
   AppEnv,
+  AppError,
   bs62,
   LazyPromiseState,
   PostJSON,
@@ -20,7 +21,6 @@ import { AppFirebase } from './firebase';
 import { AppIdbCache } from './idbcache';
 import { AppMsg } from './msg';
 import { AppStorage } from './storage';
-import { AppError } from '../shared';
 
 const BUILD_INFO = {
   src: '__BUILD_SRC__',
@@ -205,7 +205,7 @@ export class App {
     }
     const meta = await this.fetchAnnounceMeta(id, a.mid);
     if (!meta) {
-      throw new Error(`fetchAnnounceMeta: ${id}/${a.mid}`);
+      throw new AppError(`fetchAnnounceMeta: ${id}/${a.mid}`);
     }
 
     return { ...a, ...meta };
@@ -277,8 +277,7 @@ export class App {
       return;
     }
 
-    console.error(`Fetch Error: ${url}(${res.status})`, res.data);
-    throw new Error(`Fetch Error: ${url}(${res.status})`);
+    throw new AppError('Fetch Error', { url, status: res.status, data: res.data });
   }
 
   fetchAnnounceMeta(id: string, metaID: string) {

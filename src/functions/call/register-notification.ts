@@ -1,5 +1,5 @@
 import nacl from 'tweetnacl';
-import { bs62, Lang, RegisterNotificationParams } from '../../shared';
+import { AppError, bs62, Lang, RegisterNotificationParams } from '../../shared';
 import {
   arrayRemove,
   arrayUnion,
@@ -25,12 +25,12 @@ export const registerNotification = async (
     const d = new Date(reqTime).getTime();
     const now = Date.now();
     if (!(d >= now - 1000 * 60 * 60 && d <= now + 1000 * 60 * 60)) {
-      throw new Error('invalid sign (retTime)');
+      throw new AppError('invalid sign (retTime)');
     }
 
     const m = new TextEncoder().encode([reqTime, token, ...announces].join('\0'));
     if (!nacl.sign.detached.verify(m, bs62.decode(sign), bs62.decode(signKey))) {
-      throw new Error('invalid sign');
+      throw new AppError('invalid sign');
     }
   }
 
@@ -42,7 +42,7 @@ export const registerNotification = async (
     const curDevice = (await t.get(devicesRef)).data() as NotificationDevice;
     if (curDevice) {
       if (curDevice.signKey != signKey) {
-        throw new Error('invalid signkey');
+        throw new AppError('invalid signkey');
       }
     }
     if (announces.length > 0) {
