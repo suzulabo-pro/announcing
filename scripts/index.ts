@@ -5,6 +5,7 @@ import { Cmd, RunP, RunS, runScript, ScriptEntries } from './scripts';
 import { copySecrets } from './secrets/copy';
 import { packSecrets } from './secrets/pack';
 import { unpackSecrets } from './secrets/unpack';
+import { checkUnusedExports } from './unused-exports/check';
 
 const entries: ScriptEntries = [
   // hello
@@ -13,7 +14,7 @@ const entries: ScriptEntries = [
   // checking
   ['lint', Cmd('eslint --ext .ts,.tsx src')],
   ['ts-check', Cmd('tsc --noEmit')],
-  ['ts-unused', Cmd('ts-unused-exports tsconfig.json --excludeDeclarationFiles')],
+  ['ts-unused', checkUnusedExports],
 
   // functions
   ['functions.build', buildFunctions],
