@@ -1,6 +1,6 @@
 import { _appEnv } from '../../secrets/appenv.env';
 
-export interface AppEnvironment {
+interface AppEnvironment {
   firebaseConfig: {
     readonly apiKey: string;
     readonly authDomain: string;

@@ -8,9 +8,11 @@ type Blob = {
 const languages = ['en', 'ja'] as const;
 export type Lang = typeof languages[number];
 
+/*
 export const isLang = (s: any): s is Lang => {
   return languages.includes(s);
 };
+*/
 
 export interface Announce {
   mid: string; // meta id
