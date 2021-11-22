@@ -1,5 +1,5 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
-import md5 from 'js-md5';
+import { Md5 } from 'ts-md5';
 import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
 import { bs62, ExternalAnnounce } from '../../../shared';
@@ -257,5 +257,5 @@ const renderDeleteConfirm = (ctx: RenderContext) => {
 };
 
 const getHash = (id: string) => {
-  return bs62.encode(md5.array(id));
+  return bs62.encode(new Uint8Array(Md5.hashStr(id, true).buffer));
 };
