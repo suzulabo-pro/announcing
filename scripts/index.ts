@@ -13,7 +13,7 @@ const entries: ScriptEntries = [
   // checking
   ['lint', Cmd('eslint --ext .ts,.tsx src')],
   ['ts-check', Cmd('tsc --noEmit')],
-  ['ts-unused', Cmd('ts-unused-exports tsconfig.json')],
+  ['ts-unused', Cmd('ts-unused-exports tsconfig.json --excludeDeclarationFiles')],
 
   // functions
   ['functions.build', buildFunctions],
