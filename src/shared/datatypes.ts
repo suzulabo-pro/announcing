@@ -56,38 +56,6 @@ export interface Image {
   data: Blob;
 }
 
-export type ImportPostsLog =
-  | {
-      event: 'set';
-      url: string;
-      eT: Timestamp;
-    }
-  | {
-      event: 'req';
-      from: string;
-      eT: Timestamp;
-    }
-  | {
-      event: 'ok';
-      imported: number;
-      deleted: number;
-      eT: Timestamp;
-    }
-  | {
-      event: 'err';
-      err: string;
-      eT: Timestamp;
-    };
-
-export interface ImportPosts {
-  url?: string;
-  pubKey?: string;
-  requested?: boolean;
-  requestedURL?: string;
-  logs: ImportPostsLog[];
-  uT: Timestamp; // updated time
-}
-
 export interface ExternalAnnounce {
   urlPrefixes: string[];
   pubKeys: string[];
@@ -117,13 +85,6 @@ export interface EditAnnounceParams {
   link?: string;
   icon?: string;
   newIcon?: string;
-}
-
-export interface EditImportPostsParams {
-  method: 'EditImportPosts';
-  id: string;
-  url?: string;
-  pubKey?: string;
 }
 
 export interface DeleteAnnounceParams {

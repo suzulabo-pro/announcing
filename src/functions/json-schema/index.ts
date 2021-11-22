@@ -6,7 +6,6 @@ import {
   DeleteExternalAnnouncesParams,
   DeletePostParams,
   EditAnnounceParams,
-  EditImportPostsParams,
   PutExternalAnnouncesParams,
   PutPostParams,
   RegisterNotificationParams,
@@ -16,14 +15,11 @@ import { CreateAnnounceParamsSchema } from './create-announce-params';
 import { DeleteAnnounceParamsSchema } from './delete-announce-params';
 import { DeletePostParamsSchema } from './delete-post-params';
 import { EditAnnounceParamsSchema } from './edit-announce-params';
-import { EditImportPostsParamsSchema } from './edit-import-posts-params';
 import { ExternalAnnounceJSON, ExternalAnnounceJSONSchema } from './external-announce-json';
 import {
   DeleteExternalAnnouncesParamsSchema,
   PutExternalAnnouncesParamsSchema,
 } from './external-announces-params';
-import { ImportPostsFetchMessage, ImportPostsFetchMessageSchema } from './import-posts-fetch-msg';
-import { ImportPostsJSON, ImportPostsJSONSchema } from './import-posts-json';
 import { PutPostParamsSchema } from './put-post-params';
 import { RegisterNotificationParamsSchema } from './register-notification-params';
 
@@ -34,14 +30,10 @@ ajv.addSchema(CreateAnnounceParamsSchema, 'CreateAnnounceParams');
 ajv.addSchema(DeleteAnnounceParamsSchema, 'DeleteAnnounceParams');
 ajv.addSchema(DeletePostParamsSchema, 'DeletePostParams');
 ajv.addSchema(EditAnnounceParamsSchema, 'EditAnnounceParams');
-ajv.addSchema(EditImportPostsParamsSchema, 'EditImportPostsParams');
 ajv.addSchema(PutPostParamsSchema, 'PutPostParams');
 ajv.addSchema(RegisterNotificationParamsSchema, 'RegisterNotificationParams');
 ajv.addSchema(PutExternalAnnouncesParamsSchema, 'PutExternalAnnouncesParams');
 ajv.addSchema(DeleteExternalAnnouncesParamsSchema, 'DeleteExternalAnnouncesParams');
-
-ajv.addSchema(ImportPostsFetchMessageSchema, 'ImportPostsFetchMessage');
-ajv.addSchema(ImportPostsJSONSchema, 'ImportPostsJSON');
 
 ajv.addSchema(ExternalAnnounceJSONSchema, 'ExternalAnnounceJSON');
 
@@ -63,7 +55,6 @@ export const validators = {
   deleteAnnounceParams: genValidator<DeleteAnnounceParams>('DeleteAnnounceParams'),
   deletePostParams: genValidator<DeletePostParams>('DeletePostParams'),
   editAnnounceParams: genValidator<EditAnnounceParams>('EditAnnounceParams'),
-  editImportPostsParams: genValidator<EditImportPostsParams>('EditImportPostsParams'),
   putPostParams: genValidator<PutPostParams>('PutPostParams'),
   registerNotificationParams: genValidator<RegisterNotificationParams>(
     'RegisterNotificationParams',
@@ -74,9 +65,6 @@ export const validators = {
   deleteExternalAnnouncesParams: genValidator<DeleteExternalAnnouncesParams>(
     'DeleteExternalAnnouncesParams',
   ),
-
-  importPostsFetchMessage: genValidator<ImportPostsFetchMessage>('ImportPostsFetchMessage'),
-  importPostsJSON: genValidator<ImportPostsJSON>('ImportPostsJSON'),
 
   externalAnnounceJSON: genValidator<ExternalAnnounceJSON>('ExternalAnnounceJSON'),
 };

@@ -6,7 +6,6 @@ import { createAnnounce } from './create-announce';
 import { deleteAnnounce } from './delete-announce';
 import { deletePost } from './delete-post';
 import { editAnnounce } from './edit-announce';
-import { editImportPosts } from './edit-import-posts';
 import { deleteExternalAnnounces, putExternalAnnounces } from './external-announces';
 import { putPost } from './put-post';
 import { registerNotification } from './register-notification';
@@ -53,11 +52,6 @@ export const httpsCallHandler = async (
       case 'EditAnnounce':
         if (validators.editAnnounceParams(data)) {
           return editAnnounce(data, context, adminApp);
-        }
-        break;
-      case 'EditImportPosts':
-        if (validators.editImportPostsParams(data)) {
-          return editImportPosts(data, context, adminApp);
         }
         break;
       case 'PutPost':

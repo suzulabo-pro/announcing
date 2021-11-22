@@ -116,11 +116,6 @@ export namespace Components {
         "activePage": boolean;
         "app": App;
     }
-    interface AppImportPosts {
-        "activePage": boolean;
-        "announceID": string;
-        "app": App;
-    }
     interface AppPost {
         "activePage": boolean;
         "announceID": string;
@@ -267,12 +262,6 @@ declare global {
         prototype: HTMLAppHomeElement;
         new (): HTMLAppHomeElement;
     };
-    interface HTMLAppImportPostsElement extends Components.AppImportPosts, HTMLStencilElement {
-    }
-    var HTMLAppImportPostsElement: {
-        prototype: HTMLAppImportPostsElement;
-        new (): HTMLAppImportPostsElement;
-    };
     interface HTMLAppPostElement extends Components.AppPost, HTMLStencilElement {
     }
     var HTMLAppPostElement: {
@@ -319,7 +308,6 @@ declare global {
         "app-announce-edit": HTMLAppAnnounceEditElement;
         "app-external-announces": HTMLAppExternalAnnouncesElement;
         "app-home": HTMLAppHomeElement;
-        "app-import-posts": HTMLAppImportPostsElement;
         "app-post": HTMLAppPostElement;
         "app-post-form": HTMLAppPostFormElement;
         "app-root": HTMLAppRootElement;
@@ -434,11 +422,6 @@ declare namespace LocalJSX {
         "activePage": boolean;
         "app": App;
     }
-    interface AppImportPosts {
-        "activePage": boolean;
-        "announceID": string;
-        "app": App;
-    }
     interface AppPost {
         "activePage": boolean;
         "announceID": string;
@@ -479,7 +462,6 @@ declare namespace LocalJSX {
         "app-announce-edit": AppAnnounceEdit;
         "app-external-announces": AppExternalAnnounces;
         "app-home": AppHome;
-        "app-import-posts": AppImportPosts;
         "app-post": AppPost;
         "app-post-form": AppPostForm;
         "app-root": AppRoot;
@@ -511,7 +493,6 @@ declare module "@stencil/core" {
             "app-announce-edit": LocalJSX.AppAnnounceEdit & JSXBase.HTMLAttributes<HTMLAppAnnounceEditElement>;
             "app-external-announces": LocalJSX.AppExternalAnnounces & JSXBase.HTMLAttributes<HTMLAppExternalAnnouncesElement>;
             "app-home": LocalJSX.AppHome & JSXBase.HTMLAttributes<HTMLAppHomeElement>;
-            "app-import-posts": LocalJSX.AppImportPosts & JSXBase.HTMLAttributes<HTMLAppImportPostsElement>;
             "app-post": LocalJSX.AppPost & JSXBase.HTMLAttributes<HTMLAppPostElement>;
             "app-post-form": LocalJSX.AppPostForm & JSXBase.HTMLAttributes<HTMLAppPostFormElement>;
             "app-root": LocalJSX.AppRoot & JSXBase.HTMLAttributes<HTMLAppRootElement>;

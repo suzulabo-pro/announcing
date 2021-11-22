@@ -11,7 +11,6 @@ import {
 } from './firestore';
 import { httpsRequestHandler } from './https';
 import { pubsubExternalAnnounceFetch } from './pubsub/external-announce-fetch';
-import { pubsubImportPostsFetch } from './pubsub/import-posts-fetch';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
 const adminApp = initializeApp();
@@ -50,10 +49,6 @@ const pubsubBuilder = region.pubsub;
 export const pubsub = {
   sendNotification: pubsubBuilder.topic('send-notification').onPublish(async (msg, context) => {
     await pubsubSendNotification(msg, context, adminApp);
-    return 0;
-  }),
-  importPostsFetch: pubsubBuilder.topic('import-posts-fetch').onPublish(async (msg, context) => {
-    await pubsubImportPostsFetch(msg, context, adminApp);
     return 0;
   }),
   externalAnnounceFetch: pubsubBuilder

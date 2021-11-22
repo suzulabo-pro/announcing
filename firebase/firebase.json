@@ -74,10 +74,6 @@
       "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
       "rewrites": [
         {
-          "regex": "^/import-posts/([A-Z0-9]{12})/([a-zA-Z0-9]{30,45})$",
-          "function": "httpsRequest"
-        },
-        {
           "regex": "^/external-announces/([A-Z0-9]{5})/([a-zA-Z0-9]{1,5})$",
           "function": "httpsRequest"
         },
@@ -111,15 +107,6 @@
             {
               "key": "Cache-Control",
               "value": "public, max-age=31556952, immutable"
-            }
-          ]
-        },
-        {
-          "source": "/import-posts/**/*",
-          "headers": [
-            {
-              "key": "Cache-Control",
-              "value": "public, max-age=30"
             }
           ]
         }

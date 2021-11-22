@@ -1,5 +1,4 @@
 import {
-  ANNOUNCE_ID_LENGTH,
   ANNOUNCE_META_ID_LENGTH,
   EXTERNAL_ANNOUNCES_ID_LENGTH,
   EXTERNAL_ANNOUNCES_ID_SUFFIX_MAX_LENGTH,
@@ -7,8 +6,6 @@ import {
   IMAGE_ID_MAX_LENGTH,
   IMAGE_ID_MIN_LENGTH,
   Match,
-  NACL_KEY_MAX_LENGTH,
-  NACL_KEY_MIN_LENGTH,
   pathMatcher,
   POST_ID_LENGTH,
 } from '../../shared';
@@ -16,7 +13,6 @@ import { FirebaseAdminApp, HttpRequest, HttpResponse } from '../firebase';
 import { logger } from '../utils/logger';
 import { pingExternalAnnounce } from './external-announces';
 import { getAnnounceMetaData, getAnnouncePostData, getImageData } from './get-data';
-import { pingImportPosts } from './import-posts';
 
 type FunctionMatch = Match & {
   func?: (
@@ -69,22 +65,6 @@ const matches: FunctionMatch[] = [
             pattern: new RegExp(`[a-zA-Z0-9]{${IMAGE_ID_MIN_LENGTH},${IMAGE_ID_MAX_LENGTH}}`),
             name: 'imageID',
             func: getImageData,
-          },
-        ],
-      },
-    ],
-  },
-  {
-    pattern: 'import-posts',
-    nexts: [
-      {
-        pattern: new RegExp(`^[A-Z0-9]{${ANNOUNCE_ID_LENGTH}}$`),
-        name: 'announceID',
-        nexts: [
-          {
-            pattern: new RegExp(`[a-zA-Z0-9]{${NACL_KEY_MIN_LENGTH},${NACL_KEY_MAX_LENGTH}}`),
-            name: 'secKey',
-            func: pingImportPosts,
           },
         ],
       },

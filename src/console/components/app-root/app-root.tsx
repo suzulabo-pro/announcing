@@ -41,11 +41,6 @@ const matches: RouteMatch[] = [
         back: p => `/${p['announceID']}`,
       },
       {
-        pattern: 'import-posts',
-        tag: 'app-import-posts',
-        back: p => `/${p['announceID']}`,
-      },
-      {
         pattern: 'post',
         tag: 'app-post-form',
         back: p => `/${p['announceID']}`,

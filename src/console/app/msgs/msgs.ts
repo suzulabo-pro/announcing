@@ -80,17 +80,6 @@ export interface Msgs {
       btn: (s: string) => string;
       confirm: string;
     };
-    importPosts: string;
-  };
-  importPosts: {
-    pageTitle: (s: string) => string;
-    form: {
-      imageURL: string;
-      pingURL: string;
-      tokenBtn: string;
-      btn: string;
-      done: string;
-    };
   };
   postForm: {
     pageTitle: (s: string) => string;
