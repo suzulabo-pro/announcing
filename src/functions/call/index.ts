@@ -82,5 +82,3 @@ export const httpsCallHandler = async (
 
   throw new InvalidParamsError(method, data);
 };
-
-export const __InvalidParamsError = InvalidParamsError;

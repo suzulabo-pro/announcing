@@ -14,7 +14,3 @@ import '../../shared-web/components/ap-style/ap-style';
 import '../../shared-web/components/ap-textview/ap-textview';
 import '../../shared-web/components/ap-twitter/ap-twitter';
 import '../../shared-web/components/ap-youtube/ap-youtube';
-
-export default () => {
-  return;
-};
