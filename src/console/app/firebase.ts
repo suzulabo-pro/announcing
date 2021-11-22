@@ -20,24 +20,23 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { DeleteExternalAnnouncesParams, PutExternalAnnouncesParams } from '../../shared';
 import {
   Announce,
   AnnounceMeta,
   AppEnv,
   CreateAnnounceParams,
   DeleteAnnounceParams,
+  DeleteExternalAnnouncesParams,
   DeletePostParams,
   EditAnnounceParams,
-  EditImportPostsParams,
   ExternalAnnounce,
-  FirestoreHelper,
   Image,
-  ImportPosts,
   Post,
+  PutExternalAnnouncesParams,
   PutPostParams,
   User,
-} from '../shared';
+} from '../../shared';
+import { FirestoreHelper } from '../../shared-web';
 import { AppMsg } from './msg';
 import { AppState } from './state';
 
@@ -138,10 +137,6 @@ export class AppFirebase {
     return this.callFunc<EditAnnounceParams, void>(params);
   }
 
-  async callEditImportPosts(params: EditImportPostsParams) {
-    return this.callFunc<EditImportPostsParams, void>(params);
-  }
-
   async callDeleteAnnounce(params: DeleteAnnounceParams) {
     return this.callFunc<DeleteAnnounceParams, void>(params);
   }
@@ -176,10 +171,6 @@ export class AppFirebase {
 
   getAnnounceMeta(id: string, metaID: string) {
     return this.firestoreHelper.getCacheFirst<AnnounceMeta>(`announces/${id}/meta/${metaID}`);
-  }
-
-  getImportPosts(id: string) {
-    return this.firestoreHelper.get<ImportPosts>(`import-posts/${id}`);
   }
 
   getPost(id: string, postID: string) {

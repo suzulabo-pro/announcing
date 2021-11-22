@@ -13,7 +13,7 @@ export const Cmd = (cmd: string, cwd?: string) => {
   return new Command(cmd, cwd);
 };
 
-export type Script = ScriptFunction | Command;
+type Script = ScriptFunction | Command;
 
 class ParallelRun {
   constructor(public readonly scripts: (string | Script)[]) {}

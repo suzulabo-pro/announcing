@@ -1,9 +1,11 @@
 import { JSONSchemaType } from 'ajv';
 import {
   DeleteExternalAnnouncesParams,
+  EXTERNAL_ANNOUNCES_DESC_MAX_LENGTH,
   EXTERNAL_ANNOUNCES_ID_LENGTH,
   EXTERNAL_ANNOUNCES_URL_PREFIX_MAX_LENGTH,
   NACL_KEY_MAX_LENGTH,
+  NACL_KEY_MIN_LENGTH,
   PutExternalAnnouncesParams,
 } from '../../shared';
 
@@ -30,7 +32,7 @@ export const PutExternalAnnouncesParamsSchema: JSONSchemaType<PutExternalAnnounc
       type: 'array',
       items: {
         type: 'string',
-        minLength: 1,
+        minLength: NACL_KEY_MIN_LENGTH,
         maxLength: NACL_KEY_MAX_LENGTH,
       },
     },
@@ -38,7 +40,7 @@ export const PutExternalAnnouncesParamsSchema: JSONSchemaType<PutExternalAnnounc
       type: 'string',
       nullable: true,
       minLength: 1,
-      maxLength: EXTERNAL_ANNOUNCES_URL_PREFIX_MAX_LENGTH,
+      maxLength: EXTERNAL_ANNOUNCES_DESC_MAX_LENGTH,
     },
     id: {
       type: 'string',

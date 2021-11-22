@@ -6,7 +6,7 @@ import { App } from '../../app/app';
   tag: 'app-signin',
   styleUrl: 'app-signin.scss',
 })
-export class AppSignIn {
+export class AppSignin {
   @Prop()
   activePage!: boolean;
 

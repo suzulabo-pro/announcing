@@ -2,7 +2,7 @@ import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { href, redirectRoute, restoreScroll, RouteMatch } from '../../';
 import { pathMatcher } from '../../../shared';
 import { setDocumentTitle } from '../../document-title';
-import { getHeaderButtons, setHeaderButtons } from '../../header';
+import { getHeaderButtons, setHeaderButtons } from '../../';
 
 @Component({
   tag: 'ap-root',

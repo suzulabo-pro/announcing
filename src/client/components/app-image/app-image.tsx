@@ -1,6 +1,7 @@
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
+import { assertIsDefined, bs62 } from '../../../shared';
+import { PromiseState, redirectRoute } from '../../../shared-web';
 import { App } from '../../app/app';
-import { assertIsDefined, bs62, PromiseState, redirectRoute } from '../../shared';
 
 @Component({
   tag: 'app-image',

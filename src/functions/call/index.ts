@@ -6,7 +6,6 @@ import { createAnnounce } from './create-announce';
 import { deleteAnnounce } from './delete-announce';
 import { deletePost } from './delete-post';
 import { editAnnounce } from './edit-announce';
-import { editImportPosts } from './edit-import-posts';
 import { deleteExternalAnnounces, putExternalAnnounces } from './external-announces';
 import { putPost } from './put-post';
 import { registerNotification } from './register-notification';
@@ -55,11 +54,6 @@ export const httpsCallHandler = async (
           return editAnnounce(data, context, adminApp);
         }
         break;
-      case 'EditImportPosts':
-        if (validators.editImportPostsParams(data)) {
-          return editImportPosts(data, context, adminApp);
-        }
-        break;
       case 'PutPost':
         if (validators.putPostParams(data)) {
           return putPost(data, context, adminApp);
@@ -88,5 +82,3 @@ export const httpsCallHandler = async (
 
   throw new InvalidParamsError(method, data);
 };
-
-export const __InvalidParamsError = InvalidParamsError;

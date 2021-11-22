@@ -2,10 +2,9 @@ import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { Md5 } from 'ts-md5';
 import nacl from 'tweetnacl';
 import { AsyncReturnType } from 'type-fest';
-import { bs62, ExternalAnnounce } from '../../../shared';
-import { FirestoreUpdatedEvent, setDocumentTitle } from '../../../shared-web';
+import { assertIsDefined, bs62, ExternalAnnounce } from '../../../shared';
+import { FirestoreUpdatedEvent, PromiseState, setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
-import { assertIsDefined, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-external-announces',

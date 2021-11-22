@@ -1,15 +1,15 @@
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import QRCodeStyling from 'qr-code-styling';
 import { AsyncReturnType } from 'type-fest';
-import { setDocumentTitle } from '../../../shared-web';
-import { App } from '../../app/app';
+import { assertIsDefined } from '../../../shared';
 import {
-  assertIsDefined,
   FirestoreUpdatedEvent,
   href,
   PromiseState,
   redirectRoute,
-} from '../../shared';
+  setDocumentTitle,
+} from '../../../shared-web';
+import { App } from '../../app/app';
 
 @Component({
   tag: 'app-announce',

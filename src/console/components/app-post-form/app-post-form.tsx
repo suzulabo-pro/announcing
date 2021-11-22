@@ -1,16 +1,13 @@
 import { Component, Fragment, h, Host, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { setDocumentTitle } from '../../../shared-web';
-import { App } from '../../app/app';
 import {
   assertIsDefined,
   POST_BODY_MAX_LENGTH,
   POST_LINK_MAX_LENGTH,
   POST_TITLE_MAX_LENGTH,
-  PromiseState,
-  pushRoute,
-  redirectRoute,
-} from '../../shared';
+} from '../../../shared';
+import { PromiseState, pushRoute, redirectRoute, setDocumentTitle } from '../../../shared-web';
+import { App } from '../../app/app';
 import { isURL } from '../../utils/isurl';
 
 @Component({

@@ -88,11 +88,7 @@ export const deleteExternalAnnounces = async (
   await batch.commit();
 };
 
-export const checkExternalAnnouncesOwner = async (
-  firestore: Firestore,
-  uid: string,
-  id: string,
-) => {
+const checkExternalAnnouncesOwner = async (firestore: Firestore, uid: string, id: string) => {
   const userRef = firestore.doc(`users/${uid}`);
   const userData = (await userRef.get()).data() as User;
   if (!userData) {

@@ -13,7 +13,3 @@ import '../../shared-web/components/ap-root/ap-root';
 import '../../shared-web/components/ap-spinner/ap-spinner';
 import '../../shared-web/components/ap-style/ap-style';
 import '../../shared-web/components/ap-textview/ap-textview';
-
-export default () => {
-  return;
-};

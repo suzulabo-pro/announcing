@@ -1,7 +1,7 @@
 import { httpsRequestHandler } from '../../../src/functions/https';
 import { FakeFirestore } from '../fake-firestore';
 
-describe('httpsPingImportPosts', () => {
+describe('getAnnounceMetaData', () => {
   const makeData = () => {
     return {
       announces: {

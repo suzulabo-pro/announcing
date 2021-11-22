@@ -1,11 +1,12 @@
 import { Component, h, Host, Listen } from '@stencil/core';
+import { AppEnv, AppError } from '../../../shared';
+import { pushRoute, RouteMatch } from '../../../shared-web';
 import { App } from '../../app/app';
 import { PostNotificationRecievedEvent } from '../../app/datatypes';
 import { AppFirebase } from '../../app/firebase';
 import { AppIdbCache } from '../../app/idbcache';
 import { AppMsg } from '../../app/msg';
 import { AppStorage } from '../../app/storage';
-import { AppEnv, AppError, pushRoute, RouteMatch } from '../../shared';
 
 const matches: RouteMatch[] = [
   {

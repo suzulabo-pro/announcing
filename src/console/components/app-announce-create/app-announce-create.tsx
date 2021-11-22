@@ -1,11 +1,7 @@
 import { Component, h, Host, Prop, State } from '@stencil/core';
-import { setDocumentTitle } from '../../../shared-web';
+import { ANNOUNCE_META_DESC_MAX_LENGTH, ANNOUNCE_META_NAME_MAX_LENGTH } from '../../../shared';
+import { pushRoute, setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
-import {
-  ANNOUNCE_META_DESC_MAX_LENGTH,
-  ANNOUNCE_META_NAME_MAX_LENGTH,
-  pushRoute,
-} from '../../shared';
 
 @Component({
   tag: 'app-announce-create',

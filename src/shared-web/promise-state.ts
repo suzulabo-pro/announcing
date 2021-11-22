@@ -98,14 +98,3 @@ export class LazyPromiseState<T> extends PromiseState<T> {
     this.lazyPromise.lazyThen(onfulfilled, onrejected);
   }
 }
-
-// Utility classes
-export class _PendingPromiseState<T> extends PromiseState<T> {
-  constructor() {
-    super(
-      new Promise<T>(() => {
-        //
-      }),
-    );
-  }
-}

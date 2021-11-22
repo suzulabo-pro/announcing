@@ -1,13 +1,6 @@
 import { Build } from '@stencil/core';
-import {
-  Announce,
-  AnnounceMetaBase,
-  AppEnv,
-  AppError,
-  LazyPromiseState,
-  PostJSON,
-  PromiseState,
-} from '../shared';
+import { Announce, AnnounceMetaBase, AppEnv, AppError, PostJSON } from '../../shared';
+import { LazyPromiseState, PromiseState } from '../../shared-web';
 import { AppFirebase } from './firebase';
 import { AppMsg } from './msg';
 import { AppState } from './state';
@@ -126,15 +119,6 @@ export class App {
     });
   }
 
-  editImportPosts(id: string, url?: string, pubKey?: string) {
-    return this.appFirebase.callEditImportPosts({
-      method: 'EditImportPosts',
-      id,
-      url,
-      pubKey,
-    });
-  }
-
   putPost(
     id: string,
     title?: string,
@@ -192,10 +176,6 @@ export class App {
     }
 
     return { ...a, ...meta };
-  }
-
-  getImportPosts(id: string) {
-    return this.appFirebase.getImportPosts(id);
   }
 
   getPosts(id: string, a: Announce) {
