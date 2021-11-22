@@ -20,6 +20,7 @@ import nacl from 'tweetnacl';
 import {
   Announce,
   AppEnv,
+  AppError,
   bs62,
   FirestoreHelper,
   Lang,
@@ -268,7 +269,7 @@ export class AppFirebase {
   async registerMessaging(signSecKey: string, lang: Lang, announces: string[]) {
     const token = await this.messageToken();
     if (!token) {
-      throw new Error("can't get token");
+      throw new AppError("can't get token");
     }
 
     const reqTime = new Date().toISOString();

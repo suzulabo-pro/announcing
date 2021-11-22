@@ -1,4 +1,4 @@
-import { EditImportPostsParams, ImportPosts } from '../../shared';
+import { AppError, EditImportPostsParams, ImportPosts } from '../../shared';
 import { CallableContext, FirebaseAdminApp, getFirestore, serverTimestamp } from '../firebase';
 import { checkOwner } from '../utils/firestore';
 
@@ -9,7 +9,7 @@ export const editImportPosts = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { id, url, pubKey } = params;
@@ -19,7 +19,7 @@ export const editImportPosts = async (
   {
     const isOwner = await checkOwner(firestore, uid, id);
     if (!isOwner) {
-      throw new Error('not Owner');
+      throw new AppError('not Owner');
     }
   }
 

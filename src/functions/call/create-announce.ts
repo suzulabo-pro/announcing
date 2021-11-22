@@ -1,4 +1,4 @@
-import { CreateAnnounceParams } from '../../shared';
+import { AppError, CreateAnnounceParams } from '../../shared';
 import {
   arrayUnion,
   CallableContext,
@@ -16,7 +16,7 @@ export const createAnnounce = async (
 ): Promise<void> => {
   const uid = context.auth?.uid;
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
   const { name, desc } = params;
 

@@ -1,4 +1,4 @@
-import { Announce, Post, PutPostParams } from '../../shared';
+import { Announce, AppError, Post, PutPostParams } from '../../shared';
 import {
   CallableContext,
   fieldDelete,
@@ -18,7 +18,7 @@ export const putPost = async (
   const uid = context.auth?.uid;
 
   if (!uid) {
-    throw new Error('missing uid');
+    throw new AppError('missing uid');
   }
 
   const { id, title, body, link, imgData, editID } = params;
@@ -46,7 +46,7 @@ export const putPost = async (
     const postRef = firestore.doc(`announces/${id}/posts/${editID}`);
     const data = (await postRef.get()).data() as Post;
     if (!data) {
-      throw new Error(`missing edit data: ${id}/${editID}`);
+      throw new AppError(`missing edit data: ${id}/${editID}`);
     }
     postData.pT = data.pT;
   }
