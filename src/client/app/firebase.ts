@@ -17,15 +17,8 @@ import {
 } from 'firebase/functions';
 import { getMessaging, getToken, isSupported, Messaging } from 'firebase/messaging';
 import nacl from 'tweetnacl';
-import {
-  Announce,
-  AppEnv,
-  AppError,
-  bs62,
-  FirestoreHelper,
-  Lang,
-  RegisterNotificationParams,
-} from '../shared';
+import { Announce, AppEnv, AppError, bs62, Lang, RegisterNotificationParams } from '../../shared';
+import { FirestoreHelper } from '../../shared-web';
 import { PostNotificationRecievedEvent } from './datatypes';
 
 const devonly_setEmulator = (functions: Functions, firestore: Firestore) => {

@@ -1,4 +1,4 @@
-import { Lang } from '../shared';
+import { Lang } from '../../shared';
 import { Msgs } from './msgs/msgs';
 import { msgs as jaMsgs } from './msgs/msgs.ja';
 

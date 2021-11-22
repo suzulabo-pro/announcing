@@ -20,22 +20,23 @@ import {
   getFunctions,
   httpsCallable,
 } from 'firebase/functions';
-import { DeleteExternalAnnouncesParams, PutExternalAnnouncesParams } from '../../shared';
 import {
   Announce,
   AnnounceMeta,
   AppEnv,
   CreateAnnounceParams,
   DeleteAnnounceParams,
+  DeleteExternalAnnouncesParams,
   DeletePostParams,
   EditAnnounceParams,
   ExternalAnnounce,
-  FirestoreHelper,
   Image,
   Post,
+  PutExternalAnnouncesParams,
   PutPostParams,
   User,
-} from '../shared';
+} from '../../shared';
+import { FirestoreHelper } from '../../shared-web';
 import { AppMsg } from './msg';
 import { AppState } from './state';
 

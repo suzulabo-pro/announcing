@@ -1,8 +1,14 @@
 import { Component, h, Host, Listen, Prop, State } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { setDocumentTitle, setHeaderButtons } from '../../../shared-web';
+import { assertIsDefined } from '../../../shared';
+import {
+  FirestoreUpdatedEvent,
+  href,
+  PromiseState,
+  setDocumentTitle,
+  setHeaderButtons,
+} from '../../../shared-web';
 import { App } from '../../app/app';
-import { assertIsDefined, FirestoreUpdatedEvent, href, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-home',

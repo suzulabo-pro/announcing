@@ -1,9 +1,10 @@
 import { Component, h, Host } from '@stencil/core';
+import { AppEnv } from '../../../shared';
+import { RouteMatch } from '../../../shared-web';
 import { App } from '../../app/app';
 import { AppFirebase } from '../../app/firebase';
 import { AppMsg } from '../../app/msg';
 import { AppState } from '../../app/state';
-import { AppEnv, RouteMatch } from '../../shared';
 
 const matches: RouteMatch[] = [
   {

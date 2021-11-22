@@ -1,8 +1,8 @@
 import { Component, Fragment, h, Host, Listen, Prop, State, Watch } from '@stencil/core';
 import { AsyncReturnType } from 'type-fest';
-import { href, setDocumentTitle } from '../../../shared-web';
+import { assertIsDefined } from '../../../shared';
+import { FirestoreUpdatedEvent, href, PromiseState, setDocumentTitle } from '../../../shared-web';
 import { App } from '../../app/app';
-import { assertIsDefined, FirestoreUpdatedEvent, PromiseState } from '../../shared';
 
 @Component({
   tag: 'app-announce',

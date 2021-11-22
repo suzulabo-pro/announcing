@@ -12,10 +12,9 @@ import {
   AppEnv,
   AppError,
   bs62,
-  LazyPromiseState,
   PostJSON,
-  pushRoute,
-} from '../shared';
+} from '../../shared';
+import { LazyPromiseState, pushRoute } from '../../shared-web';
 import { ClientConfig, Follow } from './datatypes';
 import { AppFirebase } from './firebase';
 import { AppIdbCache } from './idbcache';
