@@ -34,4 +34,6 @@ SECRET_VALUES.txt
 
 /firebase/*.log
 /firebase/emu-data/
+/firebase/console
+/firebase/client
 /scripts/dev-proxy/*.pem

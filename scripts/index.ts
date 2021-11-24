@@ -29,17 +29,19 @@ const entries: ScriptEntries = [
   ['firebase.docs', Cmd('docsify serve docs', 'firebase')],
 
   [
-    'firebase.deploy',
+    'firebase.build',
     RunS([
-      'lint',
       'functions.build',
       'console.build',
       'client.build',
-      'ts-check',
       Cmd('cp -a dist/console/www-dist firebase/console'),
       Cmd('cp -a dist/client/www-dist firebase/client'),
-      Cmd('firebase deploy', 'firebase'),
     ]),
+  ],
+
+  [
+    'firebase.deploy',
+    RunS(['lint', 'firebase.build', 'ts-check', Cmd('firebase deploy', 'firebase')]),
   ],
 
   // console
