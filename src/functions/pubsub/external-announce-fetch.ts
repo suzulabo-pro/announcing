@@ -224,7 +224,7 @@ const importExternalAnnounceJSON = async (
     posts,
     uT: serverTimestamp() as any,
   };
-  th.update(announceRef, announceUpdate);
+  th.set(announceRef, announceUpdate, { merge: true });
 
   th.flush();
 };
