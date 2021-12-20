@@ -21,7 +21,11 @@ export class ApTextView {
   }
 
   private effect() {
-    this.effectedText = Autolinker.link(this.text || '', { stripPrefix: false, newWindow: false });
+    this.effectedText = Autolinker.link(this.text || '', {
+      stripPrefix: false,
+      newWindow: false,
+      sanitizeHtml: true,
+    });
   }
 
   render() {
