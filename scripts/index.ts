@@ -1,7 +1,6 @@
-import { format } from 'date-fns';
+import { Cmd, main, RunP, RunS, ScriptEntries } from '@suzulabo/ttscripts';
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
-import { Cmd, RunP, RunS, runScript, ScriptEntries } from './scripts';
 import { copySecrets } from './secrets/copy';
 import { packSecrets } from './secrets/pack';
 import { unpackSecrets } from './secrets/unpack';
@@ -93,23 +92,10 @@ const entries: ScriptEntries = [
   ['ios.openurl', Cmd('xcrun simctl openurl booted')],
 ];
 
-const main = async () => {
-  const name = process.argv[2];
-  if (!name) {
-    const scripts = entries.map(v => v[0]);
-    scripts.sort();
-    console.log(scripts.join('\r\n'));
-    return;
-  }
+const name = process.argv[2];
+const args = process.argv.slice(3);
 
-  const args = process.argv.slice(3);
-
-  console.log(`## ${format(Date.now(), 'HH:mm:ss')} ##`, '\n');
-
-  await runScript(entries, name, args);
-};
-
-main().catch(err => {
+main(entries, name, args).catch(err => {
   console.error(err);
   process.exit(1);
 });

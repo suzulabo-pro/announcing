@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@stencil/eslint-plugin": "0.4.0",
+    "@suzulabo/ttscripts": "0.0.3",
     "@types/http-proxy": "1.17.7",
     "@types/jest": "27.0.2",
     "@types/js-md5": "0.4.3",
