@@ -6,7 +6,7 @@ android {
     compileSdk 31
 
     defaultConfig {
-        applicationId "app.announcing.client"
+        applicationId "app.announcing.client.dev"
         minSdk 19
         targetSdk 31
         versionCode 1
@@ -29,4 +29,7 @@ android {
 dependencies {
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.3.0'
+    
+    def appcompat_version = "1.4.0"
+    implementation "androidx.appcompat:appcompat:$appcompat_version"
 }
