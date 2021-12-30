@@ -29,7 +29,8 @@ AppleDistribution.p12
 
 release.keystore
 
-SECRET_VALUES.txt
+.secrets-sign.json
+PACKED.txt
 
 
 /firebase/*.log

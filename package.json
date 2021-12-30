@@ -51,6 +51,7 @@
     "@stencil/core": "2.9.0",
     "@stencil/sass": "1.5.2",
     "@stencil/store": "1.5.0",
+    "@suzulabo/secrets-packer": "0.0.1",
     "ajv": "8.8.1",
     "ajv-formats": "2.1.1",
     "autolinker": "3.14.3",
