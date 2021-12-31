@@ -1,9 +1,7 @@
 import { Cmd, main, RunP, RunS, ScriptEntries } from '@suzulabo/ttscripts';
 import { startDevProxy } from './dev-proxy/dev-proxy';
 import { buildFunctions, buildFunctionsWatch } from './functions/build';
-import { copySecrets } from './secrets/copy';
-import { packSecrets } from './secrets/pack';
-import { unpackSecrets } from './secrets/unpack';
+import { secrets } from './secrets';
 import { checkUnusedExports } from './unused-exports/check';
 
 const entries: ScriptEntries = [
@@ -75,9 +73,9 @@ const entries: ScriptEntries = [
   ['client.cap.dev.update', RunS(['client.cap.build.dev', 'client.cap.copy'])],
 
   // secrets
-  ['secrets.copy', copySecrets],
-  ['secrets.pack', packSecrets],
-  ['secrets.unpack', unpackSecrets],
+  ['secrets.copy', secrets.copy],
+  ['secrets.pack', secrets.pack],
+  ['secrets.unpack', secrets.unpack],
 
   // dev-proxy
   ['dev-proxy.start', startDevProxy],

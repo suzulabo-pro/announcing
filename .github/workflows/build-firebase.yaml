@@ -11,7 +11,8 @@ jobs:
 
       - uses: ./.github/workflows/build-setup
         with:
-          SECRET_VALUES: ${{ secrets.SECRET_VALUES }}
+          SECRET_PACKED: ${{ secrets.SECRET_PACKED }}
+          SECRET_PACKED_SIGN: ${{ secrets.SECRET_PACKED_SIGN }}
         id: build_setup
 
       - run: npm run - firebase.deploy
