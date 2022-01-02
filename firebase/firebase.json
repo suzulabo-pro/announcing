@@ -4,11 +4,7 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "source": "functions",
-    "postdeploy": [
-      "gcloud pubsub subscriptions update projects/$GCLOUD_PROJECT/subscriptions/gcf-pubsub-externalAnnounceFetch-us-central1-external-announce-fetch --min-retry-delay=1m --max-retry-delay=2m --message-retention-duration=10m",
-      "gcloud pubsub subscriptions update projects/$GCLOUD_PROJECT/subscriptions/gcf-pubsub-sendNotification-us-central1-send-notification --min-retry-delay=5m --max-retry-delay=10m --message-retention-duration=60m"
-    ]
+    "source": "functions"
   },
   "hosting": [
     {
