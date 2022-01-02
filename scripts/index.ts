@@ -38,7 +38,7 @@ const entries: ScriptEntries = [
 
   [
     'firebase.deploy',
-    RunS(['lint', 'firebase.build', 'ts-check', Cmd('firebase deploy', 'firebase')]),
+    RunS(['lint', 'firebase.build', 'ts-check', Cmd('firebase deploy --force', 'firebase')]),
   ],
 
   // console
