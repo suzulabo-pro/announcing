@@ -75,7 +75,7 @@ const entries: ScriptEntries = [
 
   // secrets
   ['secrets.copy', secrets.copy],
-  ['secrets.pack', secrets.pack],
+  ['secrets.pack', RunS([secrets.pack, Cmd('git commit -a -m "Update"', 'secrets')])],
   ['secrets.unpack', secrets.unpack],
 
   // dev-proxy
