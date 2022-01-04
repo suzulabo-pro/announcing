@@ -58,8 +58,11 @@ export const pubsub = {
       await pubsubExternalAnnounceFetch(msg, context, adminApp);
       return 0;
     }),
-  backupFirestore: region.pubsub.schedule(appEnv.firestoreBackup.schedule).onRun(async context => {
-    await pubsubBackupFirestore(context, adminApp);
-    return 0;
-  }),
+  backupFirestore: region.pubsub
+    .schedule(appEnv.firestoreBackup.schedule)
+    .timeZone(appEnv.firestoreBackup.timeZone)
+    .onRun(async context => {
+      await pubsubBackupFirestore(context, adminApp);
+      return 0;
+    }),
 };

@@ -12,6 +12,7 @@ interface AppEnvironment {
   readonly firestoreBackup: {
     readonly bucketPrefix: () => string;
     readonly schedule: string;
+    readonly timeZone: string;
   };
   readonly functionsRegion: string;
   readonly vapidKey: string;
