@@ -10,6 +10,7 @@ import {
   immediateNotificationWriteHandler,
 } from './firestore';
 import { httpsRequestHandler } from './https';
+import { pubsubBackupFirestore } from './pubsub/backup-firestore';
 import { pubsubExternalAnnounceFetch } from './pubsub/external-announce-fetch';
 import { pubsubSendNotification } from './pubsub/send-notification';
 
@@ -57,4 +58,8 @@ export const pubsub = {
       await pubsubExternalAnnounceFetch(msg, context, adminApp);
       return 0;
     }),
+  backupFirestore: region.pubsub.schedule(appEnv.firestoreBackup.schedule).onRun(async context => {
+    await pubsubBackupFirestore(context, adminApp);
+    return 0;
+  }),
 };

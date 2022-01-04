@@ -24,6 +24,7 @@ const entries: ScriptEntries = [
   ],
   ['firebase.start', RunP(['functions.build.watch', 'firebase.serve'])],
   ['firebase.docs', Cmd('docsify serve docs', 'firebase')],
+  ['firebase.shell', Cmd('firebase functions:shell', 'firebase')],
 
   [
     'firebase.build',
