@@ -1,7 +1,7 @@
 import { _appEnv } from '../../secrets/appenv.env';
 
 interface AppEnvironment {
-  firebaseConfig: {
+  readonly firebaseConfig: {
     readonly apiKey: string;
     readonly authDomain: string;
     readonly projectId: string;
@@ -9,13 +9,18 @@ interface AppEnvironment {
     readonly messagingSenderId: string;
     readonly appId: string;
   };
+  readonly firestoreBackup: {
+    readonly bucketPrefix: () => string;
+    readonly schedule: string;
+    readonly timeZone: string;
+  };
   readonly functionsRegion: string;
   readonly vapidKey: string;
   readonly contact: string;
   sites: {
-    console: string;
-    client: string;
-    docs: string;
+    readonly console: string;
+    readonly client: string;
+    readonly docs: string;
   };
 }
 
