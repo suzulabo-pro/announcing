@@ -10,7 +10,7 @@ describe('putExternalAnnounces', () => {
       {
         method: 'PutExternalAnnounces',
         urlPrefixes: ['https://announcing.test/announces/'],
-        pubKeys: ['1234567890'],
+        pubKeys: ['123456789012345678901234567890'],
       },
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
@@ -25,7 +25,7 @@ describe('putExternalAnnounces', () => {
     const externalAnnounces = data['external-announces'][user.externalAnnounces[0]];
     expect(externalAnnounces).toEqual({
       urlPrefixes: ['https://announcing.test/announces/'],
-      pubKeys: ['1234567890'],
+      pubKeys: ['123456789012345678901234567890'],
       uT: expect.any(Date),
     });
   });
@@ -52,7 +52,7 @@ describe('putExternalAnnounces', () => {
         method: 'PutExternalAnnounces',
         id: 'ABCDE',
         urlPrefixes: ['https://announcing.test/announces/updated'],
-        pubKeys: ['updatedKey'],
+        pubKeys: ['updatedKey_123456789012345678901234567890'],
       },
       { auth: { uid: 'AAAAA' } } as any,
       firestore.adminApp(),
@@ -61,7 +61,7 @@ describe('putExternalAnnounces', () => {
     const externalAnnounces = data['external-announces']['ABCDE'];
     expect(externalAnnounces).toEqual({
       urlPrefixes: ['https://announcing.test/announces/updated'],
-      pubKeys: ['updatedKey'],
+      pubKeys: ['updatedKey_123456789012345678901234567890'],
       announces: ['1'],
       uT: expect.any(Date),
     });
@@ -79,7 +79,7 @@ describe('deleteExternalAnnounces', () => {
       'external-announces': {
         ABCDE: {
           urlPrefix: 'https://announcing.test/announces/',
-          pubKey: 'currentKey',
+          pubKey: 'currentKey_123456789012345678901234567890',
           announces: ['1'],
         },
       },
