@@ -185,6 +185,9 @@ class DocSnapshot {
     const dst = {} as DocData;
     copyData(d, dst);
     delete dst['_collections'];
+    if (Object.keys(dst).length == 0) {
+      return;
+    }
     return dst;
   }
 
