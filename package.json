@@ -48,7 +48,7 @@
     "@capacitor/storage": "1.2.3",
     "@google-cloud/pubsub": "2.18.3",
     "@rollup/plugin-replace": "3.0.0",
-    "@stencil/core": "2.9.0",
+    "@stencil/core": "2.13.0",
     "@stencil/sass": "1.5.2",
     "@stencil/store": "1.5.0",
     "@suzulabo/secrets-packer": "0.0.1",
