@@ -132,7 +132,6 @@ const resizeImage = async (file: File, width: number, height: number) => {
     unsharpAmount: 160,
     unsharpRadius: 0.6,
     unsharpThreshold: 1,
-    alpha: true,
   });
 
   // fill white on alpha channel
