@@ -1,18 +1,18 @@
 PODS:
-  - Capacitor (3.3.2):
+  - Capacitor (3.4.1):
     - CapacitorCordova
-  - CapacitorApp (1.0.6):
+  - CapacitorApp (1.1.0):
     - Capacitor
   - CapacitorCommunityHttp (1.4.1):
     - Capacitor
-  - CapacitorCordova (3.3.2)
-  - CapacitorLocalNotifications (1.0.9):
+  - CapacitorCordova (3.4.1)
+  - CapacitorLocalNotifications (1.1.0):
     - Capacitor
-  - CapacitorPushNotifications (1.0.7):
+  - CapacitorPushNotifications (1.0.9):
     - Capacitor
-  - CapacitorShare (1.0.7):
+  - CapacitorShare (1.1.1):
     - Capacitor
-  - CapacitorStorage (1.2.3):
+  - CapacitorStorage (1.2.4):
     - Capacitor
   - Firebase/CoreOnly (8.3.0):
     - FirebaseCore (= 8.3.0)
@@ -110,14 +110,14 @@ EXTERNAL SOURCES:
     :path: "../../../../node_modules/@capacitor/storage"
 
 SPEC CHECKSUMS:
-  Capacitor: b8a7b81d33f3b7dcf934e2efc833feb6a1a8495f
-  CapacitorApp: ec2e26a50713d175fd1680053500b63bfdc2af5f
+  Capacitor: 9ff0758671daabc97247c8c57a981379bc30bb5f
+  CapacitorApp: c927de41f3853ffcccf5944090af8b501cf7ba9b
   CapacitorCommunityHttp: 7be90668527ef14ee10d08135b0e00fac9cf8247
-  CapacitorCordova: a971c79c2186c6291c839c855ef2c31d0ca26ede
-  CapacitorLocalNotifications: 1e242276132fa6a5bfb25f96ed73cb2a908ee05b
-  CapacitorPushNotifications: f973b2dca19aef3dfbe13ca41b77b22c340d93b4
-  CapacitorShare: be9d87857694b2118e47fe0d7d1e050f6a2f48e9
-  CapacitorStorage: 229dbc333a93764ba0a1b99c4fa22bbb37b47e45
+  CapacitorCordova: 4cf19cbad01e5a9e143e2f28f66c621c362f0f79
+  CapacitorLocalNotifications: fd629180bef9bc95d92a0d953704f62d21133e1d
+  CapacitorPushNotifications: 5efe2b9e8f71995bb935ffed1d29539ad037dff2
+  CapacitorShare: ae4e6c8f0abbd5bdfda30d039d8c50bef66ad05f
+  CapacitorStorage: 8ec2cf8fec179d829288b16c6fba6c3c43d2bdc9
   Firebase: 817b9171d0d51dccc458b94a5e8edff6b1dd323d
   FirebaseCore: a6dba751680d7033b9d3831e1cfc95ead0605118
   FirebaseCoreDiagnostics: 7e873baabcfaa9512f538554ae4fa0817aaafbdb
